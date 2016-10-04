@@ -284,7 +284,7 @@
       <script>scripts\scr_LoadDialogFromFile.gml</script>
       <script>scripts\string_rtrim.gml</script>
     </scripts>
-    <scripts name="Astar">
+    <scripts name="Astar Scripts">
       <script>scripts\astar_path.gml</script>
       <script>scripts\astar_path_player.gml</script>
       <scripts name="Get">
@@ -304,6 +304,10 @@
     <scripts name="Combat Scripts">
       <script>scripts\combat_foe_attack.gml</script>
       <script>scripts\combat_perform.gml</script>
+    </scripts>
+    <scripts name="Doggie Menu Scripts">
+      <script>scripts\doggieMenu_addTrick.gml</script>
+      <script>scripts\doggieMenu_useTrick.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -369,6 +373,7 @@
       <object>objects\PlayerManager</object>
       <object>objects\AstarGrid</object>
       <object>objects\Inventory</object>
+      <object>objects\DoggieMenu</object>
     </objects>
     <objects name="Boundary Objects">
       <object>objects\RoomTransitioner</object>

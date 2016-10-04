@@ -24,7 +24,7 @@ if(mouse_check_button_pressed(mb_left))
 }
 else if(mouse_check_button(mb_left) && distance_to_point(mouse_x,mouse_y) > astar_get_cell_size())
 {   
-    astar_path(mouse_x,mouse_y,2);
+    astar_path(mouse_x,mouse_y,1);
     animation_play(spr_player_walk,0,0.2);
     state = Player_Overworld_Move; 
 }

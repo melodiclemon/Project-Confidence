@@ -7,8 +7,6 @@ currentState to undefined. if you have a specific instance in mind, add the id.
 
 */
 
-
-
 var i, arg;
 
 var i, arg;

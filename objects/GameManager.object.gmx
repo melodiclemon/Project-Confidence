@@ -97,6 +97,14 @@ enum itemType
     consumable
 }
 
+enum trickData
+{
+        trickId,
+        name,
+        description,
+        use
+}
+
 </string>
           </argument>
         </arguments>
