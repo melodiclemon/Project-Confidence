@@ -239,13 +239,11 @@ draw_self();
             <kind>1</kind>
             <string>///TEST OF DIALOGUE
 
-var dialogBubble = instance_create(x, y, obj_dialogbubble);
-
-dialogBubble.dialogID = "TEST7";
-dialogBubble.actor = id;
-dialogBubble.type = 0;
-dialogBubble.font = font_dialogue;
-dialogBubble.write = true;
+//var dialogBubbleClose = draw_dialogbubble_default(x, y, "CLOSE1", 0, false, false);
+//var dialogBubbleClose2 = draw_dialogbubble_default(x, y, "CLOSE2", 0, false, false);
+var dialogBubbleClose3 = draw_dialogbubble_default(x, y, "CLOSE3", 0, false, false);
+//var dialogBubbleSpeak = draw_dialogbubble_default_actor(id, "TEST1", 0, true, true, snd_coolskeleton);
+//var dialogBubbleShout = draw_dialogbubble_default(x, y, "TEST1", 0, true, true);
 </string>
           </argument>
         </arguments>

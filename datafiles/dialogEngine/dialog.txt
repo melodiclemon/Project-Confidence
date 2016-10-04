@@ -5,3 +5,6 @@ TEST4:::But don't worry!/c>>>TEST5
 TEST5:::It will work eventually!/s>>>TEST6
 TEST6:::Nyeh-heh-heh!/e
 TEST7:::Well now.../e
+CLOSE1:::This dialog should close right away when it's finished drawing!/a
+CLOSE2:::This dialog should have a slight delay before closing automagically!/as
+CLOSE3:::This dialog should have a slightly longer delay before closing automagically/af

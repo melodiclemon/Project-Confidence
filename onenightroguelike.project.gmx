@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="4" name="datafiles">
+  <datafiles number="5" name="datafiles">
     <datafile>
       <name>GreenFlame.ttf</name>
       <exists>-1</exists>
@@ -55,11 +55,11 @@
       </ConfigOptions>
       <filename>Pixeled.ttf</filename>
     </datafile>
-    <datafiles number="4" name="dialogEngine">
+    <datafiles number="5" name="dialogEngine">
       <datafile>
         <name>dialog.txt</name>
         <exists>-1</exists>
-        <size>305</size>
+        <size>328</size>
         <exportAction>2</exportAction>
         <exportDir></exportDir>
         <overwrite>0</overwrite>
@@ -280,11 +280,6 @@
       <script>scripts\inventory_removeItem.gml</script>
       <script>scripts\inventory_useItem.gml</script>
     </scripts>
-    <scripts name="dialogEngine">
-      <script>scripts\string_extract.gml</script>
-      <script>scripts\scr_LoadDialogFromFile.gml</script>
-      <script>scripts\string_rtrim.gml</script>
-    </scripts>
     <scripts name="Grid">
       <script>scripts\astar_path.gml</script>
       <script>scripts\astar_get_cell_grid_x.gml</script>
@@ -300,6 +295,18 @@
         <script>scripts\position_get_x.gml</script>
         <script>scripts\position_get_y.gml</script>
       </scripts>
+    </scripts>
+    <scripts name="dialogEngine">
+      <script>scripts\string_extract.gml</script>
+      <script>scripts\scr_LoadDialogFromFile.gml</script>
+      <script>scripts\string_rtrim.gml</script>
+      <script>scripts\draw_dialogbubble.gml</script>
+      <script>scripts\draw_dialogbubble_ext.gml</script>
+      <script>scripts\draw_dialogbubble_ext_color.gml</script>
+      <script>scripts\draw_dialogbubble_full.gml</script>
+      <script>scripts\draw_dialogbubble_default.gml</script>
+      <script>scripts\draw_dialogbubble_default_actor.gml</script>
+      <script>scripts\draw_dialogbubble_color.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -371,20 +378,20 @@
       </objects>
       <object>objects\InventoryItem_Stick</object>
     </objects>
+    <object>objects\AstarGrid</object>
     <objects name="dialogEngine">
       <object>objects\obj_dialogbox</object>
-      <object>objects\obj_dialogcontroller</object>
       <object>objects\obj_dialogboxarrow</object>
       <object>objects\obj_dialogbubble</object>
+      <object>objects\obj_dialogcontroller</object>
     </objects>
-    <object>objects\AstarGrid</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
     <room>rooms\Combat_Room</room>
     <room>rooms\backup</room>
     <rooms name="dialogEngine">
-      <room>rooms\rm_test</room>
+      <room>rooms\rm_dialogtest</room>
     </rooms>
   </rooms>
   <help>
