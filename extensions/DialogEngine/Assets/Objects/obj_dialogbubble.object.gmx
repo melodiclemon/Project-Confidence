@@ -35,16 +35,19 @@ dialogID = "";
 textSpeed = 1.5; // value should be between 0.1(instant) - 3(slow)
 font = fnt_coolskeleton; // font to use. REPLACE WITH DEFAULT FONT
 color = c_white; // text color
+bubbleColor = c_black; // bubbleColor
 textSound = -1; // sound to play for each character in the dialog.
                 // Won't be used if typewriter is set to false
 write = false; // set to true when all variables have been set
-typewriter = true; // set to false if all text should be shown at once
-actor = ""; // id of the actorObject saying the dialog. Not necessary
-characterDistance = 50; // distance from the character the dialogbubble 
+typewriter = 1; // 0 == no typewriter, 1 == char by char. 2 == word by word
+actor = -1; // id of the actorObject saying the dialog. Not necessary
+characterDistance = 10; // distance from the character the dialogbubble 
                         // should be drawn
 type = 0; // 0 == normal, 1 == shouting, 2 == thinking
 closeable = true; // set to false if the player shouldn't be able to close the
                   // bubble manually
+fontScale = 1; // fontscale, X &amp; Y needs to have the same scale
+skipable = true; // can the player skip text in this bubble?
 
 // variables that updates themself
 dialog = ""; // current dialog to be written
@@ -58,14 +61,13 @@ startOfDialog = true; // is thie the start of the dialog row?
 newDialog = false; // is there more dialog after this?
 endOfDialog = false; // is it the end of the dialog tree?
 fontSize = font_get_size(font); // the size of the font used
-bubbleMaxLength = 450; // the maximum width of the dialogbubble
 dialogWidth = 0; // the total width of the dialog
 dialogHeight = 0; // the total height of the dialog
 bubbleWidth = 0; // the total width of the dialogbubble
-bubbleHeight = 0; // the total heigh of the dialogbubble
+bubbleHeight = 0; // the total height of the dialogbubble
+bubbleMaxLength = 450; // the maximum width of the dialogbubble
+depth = -100000;
 loadComplete = false; // if all values above have been set at least once
-randomOffsetSmall = random_range(5, 15); // used to draw cosmetic details
-randomOffsetBig = random_range(20, 30); // used to draw cosmetics details
 </string>
           </argument>
         </arguments>
@@ -97,7 +99,7 @@ if (startOfDialog == true &amp;&amp; write == true)
     dialog = global.dialog[? dialogID];
     
     nextDialogID = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 1));
-    dialog = string_extract(dialog, "&gt;&gt;&gt;", 0);
+    dialog = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 0));
     
     // format string after need    
     if (string_pos("/s", dialog) != 0 || string_pos("/c", dialog) != 0)
@@ -114,21 +116,27 @@ if (startOfDialog == true &amp;&amp; write == true)
         dialog = string_replace(dialog, "/e", "");
     }
     
+    if (string_pos("/a", dialog) != 0)
+    {
+        // TO DO
+    }
+    
     // calculate dialog specific values
+    fontSize = font_get_size(font) * fontScale;
     draw_set_font(font);
     dialogLength = string_length(dialog);
     dialogWidth = string_width_ext
     (
         dialog,
-        fontSize + (fontSize / 2),
+        fontSize * (fontSize / 2),
         bubbleMaxLength
-    );
+    ) * fontScale;
     dialogHeight = string_height_ext
     (
         dialog,
-        fontSize + (fontSize / 2),
+        fontSize * (fontSize / 2),
         bubbleMaxLength
-    )
+    ) * fontScale;
     bubbleWidth = dialogWidth + fontSize * 2;
     bubbleHeight = dialogHeight + fontSize;
     
@@ -158,51 +166,59 @@ if (startOfDialog == true &amp;&amp; write == true)
             <string>/// Decide characters to draw
 if (write == true) 
 {
-    // if typewriter is false, we want to display the whole message right away
-    if (!typewriter)
+    if (typewriter == 0 || typewriter == 1) 
     {
-        charactersToDrawCurrentDialog = dialog;
-        charactersToDraw = previousCharactersDrawn + dialog;
-        charactersDrawn = dialogLength + 1;
-    }
-    
-    // if there's still characters left to draw
-    if (floor(charactersDrawn) &lt;= dialogLength) 
-    {
-        // copy all characters that should be drawn this step
-        charactersToDrawCurrentDialog = string_copy(dialog, 
-                                                    0, 
-                                                    charactersDrawn);
-    
-        // if there is a text sound and if a new character will be written                                       
-        if(textSound != -1 &amp;&amp;
-            typewriter &amp;&amp;
-            charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
+        // if typewriter is false, we want to display the whole message right away
+        if (typewriter == 0)
         {
-            audio_play_sound(textSound, 10, false);
+            charactersToDrawCurrentDialog = dialog;
+            charactersToDraw = previousCharactersDrawn + dialog;
+            charactersDrawn = dialogLength + 1;
         }
-                                                    
-        charactersDrawn += 1 / textSpeed;
-        charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
+        
+        // if there's still characters left to draw
+        if (floor(charactersDrawn) &lt;= dialogLength) 
+        {
+            // copy all characters that should be drawn this step
+            charactersToDrawCurrentDialog = string_copy(dialog, 
+                                                        0, 
+                                                        charactersDrawn);
+        
+            // if there is a text sound and if a new character will be written                                       
+            if(textSound != -1 &amp;&amp;
+                typewriter &amp;&amp;
+                charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
+            {
+                audio_play_sound(textSound, 10, false);
+            }
+                                                        
+            charactersDrawn += 1 / textSpeed;
+            charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
+        }
+        else
+        {
+            // if we are at the end of the dialog
+            if (newDialog)
+            {
+                // update variables necessary for reading a new dialog
+                dialogID = nextDialogID;
+                previousCharactersDrawn += charactersToDrawCurrentDialog;
+                
+                // reset variables necessary for reading a new dialog
+                charactersToDrawCurrentDialog = "";
+                startOfDialog = true;
+                charactersDrawn = 0;
+            }
+            if (endOfDialog)
+            {
+                write = false;
+            }
+        }
     }
     else
     {
-        // if we are at the end of the dialog
-        if (newDialog)
-        {
-            // update variables necessary for reading a new dialog
-            dialogID = nextDialogID;
-            previousCharactersDrawn += charactersToDrawCurrentDialog;
-            
-            // reset variables necessary for reading a new dialog
-            charactersToDrawCurrentDialog = "";
-            startOfDialog = true;
-            charactersDrawn = 0;
-        }
-        if (endOfDialog)
-        {
-            write = false;
-        }
+        // typewriter == 2
+        // TO DO - typewriter typing words at a time
     }
 }
 </string>
@@ -210,7 +226,7 @@ if (write == true)
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -230,49 +246,95 @@ if (write == true)
             <string>/// Draw dialogbubble type 0
 
 if (loadComplete &amp;&amp; type == 0)
-{
-    var distance = actor.sprite_yoffset + characterDistance;
-    
-    draw_set_color(c_black);
-    if(actor != "") 
+{ 
+    draw_set_color(bubbleColor);
+    if(actor != -1) 
     {
+        var distance = actor.sprite_yoffset + characterDistance;
+        var xCord = actor.x - view_xview[0];
+        var yCord = actor.y - view_yview[0];
+        
         draw_roundrect_ext
         (
-            x - bubbleWidth / 2, 
-            y - bubbleHeight - distance, 
-            x + bubbleWidth / 2, 
-            y - distance, 
-            20, 
-            20, 
+            xCord - bubbleWidth / 2, 
+            yCord - bubbleHeight - distance, 
+            xCord + bubbleWidth / 2, 
+            yCord - distance, 
+            fontSize, 
+            fontSize, 
             false
+        );
+        
+        // outline
+        draw_set_color(color);
+        draw_roundrect_ext
+        (
+            xCord - bubbleWidth / 2, 
+            yCord - bubbleHeight - distance, 
+            xCord + bubbleWidth / 2, 
+            yCord - distance, 
+            fontSize, 
+            fontSize, 
+            true
         );
     }
     else
     {
+        var xCord = x - view_xview[0];
+        var yCord = y - view_yview[0];
+    
         draw_roundrect_ext
         (
-            x, 
-            y, 
-            x + bubbleWidth, 
-            y + bubbleHeight, 
-            20, 
-            20, 
+            xCord, 
+            yCord, 
+            xCord + bubbleWidth, 
+            yCord + bubbleHeight, 
+            fontSize, 
+            fontSize, 
             false
         );
+        
+        // outline
+        draw_set_color(color);
+        draw_roundrect_ext
+        (
+            xCord, 
+            yCord, 
+            xCord + bubbleWidth, 
+            yCord + bubbleHeight, 
+            fontSize, 
+            fontSize, 
+            false
+        );
+        
     }
     
     //triangle
-    if(actor != "") 
+    if(actor != -1) 
     {
         // We add "+1" here to make sure it's just outside the actual bubble
+        //outline
+        draw_set_color(color);
         draw_triangle
         (
-            x - randomOffsetBig, 
-            y - distance + 1, 
-            x + randomOffsetBig,
-            y - distance + 1,
-            actor.x,
-            actor.y - actor.sprite_yoffset,
+            xCord - fontSize, 
+            yCord - distance + 1, 
+            xCord + fontSize,
+            yCord - distance + 1,
+            xCord,
+            yCord - actor.sprite_yoffset,
+            true
+        );
+        
+        draw_set_color(bubbleColor);
+        draw_triangle
+        (
+            xCord - fontSize, 
+            yCord - distance, 
+            xCord + fontSize,
+            yCord - distance,
+            xCord,
+            yCord - actor.sprite_yoffset,
             false
         );
     }
@@ -280,26 +342,32 @@ if (loadComplete &amp;&amp; type == 0)
     //text
     draw_set_font(font);
     draw_set_color(color);
-    if(actor != "") 
+    if(actor != -1) 
     {
-        draw_text_ext
+        draw_text_ext_transformed
         (
-            x + fontSize - (bubbleWidth / 2),
-            y + (fontSize / 1.8) - bubbleHeight - distance, 
+            xCord + fontSize - (bubbleWidth / 2),
+            yCord + (fontSize / 1.5) - bubbleHeight - distance, 
             charactersToDraw, 
-            fontSize * 1.3, 
-            bubbleMaxLength
+            fontSize * (fontSize / 2),
+            bubbleMaxLength,
+            fontScale,
+            fontScale,
+            0
         );
     }
     else
     {
-        draw_text_ext
+        draw_text_ext_transformed
         (
-            x + fontSize,
-            y + (fontSize / 1.8), 
+            xCord + fontSize,
+            yCord + (fontSize / 1.5), 
             charactersToDraw, 
-            fontSize * 1.3, 
-            bubbleMaxLength
+            fontSize * (fontSize / 2),
+            bubbleMaxLength,
+            fontScale,
+            fontScale,
+            0,
         );
     }
 }
@@ -326,122 +394,127 @@ if (loadComplete &amp;&amp; type == 0)
             <string>/// Draw dialogbubble type 1
 
 if (loadComplete &amp;&amp; type == 1)
-{
-    var distance = actor.sprite_yoffset + characterDistance;
-    
-    draw_set_color(c_black);
-    if (actor != "") 
+{   
+    draw_set_color(bubbleColor);
+    if (actor != -1) 
     {
+        var distance = actor.sprite_yoffset + characterDistance;
+        var xCord = actor.x - view_xview[0];
+        var yCord = actor.y - view_yview[0];
+        
         draw_rectangle
         (
-            x - bubbleWidth / 2, 
-            y - bubbleHeight - distance, 
-            x + bubbleWidth / 2, 
-            y - distance,
+            xCord - bubbleWidth / 2, 
+            yCord - bubbleHeight - distance, 
+            xCord + bubbleWidth / 2, 
+            yCord - distance,
             false
         );
     }
     else
     {
+        var xCord = x - view_xview[0];
+        var yCord = y - view_yview[0];
+        
         draw_rectangle
         (
-            x, 
-            y, 
-            x + bubbleWidth, 
-            y + bubbleHeight,
+            xCord, 
+            yCord, 
+            xCord + bubbleWidth, 
+            yCord + bubbleHeight,
             false
         );
     }
     
     //type 1 cosmetic loop
     
-    if (actor != "")
+    if (actor != -1)
     {
         // Top left corner
         draw_triangle
         (
-            x - bubbleWidth / 2,
-            y - bubbleHeight - distance + randomOffsetBig,
-            x - bubbleWidth / 2,
-            y - bubbleHeight - distance,
-            x - bubbleWidth / 2 - ((fontSize + randomOffsetSmall) / 2),
-            y - bubbleHeight - distance - ((fontSize + randomOffsetSmall) / 2),
+            xCord - bubbleWidth / 2,
+            yCord - bubbleHeight - distance + fontSize,
+            xCord - bubbleWidth / 2,
+            yCord - bubbleHeight - distance,
+            xCord - bubbleWidth / 2 - ((fontSize + (fontSize / 2)) / 2),
+            yCord - bubbleHeight - distance - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x - bubbleWidth / 2 + randomOffsetBig,
-            y - bubbleHeight - distance,
-            x - bubbleWidth / 2,
-            y - bubbleHeight - distance,
-            x - bubbleWidth / 2 - ((fontSize + randomOffsetSmall) / 2),
-            y - bubbleHeight - distance - ((fontSize + randomOffsetSmall) / 2),
+            xCord - bubbleWidth / 2 + fontSize,
+            yCord - bubbleHeight - distance,
+            xCord - bubbleWidth / 2,
+            yCord - bubbleHeight - distance,
+            xCord - bubbleWidth / 2 - ((fontSize + (fontSize / 2)) / 2),
+            yCord - bubbleHeight - distance - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         
         // Top right corner
         draw_triangle
         (
-            x + bubbleWidth / 2 + 1,
-            y - bubbleHeight - distance + randomOffsetBig,
-            x + bubbleWidth / 2 + 1,
-            y - bubbleHeight - distance,
-            x + bubbleWidth / 2 + ((fontSize + randomOffsetSmall) / 2),
-            y - bubbleHeight - distance - ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth / 2,
+            yCord - bubbleHeight - distance + fontSize,
+            xCord + bubbleWidth / 2,
+            yCord - bubbleHeight - distance,
+            xCord + bubbleWidth / 2 + ((fontSize + (fontSize / 2)) / 2),
+            yCord - bubbleHeight - distance - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x + bubbleWidth / 2 - randomOffsetBig,
-            y - bubbleHeight - distance,
-            x + bubbleWidth / 2 + 1,
-            y - bubbleHeight - distance,
-            x + bubbleWidth / 2 + ((fontSize + randomOffsetSmall) / 2),
-            y - bubbleHeight - distance - ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth / 2 - fontSize,
+            yCord - bubbleHeight - distance,
+            xCord + bubbleWidth / 2,
+            yCord - bubbleHeight - distance,
+            xCord + bubbleWidth / 2 + ((fontSize + (fontSize / 2)) / 2),
+            yCord - bubbleHeight - distance - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         
         // Bottom right corner
         draw_triangle
         (
-            x + bubbleWidth / 2 + 1,
-            y - distance - randomOffsetBig,
-            x + bubbleWidth / 2 + 1,
-            y - distance,
-            x + bubbleWidth / 2 + ((fontSize + randomOffsetSmall) / 2),
-            y - distance + ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth / 2,
+            yCord - distance - fontSize,
+            xCord + bubbleWidth / 2,
+            yCord - distance,
+            xCord + bubbleWidth / 2 + ((fontSize + (fontSize / 2)) / 2),
+            yCord - distance + ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x + bubbleWidth / 2 - randomOffsetBig,
-            y - distance,
-            x + bubbleWidth / 2 + 1,
-            y - distance,
-            x + bubbleWidth / 2 + ((fontSize + randomOffsetSmall) / 2),
-            y - distance + ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth / 2 - fontSize,
+            yCord - distance,
+            xCord + bubbleWidth / 2,
+            yCord - distance,
+            xCord + bubbleWidth / 2 + ((fontSize + (fontSize / 2)) / 2),
+            yCord - distance + ((fontSize + (fontSize / 2)) / 2),
             false
         );
         
         // Bottom left corner
         draw_triangle
         (
-            x - bubbleWidth / 2,
-            y - distance - randomOffsetBig,
-            x - bubbleWidth / 2,
-            y - distance,
-            x - bubbleWidth / 2 - ((fontSize + randomOffsetSmall) / 2),
-            y - distance + ((fontSize + randomOffsetSmall) / 2),
+            xCord - bubbleWidth / 2,
+            yCord - distance - fontSize,
+            xCord - bubbleWidth / 2,
+            yCord - distance,
+            xCord - bubbleWidth / 2 - ((fontSize + (fontSize / 2)) / 2),
+            yCord - distance + ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x - bubbleWidth / 2 + randomOffsetBig,
-            y - distance,
-            x - bubbleWidth / 2,
-            y - distance,
-            x - bubbleWidth / 2 - ((fontSize + randomOffsetSmall) / 2),
-            y - distance + ((fontSize + randomOffsetSmall) / 2),
+            xCord - bubbleWidth / 2 + fontSize,
+            yCord - distance,
+            xCord - bubbleWidth / 2,
+            yCord - distance,
+            xCord - bubbleWidth / 2 - ((fontSize + (fontSize / 2)) / 2),
+            yCord - distance + ((fontSize + (fontSize / 2)) / 2),
             false
         );
     }
@@ -450,124 +523,124 @@ if (loadComplete &amp;&amp; type == 1)
         // Top left corner
         draw_triangle
         (
-            x,
-            y + randomOffsetBig,
-            x,
-            y,
-            x - ((fontSize + randomOffsetSmall) / 2),
-            y - ((fontSize + randomOffsetSmall) / 2),
+            xCord,
+            yCord + fontSize,
+            xCord,
+            yCord,
+            xCord - ((fontSize + (fontSize / 2)) / 2),
+            yCord - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x + randomOffsetBig,
-            y,
-            x,
-            y,
-            x - ((fontSize + randomOffsetSmall) / 2),
-            y - ((fontSize + randomOffsetSmall) / 2),
+            xCord + fontSize,
+            yCord,
+            xCord,
+            yCord,
+            xCord - ((fontSize + (fontSize / 2)) / 2),
+            yCord - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         
         // Top right corner
         draw_triangle
         (
-            x + bubbleWidth + 1,
-            y + randomOffsetBig,
-            x + bubbleWidth + 1,
-            y,
-            x + bubbleWidth + ((fontSize + randomOffsetSmall) / 2),
-            y - ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth + 1,
+            yCord + fontSize,
+            xCord + bubbleWidth + 1,
+            yCord,
+            xCord + bubbleWidth + ((fontSize + (fontSize / 2)) / 2),
+            yCord - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x + bubbleWidth - randomOffsetBig,
-            y,
-            x + bubbleWidth + 1,
-            y,
-            x + bubbleWidth + ((fontSize + randomOffsetSmall) / 2),
-            y - ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth - fontSize,
+            yCord,
+            xCord + bubbleWidth + 1,
+            yCord,
+            xCord + bubbleWidth + ((fontSize + (fontSize / 2)) / 2),
+            yCord - ((fontSize + (fontSize / 2)) / 2),
             false
         );
         
         // Bottom right corner
         draw_triangle
         (
-            x + bubbleWidth + 1,
-            y + bubbleHeight - randomOffsetBig,
-            x + bubbleWidth + 1,
-            y + bubbleHeight,
-            x + bubbleWidth + ((fontSize + randomOffsetSmall) / 2),
-            y + bubbleHeight + ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth + 1,
+            yCord + bubbleHeight - fontSize,
+            xCord + bubbleWidth + 1,
+            yCord + bubbleHeight,
+            xCord + bubbleWidth + ((fontSize + (fontSize / 2)) / 2),
+            yCord + bubbleHeight + ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x + bubbleWidth - randomOffsetBig,
-            y + bubbleHeight,
-            x + bubbleWidth + 1,
-            y + bubbleHeight,
-            x + bubbleWidth + ((fontSize + randomOffsetSmall) / 2),
-            y + bubbleHeight + ((fontSize + randomOffsetSmall) / 2),
+            xCord + bubbleWidth - fontSize,
+            yCord + bubbleHeight,
+            xCord + bubbleWidth + 1,
+            yCord + bubbleHeight,
+            xCord + bubbleWidth + ((fontSize + (fontSize / 2)) / 2),
+            yCord + bubbleHeight + ((fontSize + (fontSize / 2)) / 2),
             false
         );
         
         // Bottom left corner
         draw_triangle
         (
-            x,
-            y + bubbleHeight - randomOffsetBig,
-            x,
-            y + bubbleHeight,
-            x - ((fontSize + randomOffsetSmall) / 2),
-            y + bubbleHeight + ((fontSize + randomOffsetSmall) / 2),
+            xCord,
+            yCord + bubbleHeight - fontSize,
+            xCord,
+            yCord + bubbleHeight,
+            xCord - ((fontSize + (fontSize / 2)) / 2),
+            yCord + bubbleHeight + ((fontSize + (fontSize / 2)) / 2),
             false
         );
         draw_triangle
         (
-            x + randomOffsetBig,
-            y + bubbleHeight,
-            x,
-            y + bubbleHeight,
-            x - ((fontSize + randomOffsetSmall) / 2),
-            y + bubbleHeight + ((fontSize + randomOffsetSmall) / 2),
+            xCord + fontSize,
+            yCord + bubbleHeight,
+            xCord,
+            yCord + bubbleHeight,
+            xCord - ((fontSize + (fontSize / 2)) / 2),
+            yCord + bubbleHeight + ((fontSize + (fontSize / 2)) / 2),
             false
         );
     }
     
     // Top and bottom
-    var loopAmount = floor((bubbleWidth - (randomOffsetBig * 2)) / (fontSize * 2)) + 1;
-    var halfSpikeLength = floor(((bubbleWidth - (randomOffsetBig * 2)) / loopAmount) / 2);
+    var loopAmount = (bubbleWidth - (fontSize * 2)) / (fontSize * 2) + 1;
+    var halfSpikeLength = ((bubbleWidth - (fontSize * 2)) / loopAmount / 2);
     for (var loopCount = 0; loopCount &lt;= loopAmount; loopCount++)
     {    
         if (loopAmount == 1) {
             loopCount++;
         }
-        if(actor != "")
+        if(actor != -1)
         {
             if (loopAmount == 1) {
                 // Top
                 draw_triangle
                 (
-                    x - bubbleWidth / 2,
-                    y - bubbleHeight - distance,
-                    x + bubbleWidth / 2,
-                    y - bubbleHeight - distance,
-                    x,
-                    y - bubbleHeight - distance - randomOffsetBig,
+                    xCord - bubbleWidth / 2,
+                    yCord - bubbleHeight - distance,
+                    xCord + bubbleWidth / 2,
+                    yCord - bubbleHeight - distance,
+                    xCord,
+                    yCord - bubbleHeight - distance - fontSize,
                     false
                 );
     
                 // Bottom
                 draw_triangle
                 (
-                    x - bubbleWidth / 2,
-                    y - distance,
-                    x + bubbleWidth / 2,
-                    y - distance,
-                    x,
-                    y - distance + randomOffsetBig,
+                    xCord - bubbleWidth / 2,
+                    yCord - distance,
+                    xCord + bubbleWidth / 2,
+                    yCord - distance,
+                    xCord,
+                    yCord - distance + fontSize,
                     false
                 );
             }
@@ -576,24 +649,24 @@ if (loadComplete &amp;&amp; type == 1)
                 // Top
                 draw_triangle
                 (
-                    x - bubbleWidth / 2 + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y - bubbleHeight - distance,
-                    x - bubbleWidth / 2 + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y - bubbleHeight - distance,
-                    x - bubbleWidth / 2 + randomOffsetBig + (halfSpikeLength * loopCount * 2),
-                    y - bubbleHeight - distance - randomOffsetBig,
+                    xCord - bubbleWidth / 2 + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord - bubbleHeight - distance,
+                    xCord - bubbleWidth / 2 + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord - bubbleHeight - distance,
+                    xCord - bubbleWidth / 2 + fontSize + (halfSpikeLength * loopCount * 2),
+                    yCord - bubbleHeight - distance - fontSize,
                     false
                 );
     
                 // Bottom
                 draw_triangle
                 (
-                    x - bubbleWidth / 2 + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y - distance,
-                    x - bubbleWidth / 2 + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y - distance,
-                    x - bubbleWidth / 2 + randomOffsetBig + (halfSpikeLength * loopCount * 2),
-                    y - distance + randomOffsetBig,
+                    xCord - bubbleWidth / 2 + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord - distance,
+                    xCord - bubbleWidth / 2 + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord - distance,
+                    xCord - bubbleWidth / 2 + fontSize + (halfSpikeLength * loopCount * 2),
+                    yCord - distance + fontSize,
                     false
                 );
             }
@@ -605,24 +678,24 @@ if (loadComplete &amp;&amp; type == 1)
                 // Top
                 draw_triangle
                 (
-                    x,
-                    y,
-                    x + bubbleWidth,
-                    y,
-                    x + bubbleWidth / 2,
-                    y - randomOffsetBig,
+                    xCord,
+                    yCord,
+                    xCord + bubbleWidth,
+                    yCord,
+                    xCord + bubbleWidth / 2,
+                    yCord - fontSize,
                     false
                 );
                 
                 // Bottom
                 draw_triangle
                 (
-                    x,
-                    y + bubbleHeight,
-                    x + bubbleWidth,
-                    y + bubbleHeight,
-                    x + bubbleWidth / 2,
-                    y + bubbleHeight + randomOffsetBig,
+                    xCord,
+                    yCord + bubbleHeight,
+                    xCord + bubbleWidth,
+                    yCord + bubbleHeight,
+                    xCord + bubbleWidth / 2,
+                    yCord + bubbleHeight + fontSize,
                     false
                 );
             }
@@ -631,24 +704,24 @@ if (loadComplete &amp;&amp; type == 1)
                 // Top
                 draw_triangle
                 (
-                    x + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y,
-                    x + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y,
-                    x + randomOffsetBig + (halfSpikeLength * loopCount * 2),
-                    y - randomOffsetBig,
+                    xCord + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord,
+                    xCord + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord,
+                    xCord + fontSize + (halfSpikeLength * loopCount * 2),
+                    yCord - fontSize,
                     false
                 );
                 
                 // Bottom
                 draw_triangle
                 (
-                    x + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y + bubbleHeight,
-                    x + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    y + bubbleHeight,
-                    x + randomOffsetBig + (halfSpikeLength * loopCount * 2),
-                    y + bubbleHeight + randomOffsetBig,
+                    xCord + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord + bubbleHeight,
+                    xCord + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    yCord + bubbleHeight,
+                    xCord + fontSize + (halfSpikeLength * loopCount * 2),
+                    yCord + bubbleHeight + fontSize,
                     false
                 );
             }
@@ -656,38 +729,38 @@ if (loadComplete &amp;&amp; type == 1)
     }
     
     // Left and Right
-    loopAmount = floor((bubbleHeight - (randomOffsetBig * 2)) / (fontSize * 2)) + 1;
-    halfSpikeLength = floor(((bubbleHeight - (randomOffsetBig * 2)) / loopAmount) / 2)
+    loopAmount = floor((bubbleHeight - (fontSize * 2)) / (fontSize * 2)) + 1;
+    halfSpikeLength = floor((bubbleHeight - (fontSize * 2)) / loopAmount) / 2;
     for (var loopCount = 0; loopCount &lt;= loopAmount; loopCount++)
     {
         if (loopAmount == 1) {
             loopCount++;
         }
-        if (actor != "")
+        if (actor != -1)
         {
             if (loopAmount == 1) 
             {
                 // Left
                 draw_triangle
                 (
-                    x - bubbleWidth / 2,
-                    y - bubbleHeight - distance,
-                    x - bubbleWidth / 2,
-                    y - distance,
-                    x - bubbleWidth / 2 - randomOffsetBig,
-                    y - bubbleHeight / 2 - distance,
+                    xCord - bubbleWidth / 2,
+                    yCord - bubbleHeight - distance,
+                    xCord - bubbleWidth / 2,
+                    yCord - distance,
+                    xCord - bubbleWidth / 2 - fontSize,
+                    yCord - bubbleHeight / 2 - distance,
                     false
                 );
                 
                 // Right
                 draw_triangle
                 (
-                    x + bubbleWidth / 2,
-                    y - bubbleHeight - distance,
-                    x + bubbleWidth / 2,
-                    y - distance,
-                    x + bubbleWidth / 2 + randomOffsetBig,
-                    y - bubbleHeight / 2 - distance,
+                    xCord + bubbleWidth / 2,
+                    yCord - bubbleHeight - distance,
+                    xCord + bubbleWidth / 2,
+                    yCord - distance,
+                    xCord + bubbleWidth / 2 + fontSize,
+                    yCord - bubbleHeight / 2 - distance,
                     false
                 );
             }
@@ -696,24 +769,24 @@ if (loadComplete &amp;&amp; type == 1)
                 // Left
                 draw_triangle
                 (
-                    x - bubbleWidth / 2,
-                    y - bubbleHeight - distance + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x - bubbleWidth / 2,
-                    y - bubbleHeight - distance + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x - bubbleWidth / 2 - randomOffsetBig,
-                    y - bubbleHeight - distance + randomOffsetBig + (halfSpikeLength * loopCount * 2),
+                    xCord - bubbleWidth / 2,
+                    yCord - bubbleHeight - distance + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord - bubbleWidth / 2,
+                    yCord - bubbleHeight - distance + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord - bubbleWidth / 2 - fontSize,
+                    yCord - bubbleHeight - distance + fontSize + (halfSpikeLength * loopCount * 2),
                     false
                 );
                 
                 // Right
                 draw_triangle
                 (
-                    x + bubbleWidth / 2,
-                    y - bubbleHeight - distance + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x + bubbleWidth / 2,
-                    y - bubbleHeight - distance + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x + bubbleWidth / 2 + randomOffsetBig,
-                    y - bubbleHeight - distance + randomOffsetBig + (halfSpikeLength * loopCount * 2),
+                    xCord + bubbleWidth / 2,
+                    yCord - bubbleHeight - distance + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord + bubbleWidth / 2,
+                    yCord - bubbleHeight - distance + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord + bubbleWidth / 2 + fontSize,
+                    yCord - bubbleHeight - distance + fontSize + (halfSpikeLength * loopCount * 2),
                     false
                 );
             }
@@ -725,24 +798,24 @@ if (loadComplete &amp;&amp; type == 1)
                 // Left
                 draw_triangle
                 (
-                    x,
-                    y,
-                    x,
-                    y + bubbleHeight,
-                    x - randomOffsetBig,
-                    y + bubbleHeight / 2,
+                    xCord,
+                    yCord,
+                    xCord,
+                    yCord + bubbleHeight,
+                    xCord - fontSize,
+                    yCord + bubbleHeight / 2,
                     false
                 );
                 
                 // Right
                 draw_triangle
                 (
-                    x + bubbleWidth,
-                    y,
-                    x + bubbleWidth,
-                    y + bubbleHeight,
-                    x + bubbleWidth + randomOffsetBig,
-                    y + bubbleHeight / 2,
+                    xCord + bubbleWidth,
+                    yCord,
+                    xCord + bubbleWidth,
+                    yCord + bubbleHeight,
+                    xCord + bubbleWidth + fontSize,
+                    yCord + bubbleHeight / 2,
                     false
                 );
             }
@@ -751,24 +824,24 @@ if (loadComplete &amp;&amp; type == 1)
                 // Left
                 draw_triangle
                 (
-                    x,
-                    y + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x,
-                    y + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x - randomOffsetBig,
-                    y + randomOffsetBig + (halfSpikeLength * loopCount * 2),
+                    xCord,
+                    yCord + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord,
+                    yCord + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord - fontSize,
+                    yCord + fontSize + (halfSpikeLength * loopCount * 2),
                     false
                 );
                 
                 // Right
                 draw_triangle
                 (
-                    x + bubbleWidth,
-                    y + randomOffsetBig + halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x + bubbleWidth,
-                    y + randomOffsetBig - halfSpikeLength + (halfSpikeLength * loopCount * 2),
-                    x + bubbleWidth + randomOffsetBig,
-                    y + randomOffsetBig + (halfSpikeLength * loopCount * 2),
+                    xCord + bubbleWidth,
+                    yCord + fontSize + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord + bubbleWidth,
+                    yCord + fontSize - halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                    xCord + bubbleWidth + fontSize,
+                    yCord + fontSize + (halfSpikeLength * loopCount * 2),
                     false
                 );
             }
@@ -776,17 +849,17 @@ if (loadComplete &amp;&amp; type == 1)
     } 
     
     //triangle
-    if (actor != "") 
+    if (actor != -1) 
     {
         // We add "+1" here to make sure it's just outside the actual bubble
         draw_triangle
         (
-            x - randomOffsetBig, 
-            y - distance + 1, 
-            x + randomOffsetBig,
-            y - distance + 1,
-            actor.x,
-            actor.y - actor.sprite_yoffset,
+            xCord - fontSize, 
+            yCord - distance + 1, 
+            xCord + fontSize,
+            yCord - distance + 1,
+            xCord,
+            yCord - actor.sprite_yoffset,
             false
         );
     }
@@ -794,26 +867,32 @@ if (loadComplete &amp;&amp; type == 1)
     //text
     draw_set_font(font);
     draw_set_color(color);
-    if (actor != "") 
+    if (actor != -1) 
     {
-        draw_text_ext
+        draw_text_ext_transformed
         (
-            x + fontSize - (bubbleWidth / 2),
-            y + (fontSize / 1.8) - bubbleHeight - distance, 
+            xCord + fontSize - (bubbleWidth / 2),
+            yCord + (fontSize / 1.5) - bubbleHeight - distance, 
             charactersToDraw, 
-            fontSize * 1.3, 
-            bubbleMaxLength
+            fontSize * (fontSize / 2),
+            bubbleMaxLength,
+            fontScale,
+            fontScale,
+            0,
         );
     }
     else
     {
-        draw_text_ext
+        draw_text_ext_transformed
         (
-            x + fontSize,
-            y + (fontSize / 1.8), 
+            xCord + fontSize,
+            yCord + (fontSize / 1.5), 
             charactersToDraw, 
-            fontSize * 1.3, 
-            bubbleMaxLength
+            fontSize * (fontSize / 2),
+            bubbleMaxLength,
+            fontScale,
+            fontScale,
+            0,
         );
     }
 }
@@ -841,69 +920,74 @@ if (loadComplete &amp;&amp; type == 1)
 
 if (loadComplete &amp;&amp; type == 2)
 {
-    var distance = actor.sprite_yoffset + characterDistance;
-    
-    draw_set_color(c_black);
-    if (actor != "") 
+    draw_set_color(bubbleColor);
+    if (actor != -1) 
     {
+        var distance = actor.sprite_yoffset + characterDistance;
+        var xCord = actor.x - view_xview[0];
+        var yCord = actor.y - view_yview[0];
+        
         draw_rectangle
         (
-            x - bubbleWidth / 2, 
-            y - bubbleHeight - distance, 
-            x + bubbleWidth / 2, 
-            y - distance,
+            xCord - bubbleWidth / 2, 
+            yCord - bubbleHeight - distance, 
+            xCord + bubbleWidth / 2, 
+            yCord - distance,
             false
         );
     }
     else
     {
+        var xCord = x - view_xview[0];
+        var yCord = y - view_yview[0];
+        
         draw_rectangle
         (
-            x, 
-            y, 
-            x + bubbleWidth, 
-            y + bubbleHeight,
+            xCord, 
+            yCord, 
+            xCord + bubbleWidth, 
+            yCord + bubbleHeight,
             false
         );
     }
     
     //type 1 cosmetic loop
     
-    if (actor != "")
+    if (actor != -1)
     {
         // Top left corner
         draw_circle
         (
-            x - bubbleWidth / 2 + (randomOffsetBig / 2),
-            y - bubbleHeight - distance + (randomOffsetBig / 2),
-            randomOffsetBig,
+            xCord - bubbleWidth / 2 + (fontSize / 2),
+            yCord - bubbleHeight - distance + (fontSize / 2),
+            fontSize,
             false
         );
         
         // Top right corner
         draw_circle
         (
-            x + bubbleWidth / 2 - (randomOffsetBig / 2),
-            y - bubbleHeight - distance + (randomOffsetBig / 2),
-            randomOffsetBig,
+            xCord + bubbleWidth / 2 - (fontSize / 2),
+            yCord - bubbleHeight - distance + (fontSize / 2),
+            fontSize,
             false
         );
         
         // Bottom right corner
         draw_circle
         (
-            x + bubbleWidth / 2 - (randomOffsetBig / 2),
-            y - distance - (randomOffsetBig / 2),
-            randomOffsetBig,
+            xCord + bubbleWidth / 2 - (fontSize / 2),
+            yCord - distance - (fontSize / 2),
+            fontSize,
             false
         );
         
         // Bottom left corner
         draw_circle
         (
-            x - (bubbleWidth / 2) + (randomOffsetBig / 2),
-            y - distance - (randomOffsetBig / 2),
-            randomOffsetBig,
+            xCord - (bubbleWidth / 2) + (fontSize / 2),
+            yCord - distance - (fontSize / 2),
+            fontSize,
             false
         );
     }
@@ -912,65 +996,65 @@ if (loadComplete &amp;&amp; type == 2)
         // Top left corner
         draw_circle
         (
-            x + randomOffsetBig / 2,
-            y + randomOffsetBig / 2,
-            randomOffsetBig,
+            xCord + fontSize / 2,
+            yCord + fontSize / 2,
+            fontSize,
             false
         );
         
         // Top right corner
         draw_circle
         (
-            x + bubbleWidth - randomOffsetBig / 2,
-            y + randomOffsetBig / 2,
-            randomOffsetBig,
+            xCord + bubbleWidth - fontSize / 2,
+            yCord + fontSize / 2,
+            fontSize,
             false
         );
         
         // Bottom right corner
         draw_circle
         (
-            x + bubbleWidth - randomOffsetBig / 2,
-            y + bubbleHeight - randomOffsetBig / 2,
-            randomOffsetBig,
+            xCord + bubbleWidth - fontSize / 2,
+            yCord + bubbleHeight - fontSize / 2,
+            fontSize,
             false
         );
         
         // Bottom left corner
         draw_circle
         (
-            x + randomOffsetBig / 2,
-            y + bubbleHeight - randomOffsetBig / 2,
-            randomOffsetBig,
+            xCord + fontSize / 2,
+            yCord + bubbleHeight - fontSize / 2,
+            fontSize,
             false
         );
     }
     
     // Top and bottom
-    var loopAmount = floor((bubbleWidth - randomOffsetBig) / (fontSize * 2)) + 1;
-    var distanceBetweenEllipses = floor(((bubbleWidth - randomOffsetBig / 2) / loopAmount) / 2);
+    var loopAmount = floor((bubbleWidth - fontSize) / (fontSize * 2)) + 1;
+    var distanceBetweenEllipses = floor(((bubbleWidth - fontSize / 2) / loopAmount) / 2);
     for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
     {    
-        if(actor != "")
+        if(actor != -1)
         {
             if (loopAmount == 1) {
                 // Top
                 draw_ellipse
                 (
-                    x - bubbleWidth / 2 + randomOffsetBig - distanceBetweenEllipses,
-                    y - bubbleHeight - distance - (randomOffsetBig / 2),
-                    x - bubbleWidth / 2 + randomOffsetBig + floor(distanceBetweenEllipses * 1.5),
-                    y - bubbleHeight - distance + (randomOffsetBig / 2),
+                    xCord - bubbleWidth / 2 + fontSize - distanceBetweenEllipses,
+                    yCord - bubbleHeight - distance - (fontSize / 2),
+                    xCord - bubbleWidth / 2 + fontSize + floor(distanceBetweenEllipses * 1.5),
+                    yCord - bubbleHeight - distance + (fontSize / 2),
                     false
                 );
     
                 // Bottom
                 draw_ellipse
                 (
-                    x - bubbleWidth / 2 + randomOffsetBig - distanceBetweenEllipses,
-                    y - distance + (randomOffsetBig / 2),
-                    x - bubbleWidth / 2 + randomOffsetBig + floor(distanceBetweenEllipses * 1.5),
-                    y - distance - (randomOffsetBig / 2),
+                    xCord - bubbleWidth / 2 + fontSize - distanceBetweenEllipses,
+                    yCord - distance + (fontSize / 2),
+                    xCord - bubbleWidth / 2 + fontSize + floor(distanceBetweenEllipses * 1.5),
+                    yCord - distance - (fontSize / 2),
                     false
                 );
             }
@@ -979,20 +1063,20 @@ if (loadComplete &amp;&amp; type == 2)
                 // Top
                 draw_ellipse
                 (
-                    x - bubbleWidth / 2 + randomOffsetBig - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    y - bubbleHeight - distance - (randomOffsetBig / 2),
-                    x - bubbleWidth / 2 + randomOffsetBig + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
-                    y - bubbleHeight - distance + (randomOffsetBig / 2),
+                    xCord - bubbleWidth / 2 + fontSize - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    yCord - bubbleHeight - distance - (fontSize / 2),
+                    xCord - bubbleWidth / 2 + fontSize + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
+                    yCord - bubbleHeight - distance + (fontSize / 2),
                     false
                 );
                 
                 // Bottom
                 draw_ellipse
                 (
-                    x - bubbleWidth / 2 + randomOffsetBig - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    y - distance + (randomOffsetBig / 2),
-                    x - bubbleWidth / 2 + randomOffsetBig + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
-                    y - distance - (randomOffsetBig / 2),
+                    xCord - bubbleWidth / 2 + fontSize - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    yCord - distance + (fontSize / 2),
+                    xCord - bubbleWidth / 2 + fontSize + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
+                    yCord - distance - (fontSize / 2),
                     false
                 );
             }
@@ -1004,20 +1088,20 @@ if (loadComplete &amp;&amp; type == 2)
                 // Top
                 draw_ellipse
                 (
-                    x,
-                    y - (randomOffsetBig / 2),
-                    x + bubbleWidth,
-                    y + (randomOffsetBig / 2),
+                    xCord,
+                    yCord - (fontSize / 2),
+                    xCord + bubbleWidth,
+                    yCord + (fontSize / 2),
                     false
                 );
                 
                 // Bottom
                 draw_ellipse
                 (
-                    x,
-                    y + bubbleHeight - (randomOffsetBig / 2),
-                    x + bubbleWidth,
-                    y + bubbleHeight + (randomOffsetBig / 2),
+                    xCord,
+                    yCord + bubbleHeight - (fontSize / 2),
+                    xCord + bubbleWidth,
+                    yCord + bubbleHeight + (fontSize / 2),
                     false
                 );
             }
@@ -1026,20 +1110,20 @@ if (loadComplete &amp;&amp; type == 2)
                 // Top
                 draw_ellipse
                 (
-                    x + randomOffsetBig - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    y - (randomOffsetBig / 2),
-                    x + randomOffsetBig + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
-                    y + (randomOffsetBig / 2),
+                    xCord + fontSize - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    yCord - (fontSize / 2),
+                    xCord + fontSize + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
+                    yCord + (fontSize / 2),
                     false
                 );
                 
                 // Bottom
                 draw_ellipse
                 (
-                    x + randomOffsetBig - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    y + bubbleHeight - (randomOffsetBig / 2),
-                    x + randomOffsetBig + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
-                    y + bubbleHeight + (randomOffsetBig / 2),
+                    xCord + fontSize - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    yCord + bubbleHeight - (fontSize / 2),
+                    xCord + fontSize + floor(distanceBetweenEllipses * 1.5) + (distanceBetweenEllipses * loopCount * 2),
+                    yCord + bubbleHeight + (fontSize / 2),
                     false
                 );
             }
@@ -1047,11 +1131,11 @@ if (loadComplete &amp;&amp; type == 2)
     }
     
     // Left and Right
-    loopAmount = floor((bubbleHeight - randomOffsetBig) / (fontSize * 2)) + 1;
-    distanceBetweenEllipses = floor(((bubbleHeight - randomOffsetBig / 2) / loopAmount) / 2);
+    loopAmount = floor((bubbleHeight - fontSize) / (fontSize * 2)) + 1;
+    distanceBetweenEllipses = floor(((bubbleHeight - fontSize / 2) / loopAmount) / 2);
     for (var loopCount = 0; loopCount &lt;= loopAmount; loopCount++)
     {
-        if (actor != "")
+        if (actor != -1)
         {
             if (loopAmount == 1) 
             {
@@ -1059,18 +1143,18 @@ if (loadComplete &amp;&amp; type == 2)
                 // Left
                 draw_circle
                 (
-                    x - bubbleWidth / 2,
-                    y - bubbleHeight - distance,
-                    randomOffsetSmall,
+                    xCord - bubbleWidth / 2,
+                    yCord - bubbleHeight - distance,
+                    (fontSize / 2),
                     false
                 );
                 
                 // Right
                 draw_circle
                 (
-                    x + bubbleWidth / 2,
-                    y - bubbleHeight - distance,
-                    randomOffsetSmall,
+                    xCord + bubbleWidth / 2,
+                    yCord - bubbleHeight - distance,
+                    (fontSize / 2),
                     false
                 );
                 */
@@ -1080,19 +1164,19 @@ if (loadComplete &amp;&amp; type == 2)
                 // Left
                 draw_ellipse
                 (
-                    x - bubbleWidth / 2 - (randomOffsetBig / 2),
-                    y - bubbleHeight - distance - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    x - bubbleWidth / 2 + (randomOffsetBig / 2),
-                    y - bubbleHeight - distance + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    xCord - bubbleWidth / 2 - (fontSize / 2),
+                    yCord - bubbleHeight - distance - distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    xCord - bubbleWidth / 2 + (fontSize / 2),
+                    yCord - bubbleHeight - distance + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
                     false
                 );
                 
                 // Right
                 draw_circle
                 (
-                    x + bubbleWidth / 2,
-                    y - bubbleHeight - distance + randomOffsetBig + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    randomOffsetSmall,
+                    xCord + bubbleWidth / 2,
+                    yCord - bubbleHeight - distance + fontSize + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    (fontSize / 2),
                     false
                 );
             }
@@ -1104,18 +1188,18 @@ if (loadComplete &amp;&amp; type == 2)
                 // Left
                 draw_circle
                 (
-                    x,
-                    y,
-                    randomOffsetSmall,
+                    xCord,
+                    yCord,
+                    (fontSize / 2),
                     false
                 );
                 
                 // Right
                 draw_circle
                 (
-                    x + bubbleWidth,
-                    y,
-                    randomOffsetSmall,
+                    xCord + bubbleWidth,
+                    yCord,
+                    (fontSize / 2),
                     false
                 );
             }
@@ -1124,18 +1208,18 @@ if (loadComplete &amp;&amp; type == 2)
                 // Left
                 draw_circle
                 (
-                    x,
-                    y + randomOffsetBig + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    randomOffsetSmall,
+                    xCord,
+                    yCord + fontSize + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    (fontSize / 2),
                     false
                 );
                 
                 // Right
                 draw_circle
                 (
-                    x + bubbleWidth,
-                    y + randomOffsetBig + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
-                    randomOffsetSmall,
+                    xCord + bubbleWidth,
+                    yCord + fontSize + distanceBetweenEllipses + (distanceBetweenEllipses * loopCount * 2),
+                    (fontSize / 2),
                     false
                 );
             }
@@ -1143,14 +1227,14 @@ if (loadComplete &amp;&amp; type == 2)
     }
     
     //triangle
-    if (actor != "") 
+    if (actor != -1) 
     {
         // We add "+1" here to make sure it's just outside the actual bubble
         draw_circle
         (
-            x - randomOffsetBig, 
-            y - distance + 1, 
-            randomOffsetSmall,
+            xCord - fontSize, 
+            yCord - distance + 1, 
+            (fontSize / 2),
             false
         );
     }
@@ -1158,26 +1242,32 @@ if (loadComplete &amp;&amp; type == 2)
     //text
     draw_set_font(font);
     draw_set_color(color);
-    if (actor != "") 
+    if (actor != -1) 
     {
-        draw_text_ext
+        draw_text_ext_transformed
         (
-            x + fontSize - (bubbleWidth / 2),
-            y + (fontSize / 1.8) - bubbleHeight - distance, 
+            xCord + fontSize - (bubbleWidth / 2),
+            yCord + (fontSize / 1.5) - bubbleHeight - distance, 
             charactersToDraw, 
-            fontSize * 1.3, 
-            bubbleMaxLength
+            fontSize * (fontSize / 2),
+            bubbleMaxLength,
+            fontScale,
+            fontScale,
+            0,
         );
     }
     else
     {
-        draw_text_ext
+        draw_text_ext_transformed
         (
-            x + fontSize,
-            y + (fontSize / 1.8), 
+            xCord + fontSize,
+            yCord + (fontSize / 1.5), 
             charactersToDraw, 
-            fontSize * 1.3, 
-            bubbleMaxLength
+            fontSize * (fontSize / 2),
+            bubbleMaxLength,
+            fontScale,
+            fontScale,
+            0,
         );
     }
 }
@@ -1204,7 +1294,7 @@ if (loadComplete &amp;&amp; type == 2)
           <argument>
             <kind>1</kind>
             <string>/// Advance dialog
-if (write &amp;&amp; closeable)
+if (write &amp;&amp; skipable)
 {
     charactersToDraw = previousCharactersDrawn + dialog;
     charactersDrawn = dialogLength;
