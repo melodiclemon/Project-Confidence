@@ -100,8 +100,6 @@
       <sprite>sprites\spr_down</sprite>
       <sprite>sprites\spr_targetArrow</sprite>
       <sprite>sprites\spr_card</sprite>
-      <sprite>sprites\spr_attackBackground</sprite>
-      <sprite>sprites\spr_defenseBackground</sprite>
     </sprites>
     <sprite>sprites\spr_monsterPlaceholder</sprite>
     <sprite>sprites\spr_roomTransitioner</sprite>
@@ -152,6 +150,10 @@
       </sprites>
       <sprites name="Doggie Menu">
         <sprite>sprites\spr_doggieMenu_base</sprite>
+      </sprites>
+      <sprites name="Combat">
+        <sprite>sprites\spr_attackBackground</sprite>
+        <sprite>sprites\spr_defenseBackground</sprite>
       </sprites>
     </sprites>
   </sprites>
@@ -256,6 +258,7 @@
     <scripts name="CombatManager">
       <script>scripts\combatManager_turnCompleted.gml</script>
       <script>scripts\combatManager_removeEntityFromDictionary.gml</script>
+      <script>scripts\combatManager_foe_setup.gml</script>
     </scripts>
     <scripts name="Juju Silhouette">
       <script>scripts\scr_juju_silhouette_set.gml</script>
@@ -283,6 +286,7 @@
     </scripts>
     <scripts name="Astar">
       <script>scripts\astar_path.gml</script>
+      <script>scripts\astar_path_player.gml</script>
       <scripts name="Get">
         <script>scripts\astar_get_cell_room_x.gml</script>
         <script>scripts\astar_get_cell_grid_x.gml</script>
