@@ -12,7 +12,7 @@ else
     move_towards_point(obj_player.x,obj_player.y,3);   
 }
 */
-
+/*
 if(path != undefined)
 {
     //check if we are close enough to reach the end of the path during the next iteration.

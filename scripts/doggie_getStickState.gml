@@ -13,7 +13,7 @@ if(place_meeting(x,y,Stick))
         instance_destroy();
 }
 */
-
+/*
 if(path == undefined)
 {
     pathfinder_setPath(Stick.x,Stick.y);   
