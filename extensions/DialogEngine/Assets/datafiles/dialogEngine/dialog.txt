@@ -1,0 +1,6 @@
+﻿TEST1:::Before trying some fancy pancy stuff with dialog, let's keep it simple./c>>>TEST2
+TEST2:::And the new line function works, cool!/s>>>TEST3
+TEST3:::Now, this probably won't work./c>>>TEST4
+TEST4:::But don't worry!/c>>>TEST5
+TEST5:::It will work eventually!/s>>>TEST6
+TEST6:::Nyeh-heh-heh!/e
