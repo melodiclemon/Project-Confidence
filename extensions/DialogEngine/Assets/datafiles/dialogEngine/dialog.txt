@@ -4,3 +4,4 @@ TEST3:::Now, this probably won't work./c>>>TEST4
 TEST4:::But don't worry!/c>>>TEST5
 TEST5:::It will work eventually!/s>>>TEST6
 TEST6:::Nyeh-heh-heh!/e
+TEST7:::Well now.../e

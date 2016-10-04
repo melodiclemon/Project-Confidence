@@ -36,7 +36,6 @@ font = fnt_coolskeleton;
 color = c_white; // text color
 textSound = -1; // sound to play for each character in the dialog.
                 // Won't be used if typewriter is set to false
-character = -1; // obj with sprite to be shown next to the text
 write = false; // set to true when all variables have been set
 typewriter = true; // set to false if all text should be shown at once
 

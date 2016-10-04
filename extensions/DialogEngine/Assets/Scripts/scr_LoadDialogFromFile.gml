@@ -17,7 +17,7 @@
 
 // A dialog string should looks like this: [Unique dialogID]:::[Dialog][EndSyntax]>>>[Next dialogID]
 // The ">>>[Next DialogID]" part can be omitted if the dialog chain ends with the current dialog
-var file = "dialog.txt";
+var file = "dialogEngine/dialog.txt";
 
 // Get dialog from the text file
 var dialogTextFile = file_text_open_read(file);
