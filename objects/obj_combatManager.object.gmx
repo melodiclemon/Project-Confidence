@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>///Initialize
+currentRound = 0;
 currentTurn = turn.upkeep;
 card = false;
 attackTarget = noone;
@@ -34,6 +35,8 @@ randomize();
 battleList = ds_list_create();
 
 entityDictionary = ds_map_create();
+
+
 </string>
           </argument>
         </arguments>
@@ -57,26 +60,19 @@ entityDictionary = ds_map_create();
             <string>///set up the battle
 
 ds_list_copy(battleList,GameManager.battleList);
-show_debug_message(ds_list_size(battleList));
 
-for(var i = 0; i &lt; ds_list_size(battleList); i++)
-{
-   var t = instance_create(0,0,ds_list_find_value(battleList,i));
-   t.x = 272-(56*i)+t.sprite_xoffset;
-   t.y = 128+(t.sprite_yoffset/2);
-}
+combatManager_foe_setup(battleList)
 
 var player = instance_create(0,0,obj_unitFriend);
-player.x = 48;
+player.x = (room_width/4);
 player.y = 128 + player.sprite_yoffset/2;
 
 
 instance_create(32,203,obj_deck);
 instance_create(276,220,EndTurnButton);
 
-show_debug_message(attackTarget);
 
-ds_list_clear(battleList);
+ds_list_destroy(battleList);
 ds_list_clear(GameManager.battleList);
 
 </string>
@@ -312,6 +308,7 @@ if(changeTurn)
         
         case turn.upkeep:
         currentTurn = turn.friend;
+        currentRound++;
         break;
         
         case turn.action:
@@ -334,6 +331,29 @@ if(changeTurn)
         }
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>ds_map_destroy(entityDictionary);
 </string>
           </argument>
         </arguments>

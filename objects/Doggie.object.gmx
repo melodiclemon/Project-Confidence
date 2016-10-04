@@ -34,8 +34,6 @@ silhouetteColour =  c_black;
 
 //pathfinding
 path = path_add();
-endPosition = position_create(-100, -100);
-pathSpeed = 2;
 
 targetX = -1;
 targetY = -1;
@@ -68,10 +66,20 @@ if(state != noone)
 
 depth = -y;
 
+if(vspeed == 1)
+{
     if(within(direction,360,89) || within(direction,45,44) || direction == 0)
         image_xscale = 1;
     else if(within(direction,180,89))
         image_xscale = -1;
+}
+else
+{
+    if(obj_player.x &gt; x)
+        image_xscale = 1;
+    else
+        image_xscale = -1;
+}
    
 
 //show_debug_message("X: " + string((obj_player.x div 8)*8+4) + " Y: " + string((obj_player.y div 8)*8+4))
@@ -127,7 +135,7 @@ if ( global.silhouetteActive ) {
           <argument>
             <kind>1</kind>
             <string>///debug draw
-//draw_rectangle(x,y,x+8,y+8,0);
+//draw_rectangle(x-4,y-4,x+4,y+4,0);
 
 
 draw_self();
@@ -140,47 +148,6 @@ if(path != undefined)
         draw_line(path_get_point_x(path, i) + size, path_get_point_y(path, i) + size, path_get_point_x(path, i + 1) + size, path_get_point_y(path, i + 1) + size);
     }
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="39">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>var mx = mouse_x;
-var my = mouse_y;
-
-//show_message(astar_get_cell_room_x(1));
-
-astar_path(mx,my,3,1);
-
-
-
-/*
-if(mp_grid_path(global.grid,path,x,y,mx,my,1))
-{
-    path_start(path,3,path_action_stop,false);
-    
-}
-
-
-show_message(astar_get_cell_room_x(obj_player.x));
-show_debug_message("X: " + string((obj_player.x div 8)*8+4) + " Y: " + string((obj_player.y div 8)*8+4))
 </string>
           </argument>
         </arguments>

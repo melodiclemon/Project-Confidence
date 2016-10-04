@@ -1,4 +1,5 @@
 ///Player_Overworld_Inventory
+var col = noone;
 
 if(animation_end() && sprite_index == spr_player_openBag)
 {
@@ -8,6 +9,17 @@ if(animation_end() && sprite_index == spr_player_openBag)
 
 if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_bagIdle)
 {
-   animation_play(spr_player_closeBag,0,0.1);
-   state = Player_Overworld_Idle;
+    if(y-mouse_y < 48 && y-mouse_y > 0 && x-mouse_x < 6 && x-mouse_x > -6)
+    {
+        col = collision_rectangle(mouse_x,mouse_y,mouse_x-(x-mouse_x),mouse_y-(mouse_y-y),object_index,false,false)
+        if(col != noone)
+        {
+            animation_play(spr_player_closeBag,0,0.1);
+            state = Player_Overworld_Idle;    
+        }
+    }  
 }
+
+
+       
+    

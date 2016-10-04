@@ -34,8 +34,11 @@ startBattle = false;
 battleList = ds_list_create();
 
 
-//
+//LOAD DIALOGUE
 scr_LoadDialogFromFile();
+
+//DEBUG OVERLAY
+show_debug_overlay(1);
 </string>
           </argument>
         </arguments>
@@ -92,6 +95,14 @@ enum itemType
     weapon,
     armor,
     consumable
+}
+
+enum trickData
+{
+        trickId,
+        name,
+        description,
+        use
 }
 
 </string>
@@ -202,6 +213,7 @@ if(room == Combat_Room)
 {
      instance_create(0,0,obj_combatManager);
 }
+
 </string>
           </argument>
         </arguments>
@@ -261,8 +273,6 @@ instance_create(0,0,AstarGrid);
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -279,59 +289,13 @@ instance_create(0,0,AstarGrid);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///DEBUG FPS
-
-draw_set_color(c_green);
-draw_text_transformed(0,0,"FPS: "+string(fps_real),.4,.4,0);
-draw_set_color(c_black);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Debug grid
-/*
-for(var j = 0; j &lt; room_height / aStar_get_cell_size(); j ++)
+            <string>//Spawn the player
+if(room != Combat_Room)
 {
-    for(var i = 0; i &lt; room_width / aStar_get_cell_size(); i ++)
-    {
-        if(aStar_get_blocked(i,j))
-        {
-            draw_set_alpha(.5);
-            draw_set_color(c_white);
-            draw_rectangle(i*aStar_get_cell_size(),j*aStar_get_cell_size(),i*aStar_get_cell_size()+aStar_get_cell_size(),j*aStar_get_cell_size()+aStar_get_cell_size(),0);
-            draw_set_color(c_black);
-            draw_set_alpha(1);
-        }
-        else
-        {
-            draw_set_alpha(.5);
-            draw_set_color(c_black);
-            draw_rectangle(i*aStar_get_cell_size(),j*aStar_get_cell_size(),i*aStar_get_cell_size()+aStar_get_cell_size(),j*aStar_get_cell_size()+aStar_get_cell_size(),0);
-            draw_set_color(c_black);
-            draw_set_alpha(1);
-        }
-    }
+    //instance_create(120,120,obj_player);
 }
 
- 
+
 </string>
           </argument>
         </arguments>

@@ -25,10 +25,23 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>state = noone;
+            <string>///initialize
+state = noone;
 attack = 1;
 defense = 1;
 turnCompleted = false;
+
+
+
+//GUI VARIABLES
+uiX = 0;
+uiY = 0;
+padding = 1.5;
+textPaddingX = 3;
+textPaddingY = 7;
+sprAtt = spr_attackBackground;
+sprDef = spr_defenseBackground;
+
 </string>
           </argument>
         </arguments>
@@ -86,6 +99,41 @@ if(defense &lt;= 0)
 {
     instance_destroy();
 }
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+//draw attack info
+draw_sprite(sprAtt,0,x-sprite_get_width(sprAtt)-padding,y+padding);
+draw_set_color(c_white);
+draw_text_transformed(x-(sprite_get_width(sprAtt)/2)-textPaddingX,y+textPaddingY,string_lpad(string(attack),2,"0"),0.4,0.4,0);
+draw_set_color(c_black);
+
+//draw defense info
+draw_sprite(sprDef,0,x+padding,y+padding);
+draw_set_color(c_white);
+draw_text_transformed(x+1.5+textPaddingX,y+textPaddingY,string_lpad(string(defense),2,"0"),0.4,0.4,0);
+draw_set_color(c_black);
 </string>
           </argument>
         </arguments>
@@ -110,7 +158,13 @@ if(defense &lt;= 0)
             <kind>1</kind>
             <string>/// Draw the unit
 draw_self();
-
+/*
+draw_rectangle(x-sprite_xoffset,y-sprite_yoffset,x+sprite_xoffset,y,0);
+draw_set_color(c_white);
+draw_line(x+sprite_xoffset,y,x+sprite_xoffset+8,y);
+draw_set_color(c_black);
+*/
+/*
 var attBg = spr_attackBackground;
 var defBg = spr_defenseBackground;
 
@@ -150,6 +204,7 @@ draw_set_color(c_black);
 draw_set_color(c_white);
 draw_text(x,y,turnCompleted);
 */
+
 </string>
           </argument>
         </arguments>

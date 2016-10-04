@@ -2,7 +2,11 @@
 
 if(canAttack && animation_hitFrame(3))
 {
-    obj_unitFriend.defense -= attack;
+    if(PlayerManager.doggieTrick != noone)
+        combat_perform(combat_foe_attack,PlayerManager.doggieTrick);
+        //trick_perform(PlayerManager.doggieTrick,combat_foe_attack);
+    else
+        script_execute(combat_foe_attack);
 }
 
 if(animation_end())
