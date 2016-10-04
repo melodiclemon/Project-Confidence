@@ -43,5 +43,6 @@ if(mp_grid_path(global.astarGrid,path,x,y,tX,tY,1))
      
 } 
 else
-    path_end();
+    mp_linear_step_object(tX,tY,spd,Block);
+
 

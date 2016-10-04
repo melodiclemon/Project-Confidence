@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="5" name="datafiles">
+  <datafiles number="4" name="datafiles">
     <datafile>
       <name>GreenFlame.ttf</name>
       <exists>-1</exists>
@@ -55,11 +55,11 @@
       </ConfigOptions>
       <filename>Pixeled.ttf</filename>
     </datafile>
-    <datafiles number="5" name="dialogEngine">
+    <datafiles number="4" name="dialogEngine">
       <datafile>
         <name>dialog.txt</name>
         <exists>-1</exists>
-        <size>328</size>
+        <size>305</size>
         <exportAction>2</exportAction>
         <exportDir></exportDir>
         <overwrite>0</overwrite>
@@ -87,10 +87,6 @@
     </sounds>
   </sounds>
   <sprites name="sprites">
-    <sprites name="grp_spr_tiles">
-      <sprite>sprites\spr_tile_dirt</sprite>
-      <sprite>sprites\spr_tile_grass</sprite>
-    </sprites>
     <sprites name="Turn Combat">
       <sprite>sprites\spr_card_old</sprite>
       <sprite>sprites\spr_endTurn</sprite>
@@ -104,10 +100,9 @@
       <sprite>sprites\spr_down</sprite>
       <sprite>sprites\spr_targetArrow</sprite>
       <sprite>sprites\spr_card</sprite>
-      <sprite>sprites\spr_attackBackground</sprite>
-      <sprite>sprites\spr_defenseBackground</sprite>
     </sprites>
     <sprite>sprites\spr_monsterPlaceholder</sprite>
+    <sprite>sprites\spr_roomTransitioner</sprite>
     <sprite>sprites\spr_block</sprite>
     <sprite>sprites\spr_positionStopper</sprite>
     <sprites name="Overworld">
@@ -118,6 +113,7 @@
         <sprite>sprites\spr_player_closeBag</sprite>
         <sprite>sprites\spr_player_bagIdle</sprite>
         <sprite>sprites\spr_player_walk</sprite>
+        <sprite>sprites\spr_player_pet</sprite>
       </sprites>
       <sprite>sprites\spr_pillar_01</sprite>
       <sprite>sprites\spr_tree_01</sprite>
@@ -129,13 +125,6 @@
       <sprite>sprites\spr_doggie_moveStick</sprite>
     </sprites>
     <sprite>sprites\spr_stick</sprite>
-    <sprites name="Inventory">
-      <sprite>sprites\spr_inventoryBase</sprite>
-      <sprite>sprites\spr_inventoryArrow</sprite>
-      <sprite>sprites\spr_inventoryAttackBase</sprite>
-      <sprite>sprites\spr_inventoryDefenseBase</sprite>
-      <sprite>sprites\spr_inventoryChanceBase</sprite>
-    </sprites>
     <sprites name="enemies">
       <sprites name="Lesser Fear">
         <sprite>sprites\spr_lesserFear_attack</sprite>
@@ -146,14 +135,26 @@
         <sprite>sprites\spr_seedOfNightmares_idle</sprite>
       </sprites>
     </sprites>
-    <sprites name="Pathfinder Example">
-      <sprite>sprites\spr_player</sprite>
-      <sprite>sprites\spr_tree</sprite>
-    </sprites>
     <sprites name="dialogEngine">
       <sprite>sprites\spr_dialogboxarrow</sprite>
       <sprite>sprites\spr_testActor</sprite>
       <sprite>sprites\spr_dialogbox</sprite>
+    </sprites>
+    <sprites name="UI">
+      <sprites name="Inventory">
+        <sprite>sprites\spr_inventoryBase</sprite>
+        <sprite>sprites\spr_inventoryArrow</sprite>
+        <sprite>sprites\spr_inventoryAttackBase</sprite>
+        <sprite>sprites\spr_inventoryDefenseBase</sprite>
+        <sprite>sprites\spr_inventoryChanceBase</sprite>
+      </sprites>
+      <sprites name="Doggie Menu">
+        <sprite>sprites\spr_doggieMenu_base</sprite>
+      </sprites>
+      <sprites name="Combat">
+        <sprite>sprites\spr_attackBackground</sprite>
+        <sprite>sprites\spr_defenseBackground</sprite>
+      </sprites>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -163,7 +164,6 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\scr_drawVisionAtPosition.gml</script>
     <scripts name="Essential Scripts">
       <scripts name="Drawing">
         <script>scripts\draw_text_outlined.gml</script>
@@ -233,6 +233,7 @@
       <script>scripts\animation_play.gml</script>
       <script>scripts\view_xmouse.gml</script>
       <script>scripts\view_ymouse.gml</script>
+      <script>scripts\state_check.gml</script>
     </scripts>
     <scripts name="Player Scripts">
       <scripts name="Overworld">
@@ -240,6 +241,8 @@
         <script>scripts\Player_Overworld_Move.gml</script>
         <script>scripts\Player_Overworld_Inventory.gml</script>
         <script>scripts\player_stickState.gml</script>
+        <script>scripts\player_overworld_moveToDoggieState.gml</script>
+        <script>scripts\player_overworld_doggieMenuState.gml</script>
       </scripts>
     </scripts>
     <scripts name="Doggie Scripts">
@@ -255,14 +258,10 @@
     <scripts name="CombatManager">
       <script>scripts\combatManager_turnCompleted.gml</script>
       <script>scripts\combatManager_removeEntityFromDictionary.gml</script>
+      <script>scripts\combatManager_foe_setup.gml</script>
     </scripts>
     <scripts name="Juju Silhouette">
       <script>scripts\scr_juju_silhouette_set.gml</script>
-    </scripts>
-    <scripts name="_Inventory">
-      <script>scripts\_inventory_idleState.gml</script>
-      <script>scripts\_inventory_updateVisibleInventory.gml</script>
-      <script>scripts\_inventory_addItem.gml</script>
     </scripts>
     <scripts name="Item Scripts">
       <scripts name="Ability Scripts">
@@ -280,33 +279,35 @@
       <script>scripts\inventory_removeItem.gml</script>
       <script>scripts\inventory_useItem.gml</script>
     </scripts>
-    <scripts name="Grid">
-      <script>scripts\astar_path.gml</script>
-      <script>scripts\astar_get_cell_grid_x.gml</script>
-      <script>scripts\astar_get_cell_grid_y.gml</script>
-      <script>scripts\astar_get_cell_room_x.gml</script>
-      <script>scripts\astar_get_cell_room_y.gml</script>
-      <script>scripts\astar_get_free_neighbour_position.gml</script>
-      <script>scripts\astar_get_free_neighbour_x.gml</script>
-      <script>scripts\astar_get_free_neighbour_y.gml</script>
-      <script>scripts\script106.gml</script>
-      <scripts name="Position">
-        <script>scripts\position_create.gml</script>
-        <script>scripts\position_get_x.gml</script>
-        <script>scripts\position_get_y.gml</script>
-      </scripts>
-    </scripts>
     <scripts name="dialogEngine">
       <script>scripts\string_extract.gml</script>
       <script>scripts\scr_LoadDialogFromFile.gml</script>
       <script>scripts\string_rtrim.gml</script>
-      <script>scripts\draw_dialogbubble.gml</script>
-      <script>scripts\draw_dialogbubble_ext.gml</script>
-      <script>scripts\draw_dialogbubble_ext_color.gml</script>
-      <script>scripts\draw_dialogbubble_full.gml</script>
-      <script>scripts\draw_dialogbubble_default.gml</script>
-      <script>scripts\draw_dialogbubble_default_actor.gml</script>
-      <script>scripts\draw_dialogbubble_color.gml</script>
+    </scripts>
+    <scripts name="Astar Scripts">
+      <script>scripts\astar_path.gml</script>
+      <script>scripts\astar_path_player.gml</script>
+      <scripts name="Get">
+        <script>scripts\astar_get_cell_room_x.gml</script>
+        <script>scripts\astar_get_cell_grid_x.gml</script>
+        <script>scripts\astar_get_cell_room_y.gml</script>
+        <script>scripts\astar_get_cell_grid_y.gml</script>
+        <script>scripts\astar_get_cell_size.gml</script>
+      </scripts>
+    </scripts>
+    <scripts name="GameManager Scripts">
+      <script>scripts\create_static_objects.gml</script>
+    </scripts>
+    <scripts name="Trick Scripts">
+      <script>scripts\trick_bark.gml</script>
+    </scripts>
+    <scripts name="Combat Scripts">
+      <script>scripts\combat_foe_attack.gml</script>
+      <script>scripts\combat_perform.gml</script>
+    </scripts>
+    <scripts name="Doggie Menu Scripts">
+      <script>scripts\doggieMenu_addTrick.gml</script>
+      <script>scripts\doggieMenu_useTrick.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -322,15 +323,7 @@
     </fonts>
   </fonts>
   <objects name="objects">
-    <object>objects\Inventory</object>
-    <object>objects\PlayerManager</object>
-    <object>objects\GameManager</object>
-    <object>objects\obj_board</object>
     <object>objects\obj_player</object>
-    <objects name="grp_obj_tiles">
-      <object>objects\obj_tile_dirt</object>
-      <object>objects\obj_tile_grass</object>
-    </objects>
     <objects name="Turn Combat">
       <object>objects\obj_combatManager</object>
       <object>objects\obj_deck</object>
@@ -359,31 +352,32 @@
       <object>objects\Pillar_0</object>
       <object>objects\Tree_0</object>
     </objects>
-    <object>objects\Block</object>
-    <object>objects\PositionStopper</object>
-    <object>objects\interactableObject</object>
     <object>objects\Doggie</object>
-    <object>objects\Stick</object>
     <objects name="Silhouette">
       <object>objects\Occluder</object>
       <object>objects\SilhouetteManager</object>
     </objects>
-    <object>objects\TestObject</object>
-    <objects name="Inventory Old">
-      <object>objects\InventoryManager</object>
-      <objects name="old">
-        <object>objects\_Inventory</object>
-        <object>objects\InventoryItem</object>
-        <object>objects\InventoryArrow</object>
-      </objects>
-      <object>objects\InventoryItem_Stick</object>
+    <objects name="Interactable Objects">
+      <object>objects\Stick</object>
+      <object>objects\interactableObject</object>
     </objects>
-    <object>objects\AstarGrid</object>
+    <object>objects\TestObject</object>
     <objects name="dialogEngine">
       <object>objects\obj_dialogbox</object>
+      <object>objects\obj_dialogcontroller</object>
       <object>objects\obj_dialogboxarrow</object>
       <object>objects\obj_dialogbubble</object>
-      <object>objects\obj_dialogcontroller</object>
+    </objects>
+    <objects name="Controllers">
+      <object>objects\GameManager</object>
+      <object>objects\PlayerManager</object>
+      <object>objects\AstarGrid</object>
+      <object>objects\Inventory</object>
+      <object>objects\DoggieMenu</object>
+    </objects>
+    <objects name="Boundary Objects">
+      <object>objects\RoomTransitioner</object>
+      <object>objects\Block</object>
     </objects>
   </objects>
   <rooms name="rooms">
@@ -391,7 +385,7 @@
     <room>rooms\Combat_Room</room>
     <room>rooms\backup</room>
     <rooms name="dialogEngine">
-      <room>rooms\rm_dialogtest</room>
+      <room>rooms\rm_test</room>
     </rooms>
   </rooms>
   <help>
