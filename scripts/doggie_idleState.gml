@@ -34,7 +34,7 @@ if(point_distance(x,y,obj_player.x,obj_player.y) > 45)
 
 if(point_distance(x,y,obj_player.x,obj_player.y) > 40)
 {
-    astar_path(obj_player.x,obj_player.y,3,0);
+    astar_path(obj_player.x,obj_player.y,3);
     animation_play(spr_doggie_move,0,0.2);
     state = doggie_moveToPlayerState;
 }

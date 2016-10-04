@@ -111,8 +111,10 @@ mp_grid_destroy(global.astarGrid);
           <argument>
             <kind>1</kind>
             <string>///DEBUG
-
-//mp_grid_draw(global.astarGrid);
+/*
+draw_set_alpha(0.5);
+mp_grid_draw(global.astarGrid);
+draw_set_alpha(1);
 </string>
           </argument>
         </arguments>

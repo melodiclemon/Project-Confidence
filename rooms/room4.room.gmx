@@ -51,12 +51,9 @@
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="GameManager" x="128" y="48" name="inst_47818F6D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Overworld_unit" x="134" y="101" name="inst_69ADB343" locked="0" code="foeArray[0] = unit_lesserFear;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="PlayerManager" x="160" y="16" name="inst_25F671A3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Overworld_unit" x="134" y="438" name="inst_1094E10A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="280" y="0" name="inst_E720F615" locked="0" code="" scaleX="0.25" scaleY="9.75" colour="4294967295" rotation="0"/>
-    <instance objName="SilhouetteManager" x="238" y="15" name="inst_D569D880" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Pillar_0" x="152" y="312" name="inst_73215DDA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Tree_0" x="221" y="632" name="inst_4B6B95DB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Tree_0" x="85" y="639" name="inst_DF0D6EDE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -71,6 +68,7 @@
     <instance objName="Tree_0" x="242" y="221" name="inst_9D44E661" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Tree_0" x="261" y="143" name="inst_FD9027D2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Tree_0" x="90" y="143" name="inst_FA62A589" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Doggie" x="176" y="440" name="inst_4FE22B99" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="152" y="304" name="inst_BD0C7BC1" locked="0" code="" scaleX="0.75" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="216" y="304" name="inst_800B18A8" locked="0" code="" scaleX="0.25" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="80" y="312" name="inst_CB6AEAEB" locked="0" code="" scaleX="0.25" scaleY="0.25" colour="4294967295" rotation="0"/>
@@ -87,11 +85,8 @@
     <instance objName="Block" x="280" y="320" name="inst_EE010DF5" locked="0" code="" scaleX="0.25" scaleY="10" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="288" y="304" name="inst_EBFEE23A" locked="0" code="" scaleX="1" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="288" y="320" name="inst_7F2748C4" locked="0" code="" scaleX="1" scaleY="0.25" colour="4294967295" rotation="0"/>
-    <instance objName="Inventory" x="184" y="80" name="inst_48A011CB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Stick" x="144" y="544" name="inst_0FD0C6C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="RoomTransitioner" x="64" y="0" name="inst_08F68DCD" locked="0" code="" scaleX="27" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Doggie" x="168" y="392" name="inst_82A0F893" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_player" x="136" y="392" name="inst_41A268AE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="RoomTransitioner" x="64" y="632" name="inst_56D4FAB1" locked="0" code="" scaleX="27" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

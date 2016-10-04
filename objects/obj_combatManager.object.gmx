@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>///Initialize
+currentRound = 0;
 currentTurn = turn.upkeep;
 card = false;
 attackTarget = noone;
@@ -34,6 +35,8 @@ randomize();
 battleList = ds_list_create();
 
 entityDictionary = ds_map_create();
+
+
 </string>
           </argument>
         </arguments>
@@ -312,6 +315,7 @@ if(changeTurn)
         
         case turn.upkeep:
         currentTurn = turn.friend;
+        currentRound++;
         break;
         
         case turn.action:
