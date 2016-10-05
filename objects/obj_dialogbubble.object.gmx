@@ -32,7 +32,7 @@
 
 // variables that can be altered before showing dialog
 dialogID = "";
-textSpeed = 1.5; // value should be between 0.1(instant) - 3(slow)
+textSpeed = 3; // value should be between 0.1(instant) - 6(slow)
 font = fnt_coolskeleton; // font to use. REPLACE WITH DEFAULT FONT
 color = c_white; // text color
 bubbleColor = c_black; // bubbleColor
@@ -67,7 +67,37 @@ bubbleWidth = 0; // the total width of the dialogbubble
 bubbleHeight = 0; // the total height of the dialogbubble
 bubbleMaxLength = 450; // the maximum width of the dialogbubble
 closeDelay = 0; // step delay before the dialogbubble closes
+splitDialog = 0; // splitString used by word typewriter
+splitDialogsToDraw = 0; // number of split_string dialogs to draw
 loadComplete = false; // if all values above have been set at least once
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Increase splitDialogsToDraw
+splitDialogsToDraw++;
+if(textSound != -1 &amp;&amp; splitDialogsToDraw &lt;= ds_list_size(splitDialog))
+{
+    audio_play_sound(textSound, 10, false);
+}
 </string>
           </argument>
         </arguments>
@@ -91,6 +121,10 @@ loadComplete = false; // if all values above have been set at least once
           <argument>
             <kind>1</kind>
             <string>/// Destroy instance
+if (typewriter == 2) 
+{
+    ds_list_destroy(splitDialog);
+}
 instance_destroy();
 </string>
           </argument>
@@ -108,7 +142,7 @@ instance_destroy();
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>obj_dialogbubble</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
@@ -158,6 +192,11 @@ if (startOfDialog == true &amp;&amp; write == true)
             closeDelay = 1;
             dialog = string_replace(dialog, "/a", "");
         }
+    }
+    
+    if (typewriter == 2) 
+    {
+        splitDialog = string_split(dialog, " ");
     }
     
     // calculate dialog specific values
@@ -225,7 +264,7 @@ if (write == true)
         
             // if there is a text sound and if a new character will be written                                       
             if(textSound != -1 &amp;&amp;
-                typewriter &amp;&amp;
+                typewriter == 1 &amp;&amp;
                 charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
             {
                 audio_play_sound(textSound, 10, false);
@@ -257,13 +296,56 @@ if (write == true)
     else
     {
         // typewriter == 2
-        // TO DO - typewriter typing words at a time
+        // if there's still words to draw
+        if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
+        {
+            // copy all words that should be printed
+            charactersToDrawCurrentDialog = "";
+            for (var word = 0; word &lt; splitDialogsToDraw; word++)
+            {
+                charactersToDrawCurrentDialog += splitDialog[| word];
+                if (word != ds_list_size(splitDialog)) 
+                {
+                    charactersToDrawCurrentDialog += " ";
+                }
+            }
+            
+            if(alarm[1] == -1 &amp;&amp; splitDialogsToDraw &lt;= ds_list_size(splitDialog)) 
+            {
+                alarm[1] = room_speed / textSpeed;
+            }
+            charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
+        }
+        else
+        {
+            // if we are at the end of the dialog
+            if (newDialog)
+            {
+                // update variables necessary for reading a new dialog
+                dialogID = nextDialogID;
+                previousCharactersDrawn += charactersToDrawCurrentDialog;
+                
+                // reset variables necessary for reading a new dialog
+                charactersToDrawCurrentDialog = "";
+                startOfDialog = true;
+                charactersDrawn = 0;
+                splitDialog = 0;
+                ds_list_clear(splitDialog);
+            }
+            if (endOfDialog)
+            {
+                write = false;
+            }
+        }
     }
     
     // if the bubble should close automagically
     if (endOfDialog &amp;&amp; !write &amp;&amp; closeDelay != 0)
     {
-        alarm[0] = closeDelay;
+        if (alarm[0] == -1) 
+        {
+            alarm[0] = closeDelay;
+        }    
     }
 }
 </string>
@@ -1343,6 +1425,10 @@ if (write &amp;&amp; skipable)
 {
     charactersToDraw = previousCharactersDrawn + dialog;
     charactersDrawn = dialogLength;
+    if (typewriter == 2)
+    {
+        splitDialogsToDraw = ds_list_size(splitDialog);
+    }
 }
 else if (newDialog &amp;&amp; endOfDialog &amp;&amp; !write &amp;&amp; closeable)
 {
@@ -1350,9 +1436,18 @@ else if (newDialog &amp;&amp; endOfDialog &amp;&amp; !write &amp;&amp; closeable
     charactersToDraw = "";
     endOfDialog = false;
     write = true;
+    if (typewriter == 2)
+    {
+        ds_list_clear(splitDialog);
+        splitDialogsToDraw = 0;
+    }
 }
 else if (endOfDialog &amp;&amp; !write &amp;&amp; closeable)
 {
+    if (typewriter == 2)
+    {
+        ds_list_destroy(splitDialog);
+    }
     instance_destroy();
 }
 </string>

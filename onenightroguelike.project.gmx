@@ -283,6 +283,13 @@
       <script>scripts\string_extract.gml</script>
       <script>scripts\scr_LoadDialogFromFile.gml</script>
       <script>scripts\string_rtrim.gml</script>
+      <script>scripts\draw_dialogbubble.gml</script>
+      <script>scripts\draw_dialogbubble_ext.gml</script>
+      <script>scripts\draw_dialogbubble_ext_color.gml</script>
+      <script>scripts\draw_dialogbubble_full.gml</script>
+      <script>scripts\draw_dialogbubble_default.gml</script>
+      <script>scripts\draw_dialogbubble_default_actor.gml</script>
+      <script>scripts\draw_dialogbubble_color.gml</script>
     </scripts>
     <scripts name="Astar Scripts">
       <script>scripts\astar_path.gml</script>

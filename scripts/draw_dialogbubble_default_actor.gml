@@ -13,7 +13,7 @@ if(argument_count == 6)
     textSound = argument[5];
 }
 
-var textSpeed = 1.5;
+var textSpeed = 3;
 if(argument_count >= 7)
 {
     textSpeed = argument[6];
