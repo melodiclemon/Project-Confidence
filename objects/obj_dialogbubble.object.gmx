@@ -93,11 +93,6 @@ loadComplete = false; // if all values above have been set at least once
           <argument>
             <kind>1</kind>
             <string>/// Increase splitDialogsToDraw
-splitDialogsToDraw++;
-if(textSound != -1 &amp;&amp; splitDialogsToDraw &lt;= ds_list_size(splitDialog))
-{
-    audio_play_sound(textSound, 10, false);
-}
 </string>
           </argument>
         </arguments>
@@ -313,6 +308,11 @@ if (write == true)
             if(alarm[1] == -1 &amp;&amp; splitDialogsToDraw &lt;= ds_list_size(splitDialog)) 
             {
                 alarm[1] = room_speed / textSpeed;
+                splitDialogsToDraw++;
+                if(textSound != -1 &amp;&amp; splitDialogsToDraw &lt;= ds_list_size(splitDialog))
+                {
+                    audio_play_sound(textSound, 10, false);
+                }
             }
             charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
         }
@@ -381,12 +381,18 @@ if (loadComplete &amp;&amp; type == 0)
         var xCord = actor.x - view_xview[0];
         var yCord = actor.y - view_yview[0];
         
+        var yViewOffset = 0;
+        if (yCord - bubbleHeight - distance &lt; view_yview[view_current])
+        {
+            yViewOffset = (distance);
+        } 
+        
         draw_roundrect_ext
         (
             xCord - bubbleWidth / 2, 
-            yCord - bubbleHeight - distance, 
+            yCord - bubbleHeight - distance + yViewOffset, 
             xCord + bubbleWidth / 2, 
-            yCord - distance, 
+            yCord - distance + yViewOffset, 
             fontSize, 
             fontSize, 
             false
@@ -397,9 +403,9 @@ if (loadComplete &amp;&amp; type == 0)
         draw_roundrect_ext
         (
             xCord - bubbleWidth / 2, 
-            yCord - bubbleHeight - distance, 
+            yCord - bubbleHeight - distance + yViewOffset, 
             xCord + bubbleWidth / 2, 
-            yCord - distance, 
+            yCord - distance + yViewOffset, 
             fontSize, 
             fontSize, 
             true
@@ -440,16 +446,25 @@ if (loadComplete &amp;&amp; type == 0)
     if(actor != -1) 
     {
         // We add "+1" here to make sure it's just outside the actual bubble
+        var triangleYOffset = 0;
+        var actorSpriteYOffset = actor.sprite_yoffset;
+        var outlineOffset = 1;
+        if (yViewOffset != 0)
+        {
+            triangleYOffset = yViewOffset - bubbleHeight + 2;
+            actorSpriteYOffset = floor((actorSpriteYOffset / 2));
+            outlineOffset = -1;
+        }
         //outline
         draw_set_color(color);
         draw_triangle
         (
             xCord - fontSize, 
-            yCord - distance + 1, 
+            yCord - distance + outlineOffset + triangleYOffset, 
             xCord + fontSize,
-            yCord - distance + 1,
+            yCord - distance + outlineOffset + triangleYOffset,
             xCord,
-            yCord - actor.sprite_yoffset,
+            yCord - actorSpriteYOffset,
             true
         );
         
@@ -457,11 +472,11 @@ if (loadComplete &amp;&amp; type == 0)
         draw_triangle
         (
             xCord - fontSize, 
-            yCord - distance, 
+            yCord - distance + triangleYOffset, 
             xCord + fontSize,
-            yCord - distance,
+            yCord - distance + triangleYOffset,
             xCord,
-            yCord - actor.sprite_yoffset,
+            yCord - actorSpriteYOffset,
             false
         );
     }
@@ -474,7 +489,7 @@ if (loadComplete &amp;&amp; type == 0)
         draw_text_ext_transformed
         (
             xCord + fontSize - (bubbleWidth / 2),
-            yCord + (fontSize / 1.5) - bubbleHeight - distance, 
+            yCord + (fontSize / 1.5) - bubbleHeight - distance + yViewOffset, 
             charactersToDraw, 
             fontSize * (fontSize / 2),
             bubbleMaxLength,
