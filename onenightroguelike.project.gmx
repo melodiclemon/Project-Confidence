@@ -134,6 +134,10 @@
         <sprite>sprites\spr_seedOfNightmares_attack</sprite>
         <sprite>sprites\spr_seedOfNightmares_idle</sprite>
       </sprites>
+      <sprites name="Wailer">
+        <sprite>sprites\spr_wailer_idle</sprite>
+        <sprite>sprites\spr_wailer_attack</sprite>
+      </sprites>
     </sprites>
     <sprites name="dialogEngine">
       <sprite>sprites\spr_dialogboxarrow</sprite>
@@ -156,11 +160,16 @@
         <sprite>sprites\spr_defenseBackground</sprite>
       </sprites>
     </sprites>
+    <sprites name="Main Menu">
+      <sprite>sprites\spr_mainMenu_player</sprite>
+      <sprite>sprites\spr_mainMenu_doggie</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>
     <background>background\bg_battle</background>
     <background>background\bg_battle_foreground</background>
+    <background>background\bg_menu</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -218,6 +227,7 @@
     <scripts name="Friend Unit Scripts">
       <script>scripts\unit_friendAttackState.gml</script>
       <script>scripts\unit_friendIdleState.gml</script>
+      <script>scripts\unit_friendInventoryState.gml</script>
     </scripts>
     <scripts name="Foe Unit Scripts">
       <script>scripts\unit_enemyAttackState.gml</script>
@@ -228,12 +238,15 @@
     <scripts name="Help Scripts">
       <script>scripts\roundUp.gml</script>
       <script>scripts\change_states.gml</script>
-      <script>scripts\animation_hitFrame.gml</script>
-      <script>scripts\animation_end.gml</script>
-      <script>scripts\animation_play.gml</script>
       <script>scripts\view_xmouse.gml</script>
       <script>scripts\view_ymouse.gml</script>
       <script>scripts\state_check.gml</script>
+      <scripts name="Animations">
+        <script>scripts\animation_play.gml</script>
+        <script>scripts\animation_end.gml</script>
+        <script>scripts\animation_hitFrame.gml</script>
+        <script>scripts\animation_set_frame_duration_ms.gml</script>
+      </scripts>
     </scripts>
     <scripts name="Player Scripts">
       <scripts name="Overworld">
@@ -283,6 +296,13 @@
       <script>scripts\string_extract.gml</script>
       <script>scripts\scr_LoadDialogFromFile.gml</script>
       <script>scripts\string_rtrim.gml</script>
+      <script>scripts\draw_dialogbubble.gml</script>
+      <script>scripts\draw_dialogbubble_ext.gml</script>
+      <script>scripts\draw_dialogbubble_ext_color.gml</script>
+      <script>scripts\draw_dialogbubble_full.gml</script>
+      <script>scripts\draw_dialogbubble_default.gml</script>
+      <script>scripts\draw_dialogbubble_default_actor.gml</script>
+      <script>scripts\draw_dialogbubble_color.gml</script>
     </scripts>
     <scripts name="Astar Scripts">
       <script>scripts\astar_path.gml</script>
@@ -297,9 +317,15 @@
     </scripts>
     <scripts name="GameManager Scripts">
       <script>scripts\create_static_objects.gml</script>
+      <script>scripts\gameManager_requestState.gml</script>
+      <scripts name="States">
+        <script>scripts\gameManager_idleState.gml</script>
+        <script>scripts\gameManager_roomTransitionState.gml</script>
+      </scripts>
     </scripts>
     <scripts name="Trick Scripts">
       <script>scripts\trick_bark.gml</script>
+      <script>scripts\trick_roll.gml</script>
     </scripts>
     <scripts name="Combat Scripts">
       <script>scripts\combat_foe_attack.gml</script>
@@ -344,6 +370,7 @@
         <objects name="enemies">
           <object>objects\unit_lesserFear</object>
           <object>objects\unit_seedOfNightmares</object>
+          <object>objects\unit_wailer</object>
         </objects>
       </objects>
     </objects>
@@ -379,9 +406,15 @@
       <object>objects\RoomTransitioner</object>
       <object>objects\Block</object>
     </objects>
+    <objects name="Main Menu">
+      <object>objects\MainMenu_Doggie</object>
+      <object>objects\MainMenu_Player</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_main_menu</room>
     <room>rooms\room0</room>
+    <room>rooms\room4</room>
     <room>rooms\Combat_Room</room>
     <room>rooms\backup</room>
     <rooms name="dialogEngine">

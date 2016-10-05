@@ -18,7 +18,7 @@ if(animation_hitFrame(4))
 
 if(animation_end())
 {
-animation_play(spr_player_idle,0,0.05);
+animation_play(spr_player_idle,0,200);
 state = unit_friendIdleState;
 combatManager_turnCompleted(turn.action);
 //obj_combatManager.currentTurn = turn.foe;

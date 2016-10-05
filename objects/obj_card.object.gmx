@@ -56,7 +56,7 @@ image_speed = 0;
             <kind>1</kind>
             <string>///make sure the PlayerManager knows that we have played a card
 
-obj_unitFriend.playedCard = true;
+obj_unitFriend.cardPlayed = true;
 </string>
           </argument>
         </arguments>

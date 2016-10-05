@@ -88,8 +88,8 @@ sprDef = spr_defenseBackground;
           <argument>
             <kind>1</kind>
             <string>/// Execute the state
-
-script_execute(state);
+if(state != noone)
+    script_execute(state);
 
 //Update the units depth
 //depth = -y;
@@ -122,7 +122,8 @@ if(defense &lt;= 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>///Draw GUI
+
 //draw attack info
 draw_sprite(sprAtt,0,x-sprite_get_width(sprAtt)-padding,y+padding);
 draw_set_color(c_white);

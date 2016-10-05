@@ -1,4 +1,4 @@
-///inventory_addItem(itemId)
+///doggieMenu_addTrick(trick id)
 
 
 var iId = argument0;

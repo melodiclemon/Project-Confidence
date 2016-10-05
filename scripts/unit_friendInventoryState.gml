@@ -1,4 +1,5 @@
-///Player_Overworld_Inventory
+///unit_friendInventoryState()
+    
 var col = noone;
 
 if(animation_end() && sprite_index == spr_player_openBag)
@@ -15,11 +16,20 @@ if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_bagIdle)
         if(col != noone)
         {
             animation_play(spr_player_closeBag,0,PLAYER_ANIMATION_SPEED);
-            state = Player_Overworld_Idle;    
+            state = unit_friendIdleState;    
         }
     }  
 }
 
+if(sprite_index == spr_player_bagIdle && itemUsed)
+{
+    animation_play(spr_player_closeBag,0,PLAYER_ANIMATION_SPEED);    
+}
 
-       
+if(animation_end() && sprite_index == spr_player_closeBag)
+{
     
+    combatManager_turnCompleted(turn.friend);
+    state = unit_friendIdleState;  
+    itemUsed = false;
+}
