@@ -7,8 +7,8 @@ if(reanimate == 0)
     
 else
 {
-    var inst = instance_create(x,y,id.object_index);
-    inst.defense++;
-    inst.reanimate = reanimate -1;
-    inst.canAttack = false;
+    defense = initialDefense;
+    attack = initialAttack;
+    reanimate -= 1;
+    canAttack = false;
 }

@@ -14,5 +14,6 @@ if(GameManager.state != gameManager_idleState)
 }
 else
 {
+    GameManager.stateChangerId = id;
     return true;
 }

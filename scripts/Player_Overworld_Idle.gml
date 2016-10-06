@@ -4,7 +4,7 @@ var col;
 
 if(animation_end() && sprite_index != spr_player_idle)
 {
-    animation_play(spr_player_idle,0,200);
+    animation_play(spr_player_idle,0,PLAYER_ANIMATION_IDLE_SPEED);
 }
 
 // left mouse button interactions
@@ -26,7 +26,7 @@ else if(mouse_check_button(mb_left) && distance_to_point(mouse_x,mouse_y) > asta
 {   
 
         astar_path_player(mouse_x,mouse_y,1);
-        animation_play(spr_player_walk,0,PLAYER_ANIMATION_SPEED);
+        animation_play(spr_player_walk,0,PLAYER_ANIMATION_WALK_SPEED);
         state = Player_Overworld_Move; 
 
 }
@@ -41,7 +41,7 @@ if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
         col = collision_rectangle(mouse_x,mouse_y,mouse_x-(x-mouse_x),mouse_y-(mouse_y-y),object_index,false,false)
         if(col != noone)
         {
-            animation_play(spr_player_openBag,0,PLAYER_ANIMATION_SPEED);
+            animation_play(spr_player_openBag,0,PLAYER_ANIMATION_OPENBAG_SPEED);
             state = Player_Overworld_Inventory;
         }
         col = noone;
@@ -54,7 +54,7 @@ if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
         {
             targetX = -1;
             targetY = -1;
-            animation_play(spr_player_walk,0,PLAYER_ANIMATION_SPEED);
+            animation_play(spr_player_walk,0,PLAYER_ANIMATION_WALK_SPEED);
             state = player_overworld_moveToDoggieState;
         }
         col = noone; 

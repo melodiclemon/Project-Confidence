@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-100000</depth>
+  <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,29 +25,23 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Uuuu
+            <string>if !file_exists("preferences.ini"){
+    ini_open("preferences.ini");
+    ini_write_real("video","resolution",0);
+    ini_write_real("video","fullscreen",0);
+}
+
+globalvar resolution, fullscreenCheck, resOption, fullOption;
+
+ini_open("preferences.ini");
+resolution=ini_read_real("video","resolution",0);
+fullscreenCheck=ini_read_real("video","fullscreen",0);
+ini_close();
+
+resOption=resolution;
+fullOption=fullscreenCheck;
+
+stepNumber=1;
 </string>
           </argument>
         </arguments>
@@ -70,33 +64,51 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>show_message(alarm[0])
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//debugging
-//draw_self();
+            <string>switch(stepNumber){ //each case is a different step.
+    case 0:
+        /*switch (display_aa){
+            case 2: display_reset(2,true); break;
+            case 6: display_reset(4,true); break;
+            case 12: display_reset(8,true); break;
+            case 14: display_reset(8,true); break;
+        }*/
+        //display_reset(aa, vsync); //not too surprising that resetting the display comes first. Only necessary if you give players the option to change aa and vsync in game
+        break;
+    case 1:
+        switch (resolution){
+            case W_1024: window_set_size(1024,768); break;
+            case W_1280: window_set_size(1280,720); break;
+            case W_1366: window_set_size(1366,768); break;
+            case W_1920: window_set_size(1920,1080); break;
+            }
+        break;
+    case 2:
+        if fullscreenCheck=1{
+            window_set_fullscreen(true);
+        }
+        else{
+            window_set_fullscreen(false);
+        }
+        break;
+    case 3:
+        switch (resolution){
+            case W_1024: surface_resize(application_surface,1024,768); break;
+            case W_1280: surface_resize(application_surface,1280,720); break;
+            case W_1366: surface_resize(application_surface,1366,768); break;
+            case W_1920: surface_resize(application_surface,1920,1080); break;
+            }
+        view_visible[0]=false;
+        view_visible[1]=false;
+        view_visible[2]=false;
+        view_visible[3]=false;
+        view_visible[resolution]=true;
+        break;
+    default:
+        instance_destroy();
+        break;
+}
 
-//draw_line_width(room_width/2,room_height,room_width/2,0,1);
+stepNumber+=1;
 </string>
           </argument>
         </arguments>

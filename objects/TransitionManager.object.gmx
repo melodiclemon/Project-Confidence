@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-50000</depth>
+  <depth>0</depth>
   <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,61 +25,29 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Enumerators
+            <string>///Initialize
 
-enum turn 
-{
-    upkeep,
-    friend,
-    foe,
-    action,
-    draw,
-    finished
-}
+//disable the application surface since we are going to draw our own surface.
+application_surface_draw_enable(0);
 
-enum cardType
-{
-    normalCard,
-    negativeCard,
-    powerCard,
-    reverseCard,
-    multiCard
-}
+//General variables
+sur = noone // Surface
+transitionActive = false;
+transition = transitionType.null;
+timers = ds_queue_create();
+timerSeconds = 0;   
+   
+// pixelated transition variables
+pixelSize = 0.1; 
+maxPixelSize = 0.1;
 
-enum itemData
-{
-    itemId,
-    name,
-    description,
-    value,
-    use,
-    type
-}
 
-enum itemType
-{
-    weapon,
-    armor,
-    consumable
-}
-
-enum trickData
-{
-        trickId,
-        name,
-        description,
-        use
-}
-
-enum transitionType
-{
-    null,
-    pixelate
-}
 </string>
           </argument>
         </arguments>
       </action>
+    </event>
+    <event eventtype="1" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -96,40 +64,72 @@ enum transitionType
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Initalise
-draw_set_font(font_default);
+            <string>/// activate application surface
 
-//Resolution
-isFullscreen = false;
+application_surface_draw_enable(1);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Check for additional alarms
 
-//State variables
-state = gameManager_idleState;
-stateChangerId = noone;
+if(ds_queue_size(timers) == 0)
+{
+    instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Check for additional alarms
 
-
-//battle variables
-startBattle = false;
-battleList = ds_list_create();
-
-//Transition
-transitionToX = 128;
-transitionToY = 360;
-transitionToRoom = undefined;
-transitionReady = false;
-
-// MANAGERS
-playerManager = undefined;
-silhouetteManager = undefined;
-inventory = undefined;
-doggieMenu = undefined;
-
-create_static_objects();
-
-//LOAD DIALOGUE
-scr_LoadDialogFromFile();
-
-//DEBUG OVERLAY
-show_debug_overlay(1);
+if(ds_queue_size(timers) == 0)
+{
+    instance_destroy();
+}
+else
+{
+    timerSeconds = ds_queue_dequeue(timers);
+    alarm[1] = timerSeconds * room_speed;
+    GameManager.transitionReady = true;
+}
+    
 </string>
           </argument>
         </arguments>
@@ -152,73 +152,25 @@ show_debug_overlay(1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Execute State
+            <string>/// run transition-specific code.
 
-if(state != noone)
-    script_execute(state);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Go to Battle!
-if(startBattle == true)
+if(transitionActive)
 {
-    room_goto(Combat_Room);
-    startBattle = false;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///exit battle
-if(room == Combat_Room)
-{
-    if(obj_combatManager.currentTurn == turn.finished)
+    //pixelate transition
+    if(transition == transitionType.pixelate)
     {
-        if(mouse_check_button_pressed(mb_left))
+        if(alarm[0] != -1)
+            pixelSize += ((1/room_speed)/timerSeconds) * maxPixelSize;
+        else if( alarm[1] != -1)
         {
-            room_goto(room0);
-        }
+          pixelSize = max(0.1,pixelSize-((1/room_speed)/timerSeconds) * maxPixelSize);
+        }                   
     }
 }
 </string>
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="7" enumb="5">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -235,130 +187,43 @@ if(room == Combat_Room)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(object_exists(obj_player))
+            <string>///debug
+
+if(surface_exists(application_surface))
+show_debug_message(surface_get_width(application_surface));
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="75">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw the transition.
+
+
+switch(transition)
 {
-    with(obj_player)
-    {
+    case transitionType.null:
         instance_destroy();
-    }
-}
-with(silhouetteManager)
-{
-    instance_destroy();
-}
-with(Doggie)
-{
-    instance_destroy();
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="4">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Create &amp; setup the combat Manager in the Combat Room
-if(room == Combat_Room)
-{
-     instance_create(0,0,obj_combatManager);
-}
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///GUI SCALE
-
-//display_set_gui_size(view_wview[view_current],view_hview[view_current]);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Create pathfinder &amp; Generate map
-/*
-if(room != Combat_Room)
-{
-    //Pathfinder
-    var cellSize = 8;
-    aStar_init(room_width/cellSize,room_height/cellSize,cellSize,true,true);
-    pathfinder_generateMap();
-}
-*/
-
-instance_create(0,0,AstarGrid);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Spawn the player
-if(room != Combat_Room &amp;&amp; room != rm_main_menu)
-{
-    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),obj_player);
-    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),Doggie);
-    silhouetteManager = instance_create(0,0,SilhouetteManager);
+        break;
+    case transitionType.pixelate:
+        transition_pixelate();
+        break;        
 }
 
 

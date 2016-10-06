@@ -84,11 +84,10 @@
     <instance objName="Block" x="280" y="320" name="inst_EE010DF5" locked="0" code="" scaleX="0.25" scaleY="10" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="288" y="320" name="inst_7F2748C4" locked="0" code="" scaleX="1" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Stick" x="144" y="544" name="inst_0FD0C6C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Doggie" x="168" y="392" name="inst_82A0F893" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="312" y="312" name="inst_FB9033C3" locked="0" code="" scaleX="0.25" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Overworld_unit" x="184" y="528" name="inst_C050CFB8" locked="0" code="foeArray[0] = unit_seedOfNightmares;&#xA;foeArray[1] = unit_lesserFear;&#xA;foeArray[2] = unit_seedOfNightmares;&#xA;foeArray[3] = unit_lesserFear;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Overworld_unit" x="104" y="608" name="inst_92419F5C" locked="0" code="foeArray[0] = unit_seedOfNightmares;&#xA;foeArray[1] = unit_seedOfNightmares;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="RoomTransitioner" x="64" y="0" name="inst_9C82A16B" locked="0" code="gotoY = 640;&#xA;gotoRoom = room4;&#xA;" scaleX="27" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="RoomTransitioner" x="64" y="0" name="inst_9C82A16B" locked="0" code="gotoY = 632;&#xA;gotoRoom = room4;" scaleX="27.4285717010498" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

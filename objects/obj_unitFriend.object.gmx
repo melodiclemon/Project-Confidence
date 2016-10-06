@@ -31,6 +31,8 @@ event_inherited();
 state = unit_friendIdleState;
 defense = 10;
 attack = 0;
+unit_set_initialAttDef();
+
 image_speed = 0.05;
 cardPlayed = false;
 
