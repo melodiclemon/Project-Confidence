@@ -2,7 +2,6 @@
 /*
     
 */
-
 if(object_index == obj_unitFriend)
 {
     instance_destroy();

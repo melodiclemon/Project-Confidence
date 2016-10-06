@@ -9,7 +9,7 @@
 
 if(GameManager.state != gameManager_idleState)
 {
-    show_message("GameManager is currently in state: " + string(script_get_name(GameManager.state)) + "\n" + "and could not change to state: " + string(script_get_name(argument0)));
+    //show_message("GameManager is currently in state: " + string(script_get_name(GameManager.state)) + "\n" + "and could not change to state: " + string(script_get_name(argument0)));
     return false;
 }
 else

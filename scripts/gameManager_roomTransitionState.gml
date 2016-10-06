@@ -2,6 +2,7 @@
 
 if(transitionReady)
 {
+    
     transitionReady = false;
     room_goto(transitionToRoom);
     stateChangerId = noone;

@@ -28,7 +28,7 @@
             <string>///Initialize
 
 //disable the application surface since we are going to draw our own surface.
-application_surface_draw_enable(0);
+
 
 //General variables
 sur = noone // Surface
@@ -64,8 +64,7 @@ maxPixelSize = 0.1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// activate application surface
-
+            <string>///enable the application_surface again
 application_surface_draw_enable(1);
 </string>
           </argument>
@@ -188,7 +187,7 @@ if(transitionActive)
           <argument>
             <kind>1</kind>
             <string>///debug
-
+/*
 if(surface_exists(application_surface))
 show_debug_message(surface_get_width(application_surface));
 </string>
@@ -214,7 +213,7 @@ show_debug_message(surface_get_width(application_surface));
           <argument>
             <kind>1</kind>
             <string>/// Draw the transition.
-
+application_surface_draw_enable(0);
 
 switch(transition)
 {

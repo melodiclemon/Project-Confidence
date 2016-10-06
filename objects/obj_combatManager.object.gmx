@@ -33,10 +33,7 @@ attackTarget = noone;
 randomize();
 
 battleList = ds_list_create();
-
 entityDictionary = ds_map_create();
-
-
 </string>
           </argument>
         </arguments>
@@ -58,22 +55,31 @@ entityDictionary = ds_map_create();
           <argument>
             <kind>1</kind>
             <string>///set up the battle
+//ds_list_copy(battleList,GameManager.battleList);
+//show_message(ds_list_size(GameManager.battleList));
+if(!ds_list_empty(GameManager.battleList))
+{
+    ds_list_copy(battleList,GameManager.battleList);
+    ds_list_clear(GameManager.battleList);
+}
 
-ds_list_copy(battleList,GameManager.battleList);
+if(!ds_list_empty(battleList))
+{
+    combatManager_foe_setup(battleList);
 
-combatManager_foe_setup(battleList)
+    var player = instance_create(0,0,obj_unitFriend);
+    player.x = (room_width/4);
+    player.y = 128 + player.sprite_yoffset/2;
+    
+    
+    instance_create(32,203,obj_deck);
+    instance_create(276,220,EndTurnButton);
+    
+    ds_list_destroy(battleList);
+    
+}
 
-var player = instance_create(0,0,obj_unitFriend);
-player.x = (room_width/4);
-player.y = 128 + player.sprite_yoffset/2;
-
-
-instance_create(32,203,obj_deck);
-instance_create(276,220,EndTurnButton);
-
-
-ds_list_destroy(battleList);
-ds_list_clear(GameManager.battleList);
+//
 
 </string>
           </argument>
@@ -115,16 +121,16 @@ ds_map_add(entityDictionary,"deck",instance_find(obj_deck,0));
 
 
 //DEBUG
-
+/*
 var key = ds_map_find_first(entityDictionary);
 
 show_debug_message(object_get_name(entityDictionary[? key].object_index));
-for(var i = 1; i &lt; ds_map_size(entityDictionary); i++)
+for(var i = 0; i &lt; ds_map_size(entityDictionary); i++)
 {
     key = ds_map_find_next(entityDictionary,key);
     show_debug_message(object_get_name(entityDictionary[? key].object_index));
 }
-
+*/
 </string>
           </argument>
         </arguments>
@@ -148,6 +154,7 @@ for(var i = 1; i &lt; ds_map_size(entityDictionary); i++)
           <argument>
             <kind>1</kind>
             <string>/// reset attack &amp; cardPlayed each new turn
+
 if(currentTurn == turn.upkeep)
 {
     obj_unitFriend.attack = 0;

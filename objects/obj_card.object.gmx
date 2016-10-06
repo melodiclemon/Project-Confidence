@@ -103,8 +103,7 @@ script_execute(state);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-///Draw
+            <string>///Draw the card
 
 //draw the sprite
 draw_self();

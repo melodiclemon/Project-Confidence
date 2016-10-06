@@ -38,7 +38,7 @@ maxPixelSize = 10;
 //transition variables
 transition = transitionType.pixelate;
 upScaleTime = 1;
-downScaleTime = 0.5;
+downScaleTime = 0.1;
 maxPixelSize = 10;
 
 destroyOnRoomEnd = false;
@@ -65,21 +65,19 @@ destroyOnRoomEnd = false;
           <argument>
             <kind>1</kind>
             <string>///Start Battle!
+
 if(gameManager_requestState(gameManager_roomTransitionState))
 {
     for(var i = 0; i &lt; array_length_1d(foeArray); i++)
     {
         ds_list_add(GameManager.battleList,foeArray[i]);
     }
-    
-    GameManager.startBattle = true;
-    
     GameManager.transitionToRoom = Combat_Room;
     GameManager.state = gameManager_roomTransitionState;
     
     destroyOnRoomEnd = true;
-    
 }
+    
 </string>
           </argument>
         </arguments>
@@ -102,7 +100,7 @@ if(gameManager_requestState(gameManager_roomTransitionState))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(destroyOnRoomEnd)
+            <string>/*if(destroyOnRoomEnd)
     instance_destroy();
 </string>
           </argument>
