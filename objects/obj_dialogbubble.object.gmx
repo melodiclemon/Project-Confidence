@@ -374,109 +374,95 @@ if (write == true)
 
 if (loadComplete &amp;&amp; type == 0)
 { 
-    draw_set_color(bubbleColor);
+    var xCord = 0;
+    var yCord = 0;
+    var yViewOffset = 0;
     if(actor != -1) 
     {
-        var distance = actor.sprite_yoffset + characterDistance;
-        var xCord = actor.x - view_xview[0];
-        var yCord = actor.y - view_yview[0];
+        xCord = actor.x - (bubbleWidth / 2) - view_xview[0];
+        yCord = actor.y - bubbleHeight - actor.sprite_yoffset - characterDistance - view_yview[0];
         
-        var yViewOffset = 0;
-        if (yCord - bubbleHeight - distance &lt; view_yview[view_current])
+        if (yCord &lt; view_yview[view_current])
         {
-            yViewOffset = (distance);
-        } 
-        
-        draw_roundrect_ext
-        (
-            xCord - bubbleWidth / 2, 
-            yCord - bubbleHeight - distance + yViewOffset, 
-            xCord + bubbleWidth / 2, 
-            yCord - distance + yViewOffset, 
-            fontSize, 
-            fontSize, 
-            false
-        );
-        
-        // outline
-        draw_set_color(color);
-        draw_roundrect_ext
-        (
-            xCord - bubbleWidth / 2, 
-            yCord - bubbleHeight - distance + yViewOffset, 
-            xCord + bubbleWidth / 2, 
-            yCord - distance + yViewOffset, 
-            fontSize, 
-            fontSize, 
-            true
-        );
+            yViewOffset = bubbleHeight + actor.sprite_yoffset + characterDistance;
+        }
     }
     else
     {
-        var xCord = x - view_xview[0];
-        var yCord = y - view_yview[0];
+        xCord = x - view_xview[0];
+        yCord = y - view_yview[0];
+    }
     
-        draw_roundrect_ext
-        (
-            xCord, 
-            yCord, 
-            xCord + bubbleWidth, 
-            yCord + bubbleHeight, 
-            fontSize, 
-            fontSize, 
-            false
-        );
+    // fill
+    draw_set_color(bubbleColor);
+    draw_roundrect_ext
+    (
+        xCord, 
+        yCord + yViewOffset, 
+        xCord + bubbleWidth, 
+        yCord + bubbleHeight + yViewOffset, 
+        fontSize, 
+        fontSize, 
+        false
+    );
+    
+    // outline
+    draw_set_color(color);
+    draw_roundrect_ext
+    (
+        xCord, 
+        yCord + yViewOffset, 
+        xCord + bubbleWidth, 
+        yCord + bubbleHeight + yViewOffset, 
+        fontSize, 
+        fontSize, 
+        true
+    );
+    
+    // triangle
+    if(actor != -1) 
+    {
+        var triangleYOffset = 1;
+        var trianglePointOffset = 0;
+        var fillRectOffset = 1;
+        if (yViewOffset != 0)
+        {
+            triangleYOffset = yViewOffset - bubbleHeight + 1;
+            trianglePointOffset = triangleYOffset - bubbleHeight - 1;
+            fillRectOffset = 0;
+        }
         
         // outline
         draw_set_color(color);
-        draw_roundrect_ext
-        (
-            xCord, 
-            yCord, 
-            xCord + bubbleWidth, 
-            yCord + bubbleHeight, 
-            fontSize, 
-            fontSize, 
-            true
-        );
-        
-    }
-    
-    //triangle
-    if(actor != -1) 
-    {
-        // We add "+1" here to make sure it's just outside the actual bubble
-        var triangleYOffset = 0;
-        var actorSpriteYOffset = actor.sprite_yoffset;
-        var outlineOffset = 1;
-        if (yViewOffset != 0)
-        {
-            triangleYOffset = yViewOffset - bubbleHeight + 2;
-            actorSpriteYOffset = floor((actorSpriteYOffset / 2));
-            outlineOffset = -1;
-        }
-        //outline
-        draw_set_color(color);
         draw_triangle
         (
-            xCord - fontSize, 
-            yCord - distance + outlineOffset + triangleYOffset, 
-            xCord + fontSize,
-            yCord - distance + outlineOffset + triangleYOffset,
-            xCord,
-            yCord - actorSpriteYOffset,
+            xCord + (bubbleWidth / 2) - fontSize, 
+            yCord + bubbleHeight + triangleYOffset, 
+            xCord + (bubbleWidth / 2) + fontSize,
+            yCord + bubbleHeight + triangleYOffset,
+            xCord + (bubbleWidth / 2),
+            yCord + bubbleHeight + characterDistance + trianglePointOffset,
             true
         );
         
+        // fill
         draw_set_color(bubbleColor);
+        draw_rectangle
+        (
+            xCord + (bubbleWidth / 2) - fontSize, 
+            yCord + bubbleHeight + triangleYOffset - (fillRectOffset * 2), 
+            xCord + (bubbleWidth / 2) + fontSize,
+            yCord + bubbleHeight + triangleYOffset - fillRectOffset,
+            false
+        );
         draw_triangle
         (
-            xCord - fontSize, 
-            yCord - distance + triangleYOffset, 
-            xCord + fontSize,
-            yCord - distance + triangleYOffset,
-            xCord,
-            yCord - actorSpriteYOffset,
+            xCord + (bubbleWidth / 2) - fontSize, 
+            yCord + bubbleHeight + triangleYOffset, 
+            xCord + (bubbleWidth / 2) + fontSize,
+            yCord + bubbleHeight + triangleYOffset,
+            xCord + (bubbleWidth / 2),
+            yCord + bubbleHeight + characterDistance + trianglePointOffset,
             false
         );
     }
@@ -484,34 +470,17 @@ if (loadComplete &amp;&amp; type == 0)
     //text
     draw_set_font(font);
     draw_set_color(color);
-    if(actor != -1) 
-    {
-        draw_text_ext_transformed
-        (
-            xCord + fontSize - (bubbleWidth / 2),
-            yCord + (fontSize / 1.5) - bubbleHeight - distance + yViewOffset, 
-            charactersToDraw, 
-            fontSize * (fontSize / 2),
-            bubbleMaxLength,
-            fontScale,
-            fontScale,
-            0
-        );
-    }
-    else
-    {
-        draw_text_ext_transformed
-        (
-            xCord + fontSize,
-            yCord + (fontSize / 1.5), 
-            charactersToDraw, 
-            fontSize * (fontSize / 2),
-            bubbleMaxLength,
-            fontScale,
-            fontScale,
-            0,
-        );
-    }
+    draw_text_ext_transformed
+    (
+        xCord + fontSize,
+        yCord + (fontSize / 1.5) + yViewOffset, 
+        charactersToDraw, 
+        fontSize * (fontSize / 2),
+        bubbleMaxLength,
+        fontScale,
+        fontScale,
+        0,
+    );
 }
 </string>
           </argument>
