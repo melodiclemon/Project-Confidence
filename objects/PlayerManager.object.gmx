@@ -43,7 +43,7 @@ attack = 0;
 ability = noone;
 
 //doggie trick!
-doggieTrick = trick_bark;
+doggieTrick = noone;
 
 </string>
           </argument>

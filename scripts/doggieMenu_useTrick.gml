@@ -10,8 +10,6 @@ with(DoggieMenu)
 
 with(PlayerManager)
 {
-    if(Inventory.item[iId,itemData.use] != noone)
-        script_execute(Inventory.item[iId,itemData.use]);
+    doggieTrick = DoggieMenu.trick[iId,trickData.use];
 }
   
-

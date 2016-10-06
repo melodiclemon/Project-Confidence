@@ -1,5 +1,4 @@
 //combatManager_removeEntityFromDictionary(id)
-
 var i;
 var key = ds_map_find_first(obj_combatManager.entityDictionary)
 for(i = 0; i < ds_map_size(obj_combatManager.entityDictionary); i++)

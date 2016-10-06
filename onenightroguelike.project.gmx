@@ -79,6 +79,7 @@
     <extension index="0">extensions\Essential Scripts</extension>
     <extension index="1">extensions\AStar Pathfinding</extension>
     <extension index="2">extensions\DialogEngine</extension>
+    <extension index="3">extensions\Display Manager</extension>
   </NewExtensions>
   <sounds name="sound">
     <sounds name="dialogEngine">
@@ -134,6 +135,10 @@
         <sprite>sprites\spr_seedOfNightmares_attack</sprite>
         <sprite>sprites\spr_seedOfNightmares_idle</sprite>
       </sprites>
+      <sprites name="Wailer">
+        <sprite>sprites\spr_wailer_idle</sprite>
+        <sprite>sprites\spr_wailer_attack</sprite>
+      </sprites>
     </sprites>
     <sprites name="dialogEngine">
       <sprite>sprites\spr_dialogboxarrow</sprite>
@@ -156,11 +161,16 @@
         <sprite>sprites\spr_defenseBackground</sprite>
       </sprites>
     </sprites>
+    <sprites name="Main Menu">
+      <sprite>sprites\spr_mainMenu_player</sprite>
+      <sprite>sprites\spr_mainMenu_doggie</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>
     <background>background\bg_battle</background>
     <background>background\bg_battle_foreground</background>
+    <background>background\bg_menu</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -215,25 +225,18 @@
       <script>scripts\card_setValue.gml</script>
       <script>scripts\card_immuneToCardType.gml</script>
     </scripts>
-    <scripts name="Friend Unit Scripts">
-      <script>scripts\unit_friendAttackState.gml</script>
-      <script>scripts\unit_friendIdleState.gml</script>
-    </scripts>
-    <scripts name="Foe Unit Scripts">
-      <script>scripts\unit_enemyAttackState.gml</script>
-      <script>scripts\unit_enemyIdleState.gml</script>
-      <script>scripts\unit_reanimate.gml</script>
-      <script>scripts\unit_grow.gml</script>
-    </scripts>
     <scripts name="Help Scripts">
       <script>scripts\roundUp.gml</script>
       <script>scripts\change_states.gml</script>
-      <script>scripts\animation_hitFrame.gml</script>
-      <script>scripts\animation_end.gml</script>
-      <script>scripts\animation_play.gml</script>
       <script>scripts\view_xmouse.gml</script>
       <script>scripts\view_ymouse.gml</script>
       <script>scripts\state_check.gml</script>
+      <scripts name="Animations">
+        <script>scripts\animation_play.gml</script>
+        <script>scripts\animation_end.gml</script>
+        <script>scripts\animation_hitFrame.gml</script>
+        <script>scripts\animation_set_frame_duration_ms.gml</script>
+      </scripts>
     </scripts>
     <scripts name="Player Scripts">
       <scripts name="Overworld">
@@ -304,9 +307,20 @@
     </scripts>
     <scripts name="GameManager Scripts">
       <script>scripts\create_static_objects.gml</script>
+      <script>scripts\gameManager_requestState.gml</script>
+      <scripts name="States">
+        <script>scripts\gameManager_idleState.gml</script>
+        <script>scripts\gameManager_roomTransitionState.gml</script>
+      </scripts>
+      <scripts name="Transition Create Scripts">
+        <script>scripts\transition_create_pixelate.gml</script>
+        <script>scripts\transition_create.gml</script>
+      </scripts>
+      <script>scripts\resolution_set_fullscreen.gml</script>
     </scripts>
     <scripts name="Trick Scripts">
       <script>scripts\trick_bark.gml</script>
+      <script>scripts\trick_roll.gml</script>
     </scripts>
     <scripts name="Combat Scripts">
       <script>scripts\combat_foe_attack.gml</script>
@@ -316,10 +330,35 @@
       <script>scripts\doggieMenu_addTrick.gml</script>
       <script>scripts\doggieMenu_useTrick.gml</script>
     </scripts>
+    <scripts name="Unit Scripts">
+      <scripts name="Friend Unit Scripts">
+        <script>scripts\unit_friendAttackState.gml</script>
+        <script>scripts\unit_friendIdleState.gml</script>
+        <script>scripts\unit_friendInventoryState.gml</script>
+      </scripts>
+      <scripts name="Foe Unit Scripts">
+        <script>scripts\unit_enemyAttackState.gml</script>
+        <script>scripts\unit_enemyIdleState.gml</script>
+        <script>scripts\unit_reanimate.gml</script>
+        <script>scripts\unit_grow.gml</script>
+      </scripts>
+      <script>scripts\unit_set_initialAttDef.gml</script>
+      <script>scripts\unit_destroy.gml</script>
+    </scripts>
+    <scripts name="Transition Scripts">
+      <script>scripts\transition_pixelate.gml</script>
+    </scripts>
+    <scripts name="DisplayManager Scripts">
+      <script>scripts\display_write_spec.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
-    <shader type="GLSLES">shaders\shd_juju_mask.shader</shader>
-    <shader type="GLSLES">shaders\shd_juju_silhouette.shader</shader>
+    <shader type="GLSLES">shaders\shd_green.shader</shader>
+    <shaders name="Juju Silhouette">
+      <shader type="GLSLES">shaders\shd_juju_mask.shader</shader>
+      <shader type="GLSLES">shaders\shd_juju_silhouette.shader</shader>
+    </shaders>
+    <shader type="GLSLES">shaders\shd_pixelate.shader</shader>
   </shaders>
   <fonts name="fonts">
     <font>fonts\font_default</font>
@@ -351,6 +390,7 @@
         <objects name="enemies">
           <object>objects\unit_lesserFear</object>
           <object>objects\unit_seedOfNightmares</object>
+          <object>objects\unit_wailer</object>
         </objects>
       </objects>
     </objects>
@@ -377,18 +417,28 @@
     </objects>
     <objects name="Controllers">
       <object>objects\GameManager</object>
+      <object>objects\CameraManager</object>
       <object>objects\PlayerManager</object>
       <object>objects\AstarGrid</object>
       <object>objects\Inventory</object>
       <object>objects\DoggieMenu</object>
+      <object>objects\TransitionManager</object>
+      <object>objects\DisplayManager</object>
     </objects>
     <objects name="Boundary Objects">
       <object>objects\RoomTransitioner</object>
       <object>objects\Block</object>
     </objects>
+    <objects name="Main Menu">
+      <object>objects\MainMenu_Doggie</object>
+      <object>objects\MainMenu_Player</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_display_init</room>
+    <room>rooms\rm_main_menu</room>
     <room>rooms\room0</room>
+    <room>rooms\room4</room>
     <room>rooms\Combat_Room</room>
     <room>rooms\backup</room>
     <rooms name="dialogEngine">

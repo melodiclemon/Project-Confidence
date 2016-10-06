@@ -25,40 +25,6 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Initalise
-
-draw_set_font(font_default);
-
-//battle variables
-startBattle = false;
-battleList = ds_list_create();
-
-
-//LOAD DIALOGUE
-scr_LoadDialogFromFile();
-
-//DEBUG OVERLAY
-show_debug_overlay(1);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
             <string>///Enumerators
 
 enum turn 
@@ -105,6 +71,65 @@ enum trickData
         use
 }
 
+enum transitionType
+{
+    null,
+    pixelate
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Initalise
+draw_set_font(font_default);
+
+//Resolution
+isFullscreen = false;
+
+//State variables
+state = gameManager_idleState;
+stateChangerId = noone;
+
+
+//battle variables
+startBattle = false;
+battleList = ds_list_create();
+
+//Transition
+transitionToX = 128;
+transitionToY = 360;
+transitionToRoom = undefined;
+transitionReady = false;
+
+// MANAGERS
+playerManager = undefined;
+silhouetteManager = undefined;
+inventory = undefined;
+doggieMenu = undefined;
+
+create_static_objects();
+
+//LOAD DIALOGUE
+scr_LoadDialogFromFile();
+
+//DEBUG OVERLAY
+show_debug_overlay(1);
 </string>
           </argument>
         </arguments>
@@ -127,12 +152,38 @@ enum trickData
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Execute State
+
+if(state != noone)
+    script_execute(state);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Go to Battle!
+/*
 if(startBattle == true)
 {
     room_goto(Combat_Room);
     startBattle = false;
 }
+*/
 </string>
           </argument>
         </arguments>
@@ -186,7 +237,22 @@ if(room == Combat_Room)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>if(object_exists(obj_player))
+{
+    with(obj_player)
+    {
+        instance_destroy();
+    }
+}
+with(silhouetteManager)
+{
+    instance_destroy();
+}
+with(Doggie)
+{
+    instance_destroy();
+}
+</string>
           </argument>
         </arguments>
       </action>
@@ -209,7 +275,8 @@ if(room == Combat_Room)
           <argument>
             <kind>1</kind>
             <string>/// Create &amp; setup the combat Manager in the Combat Room
-if(room == Combat_Room)
+
+if(room == Combat_Room &amp;&amp; !instance_exists(obj_combatManager))
 {
      instance_create(0,0,obj_combatManager);
 }
@@ -236,7 +303,7 @@ if(room == Combat_Room)
             <kind>1</kind>
             <string>///GUI SCALE
 
-display_set_gui_size(view_wview[view_current],view_hview[view_current]);
+//display_set_gui_size(view_wview[view_current],view_hview[view_current]);
 </string>
           </argument>
         </arguments>
@@ -289,13 +356,41 @@ instance_create(0,0,AstarGrid);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Spawn the player
-if(room != Combat_Room)
+            <string>///Spawn the player
+if(room != Combat_Room &amp;&amp; room != rm_main_menu)
 {
-    //instance_create(120,120,obj_player);
+    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),obj_player);
+    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),Doggie);
+    silhouetteManager = instance_create(0,0,SilhouetteManager);
 }
 
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///DEBUG
+
+var str = script_get_name(state);
+draw_text_transformed(70,display_get_gui_height(),"state : "+ string(str),.2,.2,0);
 </string>
           </argument>
         </arguments>
