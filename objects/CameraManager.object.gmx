@@ -66,10 +66,13 @@ view_hview = DisplayManager.ideal_height/view_zoom;
 
 if(instance_exists(target))
 {
-//center on the player
-view_xview=target.x-view_xview/2-10;
-view_yview=target.y-view_yview/2-10;
+    //UPDATE TO MOUSE FOR REAL EXPERIANCE!
+
+        //center on the mouse
+        view_xview = smooth_approach(view_xview,target.x-view_xview/2,0.2);
+        view_yview = smooth_approach(view_yview,target.y-view_yview/2,0.2);
 }
+
 //clamp to room
 view_xview=clamp(view_xview,0,room_width-view_wview);
 view_yview=clamp(view_yview,0,room_height-view_hview);

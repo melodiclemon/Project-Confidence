@@ -250,6 +250,7 @@ if(instance_exists(player))
                     draw_set_color(c_white);
                     
                 draw_set_valign(fa_center);
+                draw_set_halign(fa_left);
                 draw_text_transformed(bgX+7,bgY+17+(i*13),trick[ds_list_find_value(inventory,i+inventoryPosition),trickData.name],0.3,0.3,0);
                 
                 //reset draw

@@ -149,13 +149,13 @@ if(state != noone)
             <string>///Draw GUI
 
 //draw attack info
-draw_sprite(sprAtt,0,x-sprite_get_width(sprAtt)-padding,y+padding);
+draw_sprite(sprAtt,0,(x-view_xview)-sprite_get_width(sprAtt)-padding,(y-view_yview)+padding);
 draw_set_color(c_white);
 draw_text_transformed(x-(sprite_get_width(sprAtt)/2)-textPaddingX,y+textPaddingY,string_lpad(string(attack),2,"0"),0.4,0.4,0);
 draw_set_color(c_black);
 
 //draw defense info
-draw_sprite(sprDef,0,x+padding,y+padding);
+draw_sprite(sprDef,0,(x-view_xview)+padding,(y-view_yview)+padding);
 draw_set_color(c_white);
 draw_text_transformed(x+1.5+textPaddingX,y+textPaddingY,string_lpad(string(defense),2,"0"),0.4,0.4,0);
 draw_set_color(c_black);
