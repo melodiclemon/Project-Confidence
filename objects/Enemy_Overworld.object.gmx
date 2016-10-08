@@ -112,7 +112,8 @@ depth = -y;
 if(gameManager_requestState(gameManager_roomTransitionState) &amp;&amp; !inBattle)
 {
     ds_list_add(GameManager.battleList,enemyObject);
-
+    GameManager.transitionToX = other.x;
+    GameManager.transitionToY = other.y;
     GameManager.transitionToRoom = Combat_Room;
     GameManager.state = gameManager_roomTransitionState;
     

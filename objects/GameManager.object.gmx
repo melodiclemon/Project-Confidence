@@ -410,8 +410,22 @@ instance_create(0,0,AstarGrid);
             <string>///Spawn the player
 if(room != Combat_Room &amp;&amp; room != rm_main_menu)
 {
-    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),obj_player);
-    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),Doggie);
+    if(!instance_exists(obj_player))
+        instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),obj_player);
+    else
+    {
+        obj_player.x = astar_get_cell_room_x(transitionToX);
+        obj_player.y = astar_get_cell_room_y(transitionToY);
+    }
+    
+    if(!instance_exists(Doggie))
+        instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),Doggie);
+    else
+    {
+        Doggie.x = astar_get_cell_room_x(transitionToX);
+        Doggie.y = astar_get_cell_room_y(transitionToY);
+    }
+    
     silhouetteManager = instance_create(0,0,SilhouetteManager);
 }
 
