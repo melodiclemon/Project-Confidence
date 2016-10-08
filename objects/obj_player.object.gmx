@@ -184,9 +184,8 @@ draw_self();
 //var dialogBubbleClose2 = draw_dialogbubble_default(x, y, "CLOSE2", 0, false, false);
 //var dialogBubbleClose3 = draw_dialogbubble_default(x, y, "CLOSE3", 0, false, false);
 //var dialogBubbleSpeak = draw_dialogbubble_default_actor(id, "TEST1", 0, true, true, snd_coolskeleton);
-//var dialogBubbleShout = draw_dialogbubble_default(x, y, "TEST1", 1, true, true);
-var dialogBubbleWordWriter = draw_dialogbubble_ext(x, y, "TEST1", 0, font_default, 0.45, 3, snd_coolskeleton, 2, true, true, id);
-
+//var dialogBubbleShout = draw_dialogbubble_default(x, y, "TEST6", 1, true, true);
+var dialogBubbleWordWriter = draw_dialogbubble_ext(x, y, "TEST1", 0, font_default, 0.45, 3, -1, 2, true, true, id);
 </string>
           </argument>
         </arguments>
