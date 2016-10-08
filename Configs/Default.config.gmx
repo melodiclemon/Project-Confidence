@@ -652,5 +652,18 @@
     <option_xbone_texture_page>1024</option_xbone_texture_page>
     <option_xbone_title_id></option_xbone_title_id>
   </Options>
-  <ConfigConstants/>
+  <ConfigConstants>
+    <constants number="10">
+      <constant name="DOGGIE_ANIMATION_IDLE_SPEED">200</constant>
+      <constant name="DOGGIE_ANIMATION_MOVE_SPEED">200</constant>
+      <constant name="PLAYER_ANIMATION_ATTACK_SPEED">200</constant>
+      <constant name="PLAYER_ANIMATION_BAGIDLE_SPEED">200</constant>
+      <constant name="PLAYER_ANIMATION_CLOSEBAG_SPEED">200</constant>
+      <constant name="PLAYER_ANIMATION_IDLE_SPEED">400</constant>
+      <constant name="PLAYER_ANIMATION_OPENBAG_SPEED">200</constant>
+      <constant name="PLAYER_ANIMATION_PET_SPEED">200</constant>
+      <constant name="PLAYER_ANIMATION_SPEED">200</constant>
+      <constant name="PLAYER_ANIMATION_WALK_SPEED">200</constant>
+    </constants>
+  </ConfigConstants>
 </Config>

@@ -179,9 +179,13 @@ inventory_useItem(4);
             <kind>1</kind>
             <string>///make sure we are looking at the correct player
 if(room != Combat_Room)
+{
     player = obj_player;
+}
 else
+{
     player = obj_unitFriend;
+}
 </string>
           </argument>
         </arguments>
@@ -205,58 +209,59 @@ else
           <argument>
             <kind>1</kind>
             <string>///Inventory Interaction
+   
 
-if(player.state == Player_Overworld_Inventory) // TODO: Change this if-statement so it works both in Combat and in the Overworld
+if(instance_exists(player))
 {
-    //interaction with the item boxes
-    for(i = 0; i &lt; itemsDisplayed; i++)
+    if(player.sprite_index == spr_player_bagIdle) // TODO: Change this if-statement so it works both in Combat and in the Overworld
     {
-        if(point_in_rectangle(view_xmouse(0),view_ymouse(0), bgX+6,bgY+13+(i*13),bgX+56,bgY+21+(i*13)))
+        //interaction with the item boxes
+        for(i = 0; i &lt; itemsDisplayed; i++)
         {
-            if(mouse_check_button_pressed(mb_left))
+            if(point_in_rectangle(view_xmouse(0),view_ymouse(0), bgX+6,bgY+13+(i*13),bgX+56,bgY+21+(i*13)))
             {
-                if(weaponEquipped != inventory[| i+inventoryPosition] || armorEquipped != inventory[| i+inventoryPosition])    
+                if(mouse_check_button_pressed(mb_left))
                 {
-                    if(room == Combat_Room &amp;&amp; !player.playedCard)
+                    if(weaponEquipped != inventory[| i+inventoryPosition] || armorEquipped != inventory[| i+inventoryPosition])    
                     {
-                        inventory_useItem(inventory[| i+inventoryPosition]);
-                        with(obj_unitFriend)
-                            combatManager_turnCompleted(turn.friend);
-                            
+                        if(room == Combat_Room &amp;&amp; !player.playedCard)
+                        {
+                            inventory_useItem(inventory[| i+inventoryPosition]);
+                            player.itemUsed = true;   
+                        }
+                        else if(room != Combat_Room)
+                             inventory_useItem(inventory[| i+inventoryPosition]);
                     }
-                    else if(room != Combat_Room)
-                         inventory_useItem(inventory[| i+inventoryPosition]);
-                }
-            }       
-        }
-    }
-    // interaction with the lower arrow
-    if(inventoryPosition+itemsDisplayed &lt; ds_list_size(inventory))
-    {
-        if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+76,bgX+35,bgY+81))
-        {
-            if(mouse_check_button_pressed(mb_left))
-            {
-                inventoryPosition++;
-                
+                }       
             }
         }
-    }
-    
-    // interaction with the upper arrow
-    if(inventoryPosition != 0)
-    {
-        if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+3,bgX+35,bgY+9))
+        // interaction with the lower arrow
+        if(inventoryPosition+itemsDisplayed &lt; ds_list_size(inventory))
         {
-            if(mouse_check_button_pressed(mb_left))
+            if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+76,bgX+35,bgY+81))
             {
-                inventoryPosition--;
-                
+                if(mouse_check_button_pressed(mb_left))
+                {
+                    inventoryPosition++;
+                    
+                }
+            }
+        }
+        
+        // interaction with the upper arrow
+        if(inventoryPosition != 0)
+        {
+            if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+3,bgX+35,bgY+9))
+            {
+                if(mouse_check_button_pressed(mb_left))
+                {
+                    inventoryPosition--;
+                    
+                }
             }
         }
     }
 }
-
 </string>
           </argument>
         </arguments>
@@ -281,57 +286,59 @@ if(player.state == Player_Overworld_Inventory) // TODO: Change this if-statement
             <kind>1</kind>
             <string>///draw the inventory
 
-
-if(player.state == Player_Overworld_Inventory) // TODO: Change this if-statement so it works both in Combat and in the Overworld
+if(instance_exists(player))
 {
-    
-    //draw the background
-    draw_sprite(bg,0,bgX,bgY);
-    
-    //draw upper arrow
-    if(inventoryPosition != 0)
-        draw_sprite_ext(arrow,0,bgX+29,bgY+10,1,-1,0,c_white,1);
-    
-    //draw lower arrow
-    if(inventoryPosition+itemsDisplayed &lt; ds_list_size(inventory))
-        draw_sprite_ext(arrow,0,bgX+29,bgY+76,1,1,0,c_white,1);
-    
-    //draw strong numbers
-    draw_sprite(attackBase,0,bgX,bgY-14);
-        
-    //draw defense 
-    draw_sprite(defenseBase,0,bgX+42,bgY-14);
-    
-    //draw chance
-    draw_sprite(chanceBase,0,bgX+6,bgY+87);
-      
-    //draw items
-    for(i = 0; i &lt; itemsDisplayed; i++)
+    if(player.sprite_index == spr_player_bagIdle) // TODO: Change this if-statement so it works both in Combat and in the Overworld
     {
-        //if the slot does not contain an item we don't draw it.
-        if(item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == 0)
-            continue
-        else
+    
+        //draw the background
+        draw_sprite(bg,0,bgX,bgY);
+        
+        //draw upper arrow
+        if(inventoryPosition != 0)
+            draw_sprite_ext(arrow,0,bgX+29,bgY+10,1,-1,0,c_white,1);
+        
+        //draw lower arrow
+        if(inventoryPosition+itemsDisplayed &lt; ds_list_size(inventory))
+            draw_sprite_ext(arrow,0,bgX+29,bgY+76,1,1,0,c_white,1);
+        
+        //draw strong numbers
+        draw_sprite(attackBase,0,bgX,bgY-14);
+            
+        //draw defense 
+        draw_sprite(defenseBase,0,bgX+42,bgY-14);
+        
+        //draw chance
+        draw_sprite(chanceBase,0,bgX+6,bgY+87);
+          
+        //draw items
+        for(i = 0; i &lt; itemsDisplayed; i++)
         {
-            //draw item name
-            if(item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == weaponEquipped || item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == armorEquipped)
-                draw_set_color(c_yellow);
+            //if the slot does not contain an item we don't draw it.
+            if(item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == 0)
+                continue
             else
-                draw_set_color(c_white);
+            {
+                //draw item name
+                if(item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == weaponEquipped || item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == armorEquipped)
+                    draw_set_color(c_yellow);
+                else
+                    draw_set_color(c_white);
+                    
+                draw_set_valign(fa_center);
+                draw_text_transformed(bgX+7,bgY+17+(i*13),item[ds_list_find_value(inventory,i+inventoryPosition),itemData.name],0.3,0.3,0);
                 
-            draw_set_valign(fa_center);
-            draw_text_transformed(bgX+7,bgY+17+(i*13),item[ds_list_find_value(inventory,i+inventoryPosition),itemData.name],0.3,0.3,0);
-            
-            //draw amount
-            draw_set_halign(fa_right);
-            draw_text_transformed(bgX+55,bgY+17+(i*13),string("x")+string_lpad(string(inventoryCount[| i+inventoryPosition]),2,"0"),.3,.3,0);
-            
-            //reset draw
-            draw_set_color(c_black);
-            draw_set_valign(fa_top);
-            draw_set_halign(fa_left);
-        }
-    }    
+                //draw amount
+                draw_set_halign(fa_right);
+                draw_text_transformed(bgX+55,bgY+17+(i*13),string("x")+string_lpad(string(inventoryCount[| i+inventoryPosition]),2,"0"),.3,.3,0);
+                
+                //reset draw
+                draw_set_color(c_black);
+                draw_set_valign(fa_top);
+                draw_set_halign(fa_left);
+            }
+        }    
+    }
 }
 </string>
           </argument>

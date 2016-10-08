@@ -104,41 +104,6 @@ depth = -y;
         </arguments>
       </action>
     </event>
-    <event eventtype="4" ename="Overworld_unit">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Start Battle!
-
-with(other)
-{
-    for(var i = 0; i &lt; array_length_1d(foeArray); i++)
-    {
-        ds_list_add(GameManager.battleList,foeArray[i]);
-    }
-    instance_destroy();
-}
-
-GameManager.startBattle = true;
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="8" enumb="73">
       <action>
         <libid>1</libid>

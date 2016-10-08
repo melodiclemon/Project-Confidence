@@ -56,7 +56,7 @@ image_speed = 0;
             <kind>1</kind>
             <string>///make sure the PlayerManager knows that we have played a card
 
-obj_unitFriend.playedCard = true;
+obj_unitFriend.cardPlayed = true;
 </string>
           </argument>
         </arguments>
@@ -103,8 +103,7 @@ script_execute(state);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-///Draw
+            <string>///Draw the card
 
 //draw the sprite
 draw_self();

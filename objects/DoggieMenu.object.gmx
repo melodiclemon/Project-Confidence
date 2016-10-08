@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Item array
+            <string>///Trick array
 
 // create the item array and populate it
 
@@ -46,6 +46,13 @@ trick[1,trickData.trickId] = 1;
 trick[1,trickData.name] = "Bark";
 trick[1,trickData.description] = "Howl my little friend!";
 trick[1,trickData.use] = trick_bark;
+
+trick[2,trickData.trickId] = 2;
+trick[2,trickData.name] = "Roll";
+trick[2,trickData.description] = "Just rollin'.";
+trick[2,trickData.use] = trick_roll;
+
+
 
 
 </string>
@@ -75,7 +82,7 @@ inventory = ds_list_create();
 
 inventoryPosition = 0; //the position in the inventory that we currently are at.
 
-itemsDisplayed = 5; //amounts of items shown at any given time
+tricksDisplayed = 5; //amounts of items shown at any given time
 
 trickEquipped = -1; //id of the trick currently equipped
 
@@ -89,8 +96,10 @@ bgY = view_hview[view_current]/2-sprite_get_height(bg)-(sprite_get_height(bg)/5)
 
 player = obj_player; //what player object it is looking at
 
-//adding items
-inventory_addItem(3);
+//adding tricks
+doggieMenu_addTrick(1);
+doggieMenu_addTrick(2);
+
 </string>
           </argument>
         </arguments>
@@ -141,50 +150,51 @@ else
           <argument>
             <kind>1</kind>
             <string>///Inventory Interaction
-
-if(player.state == player_overworld_doggieMenuState) // TODO: Change this if-statement so it works both in Combat and in the Overworld
+if(instance_exists(player))
 {
-    //interaction with the item boxes
-    for(i = 0; i &lt; tricksDisplayed; i++)
+    if(player.state == player_overworld_doggieMenuState) // TODO: Change this if-statement so it works both in Combat and in the Overworld
     {
-        if(point_in_rectangle(view_xmouse(0),view_ymouse(0), bgX+6,bgY+13+(i*13),bgX+56,bgY+21+(i*13)))
+        //interaction with the item boxes
+        for(i = 0; i &lt; tricksDisplayed; i++)
         {
-            if(mouse_check_button_pressed(mb_left))
+            if(point_in_rectangle(view_xmouse(0),view_ymouse(0), bgX+6,bgY+13+(i*13),bgX+56,bgY+21+(i*13)))
             {
-                if(weaponEquipped != inventory[| i+inventoryPosition] || armorEquipped != inventory[| i+inventoryPosition])    
+                if(mouse_check_button_pressed(mb_left))
                 {
-                         doggieMenu_useTrick(inventory[| i+inventoryPosition]);
-                }
-            }       
-        }
-    }
-    // interaction with the lower arrow
-    if(inventoryPosition+tricksDisplayed &lt; ds_list_size(inventory))
-    {
-        if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+76,bgX+35,bgY+81))
-        {
-            if(mouse_check_button_pressed(mb_left))
-            {
-                inventoryPosition++;
-                
+                    if(trickEquipped != inventory[| i+inventoryPosition])    
+                    {
+                             doggieMenu_useTrick(inventory[| i+inventoryPosition]);
+                    }
+                }       
             }
         }
-    }
-    
-    // interaction with the upper arrow
-    if(inventoryPosition != 0)
-    {
-        if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+3,bgX+35,bgY+9))
+        // interaction with the lower arrow
+        if(inventoryPosition+tricksDisplayed &lt; ds_list_size(inventory))
         {
-            if(mouse_check_button_pressed(mb_left))
+            if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+76,bgX+35,bgY+81))
             {
-                inventoryPosition--;
-                
+                if(mouse_check_button_pressed(mb_left))
+                {
+                    inventoryPosition++;
+                    
+                }
+            }
+        }
+        
+        // interaction with the upper arrow
+        if(inventoryPosition != 0)
+        {
+            if(point_in_rectangle(view_xmouse(0),view_ymouse(0),bgX+29,bgY+3,bgX+35,bgY+9))
+            {
+                if(mouse_check_button_pressed(mb_left))
+                {
+                    inventoryPosition--;
+                    
+                }
             }
         }
     }
 }
-
 </string>
           </argument>
         </arguments>
@@ -209,44 +219,46 @@ if(player.state == player_overworld_doggieMenuState) // TODO: Change this if-sta
             <kind>1</kind>
             <string>///draw the inventory
 
-
-if(player.state == player_overworld_doggieMenuState) // TODO: Change this if-statement so it works both in Combat and in the Overworld
+if(instance_exists(player))
 {
-    
-    //draw the background
-    draw_sprite(bg,0,bgX,bgY);
-    
-    //draw upper arrow
-    if(inventoryPosition != 0)
-        draw_sprite_ext(arrow,0,bgX+29,bgY+10,1,-1,0,c_white,1);
-    
-    //draw lower arrow
-    if(inventoryPosition+itemsDisplayed &lt; ds_list_size(inventory))
-        draw_sprite_ext(arrow,0,bgX+29,bgY+76,1,1,0,c_white,1);
-      
-    //draw tricks
-    for(i = 0; i &lt; itemsDisplayed; i++)
+    if(player.state == player_overworld_doggieMenuState) // TODO: Change this if-statement so it works both in Combat and in the Overworld
     {
-        //if the slot does not contain an item we don't draw it.
-        if(item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == 0)
-            continue
-        else
+        
+        //draw the background
+        draw_sprite(bg,0,bgX,bgY);
+        
+        //draw upper arrow
+        if(inventoryPosition != 0)
+            draw_sprite_ext(arrow,0,bgX+29,bgY+10,1,-1,0,c_white,1);
+        
+        //draw lower arrow
+        if(inventoryPosition+tricksDisplayed &lt; ds_list_size(inventory))
+            draw_sprite_ext(arrow,0,bgX+29,bgY+76,1,1,0,c_white,1);
+          
+        //draw tricks
+        for(i = 0; i &lt; tricksDisplayed; i++)
         {
-            //draw trick name
-            if(item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == weaponEquipped || item[ds_list_find_value(inventory,i+inventoryPosition),itemData.itemId] == armorEquipped)
-                draw_set_color(c_yellow);
+            //if the slot does not contain an trick we don't draw it.
+            if(trick[ds_list_find_value(inventory,i+inventoryPosition),trickData.trickId] == 0)
+                continue
             else
-                draw_set_color(c_white);
+            {
+                //draw trick name
+                if(trick[ds_list_find_value(inventory,i+inventoryPosition),trickData.trickId] == trickEquipped)
+                    draw_set_color(c_yellow);
+                else
+                    draw_set_color(c_white);
+                    
+                draw_set_valign(fa_center);
+                draw_text_transformed(bgX+7,bgY+17+(i*13),trick[ds_list_find_value(inventory,i+inventoryPosition),trickData.name],0.3,0.3,0);
                 
-            draw_set_valign(fa_center);
-            draw_text_transformed(bgX+7,bgY+17+(i*13),item[ds_list_find_value(inventory,i+inventoryPosition),itemData.name],0.3,0.3,0);
-            
-            //reset draw
-            draw_set_color(c_black);
-            draw_set_valign(fa_top);
-            draw_set_halign(fa_left);
-        }
-    }    
+                //reset draw
+                draw_set_color(c_black);
+                draw_set_valign(fa_top);
+                draw_set_halign(fa_left);
+            }
+        }    
+    }
 }
 </string>
           </argument>

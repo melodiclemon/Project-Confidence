@@ -51,7 +51,7 @@
             <kind>1</kind>
             <string>///End the turn
 
-if(position_meeting(mouse_x,mouse_y,id) &amp;&amp; mouse_check_button_pressed(mb_left) &amp;&amp; obj_combatManager.attackTarget != noone)
+if(position_meeting(mouse_x,mouse_y,id) &amp;&amp; mouse_check_button_pressed(mb_left) &amp;&amp; obj_combatManager.attackTarget != noone &amp;&amp; obj_combatManager.currentTurn == turn.friend)
 {
     obj_combatManager.currentTurn = turn.action;
 }

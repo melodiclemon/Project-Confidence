@@ -4,7 +4,7 @@ var col;
 
 if(animation_end() && sprite_index != spr_player_idle)
 {
-    animation_play(spr_player_idle,0,0.05);
+    animation_play(spr_player_idle,0,PLAYER_ANIMATION_IDLE_SPEED);
 }
 
 // left mouse button interactions
@@ -22,11 +22,13 @@ if(mouse_check_button_pressed(mb_left))
    
     
 }
-else if(mouse_check_button(mb_left) && distance_to_point(mouse_x,mouse_y) > astar_get_cell_size())
+else if(mouse_check_button(mb_left) && distance_to_point(mouse_x,mouse_y) > astar_get_cell_size() && !collision_line(x,y,x+lengthdir_x(astar_get_cell_size()*2,point_direction(x,y,mouse_x,mouse_y)),y+lengthdir_y(astar_get_cell_size(),point_direction(x,y,mouse_x,mouse_y)),Block,1,1))
 {   
-    astar_path(mouse_x,mouse_y,1);
-    animation_play(spr_player_walk,0,0.2);
-    state = Player_Overworld_Move; 
+
+        astar_path_player(mouse_x,mouse_y,1);
+        animation_play(spr_player_walk,0,PLAYER_ANIMATION_WALK_SPEED);
+        state = Player_Overworld_Move; 
+
 }
 
 if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
@@ -39,7 +41,7 @@ if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
         col = collision_rectangle(mouse_x,mouse_y,mouse_x-(x-mouse_x),mouse_y-(mouse_y-y),object_index,false,false)
         if(col != noone)
         {
-            animation_play(spr_player_openBag,0,0.1);
+            animation_play(spr_player_openBag,0,PLAYER_ANIMATION_OPENBAG_SPEED);
             state = Player_Overworld_Inventory;
         }
         col = noone;
@@ -52,7 +54,7 @@ if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
         {
             targetX = -1;
             targetY = -1;
-            animation_play(spr_player_walk,0,0.2);
+            animation_play(spr_player_walk,0,PLAYER_ANIMATION_WALK_SPEED);
             state = player_overworld_moveToDoggieState;
         }
         col = noone; 

@@ -25,4 +25,3 @@ for(var j = 0; j < ds_list_size(list); j++)
     foeArray[j].uiY = foeArray[j].y;
 }
 
-
