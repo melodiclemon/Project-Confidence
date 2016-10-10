@@ -31,6 +31,8 @@ else if(mouse_check_button(mb_left) && distance_to_point(mouse_x,mouse_y) > asta
 
 }
 
+// right mouse button interactions
+
 if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
 {
     col = noone;
@@ -62,6 +64,7 @@ if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
     //do our secondary action
     else if(PlayerManager.ability != noone)
     {
+        show_message(script_get_name(PlayerManager.ability));
         state = PlayerManager.ability; 
     }
     

@@ -15,9 +15,14 @@ with(Inventory)
         {
             equipment_reset(item[iId,itemData.type]);
             if(item[iId,itemData.type] == armorEquipped)
+            {
                 armorEquipped = -1;
+            }
             else
-                weaponEquipped = 4;
+            {
+                inventory_useItem(4);
+                //weaponEquipped = 4;
+            }
                
         }
             

@@ -234,6 +234,7 @@
         <script>scripts\card_dragOnFriend.gml</script>
         <script>scripts\card_dragOnFoe.gml</script>
       </scripts>
+      <script>scripts\card_setValue_backup.gml</script>
       <script>scripts\card_setValue.gml</script>
       <script>scripts\card_immuneToCardType.gml</script>
     </scripts>
