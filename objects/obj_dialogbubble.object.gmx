@@ -116,12 +116,29 @@ loadComplete = false; // if all values above have been set at least once
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Destroy instance
-if (typewriter == 2) 
+            <string>/// Destroy instance or continue writing
+if (!newDialog)
 {
-    ds_list_destroy(splitDialog);
+    if (typewriter == 2) 
+    {
+        ds_list_destroy(splitDialog);
+    }
+    instance_destroy();
+    exit;
 }
-instance_destroy();
+else
+{
+    previousCharactersDrawn = "";
+    charactersToDraw = false;
+    endOfDialog = false;
+    write = true;
+    
+    if (typewriter == 2)
+    {
+        ds_list_clear(splitDialog);
+        splitDialogsToDraw = 0;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -176,9 +193,21 @@ if (startOfDialog == true &amp;&amp; write == true)
     newDialog = false;
     
     dialog = global.dialog[? dialogID];
-    
-    nextDialogID = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 1));
-    dialog = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 0));
+    if (!is_undefined(dialog))
+    {
+        nextDialogID = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 1));
+        dialog = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 0));
+    }
+    else
+    {
+        // Fail-safe if something goes wrong
+        if (typewriter == 2) 
+        {
+            ds_list_destroy(splitDialog);
+        }
+        instance_destroy();
+        exit;
+    }
     
     // format string after need    
     if (string_pos("/s", dialog) != 0 || string_pos("/c", dialog) != 0)
@@ -198,6 +227,10 @@ if (startOfDialog == true &amp;&amp; write == true)
     if (string_pos("/a", dialog) != 0)
     {
         endOfDialog = true;
+        if (nextDialogID != dialog)
+        {
+            newDialog = true;
+        }
         if (string_pos("/as", dialog) != 0)
         {
             closeDelay = room_speed;
@@ -229,18 +262,21 @@ if (startOfDialog == true &amp;&amp; write == true)
     fontSize = font_get_size(font) * useFontScale;
     draw_set_font(font);
     dialogLength = string_length(dialog);
+    
     dialogWidth = string_width_ext
     (
         dialog,
         fontSize + fontSize + (fontSize / 2),
         bubbleMaxLength
     ) * useFontScale;
+    
     dialogHeight = string_height_ext
     (
         dialog,
         fontSize + fontSize + (fontSize / 2),
         bubbleMaxLength
     ) * useFontScale;
+    
     bubbleWidth = dialogWidth + fontSize * 2;
     bubbleHeight = dialogHeight + fontSize;
     
@@ -1382,6 +1418,7 @@ else if (endOfDialog &amp;&amp; !write &amp;&amp; closeable)
         ds_list_destroy(splitDialog);
     }
     instance_destroy();
+    exit;
 }
 </string>
           </argument>
