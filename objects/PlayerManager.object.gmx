@@ -38,8 +38,8 @@ cardChanceArray[3] = 1/20; //Multi Card
 
 //Card value variables
 
-strongNumbers[2] = -1;
-strongChances[2] = -1;
+//strongNumbers[2] = -1;
+//strongChances[2] = -1;
 
 defense = 0;
 attack = 0;
