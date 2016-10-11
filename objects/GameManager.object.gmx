@@ -454,7 +454,7 @@ if(room != Combat_Room &amp;&amp; room != rm_main_menu)
             <kind>1</kind>
             <string>///DEBUG
 
-var str = script_get_name(state);
+//var str = script_get_name(state);
 //draw_text_transformed(70,display_get_gui_height(),display_write_spec(display.gui));
 </string>
           </argument>
