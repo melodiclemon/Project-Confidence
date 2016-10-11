@@ -984,7 +984,7 @@ if (loadComplete &amp;&amp; type == 1)
     (
         xCord + fontSize,
         yCord + (fontSize / 1.5) + yViewOffset, 
-        charactersToDraw + " ", 
+        charactersToDraw, 
         fontSize + fontSize + (fontSize / 2),
         bubbleMaxLength,
         useFontScale,
