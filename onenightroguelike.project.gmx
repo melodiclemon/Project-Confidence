@@ -307,6 +307,7 @@
       <script>scripts\draw_dialogbubble_default.gml</script>
       <script>scripts\draw_dialogbubble_default_actor.gml</script>
       <script>scripts\draw_dialogbubble_color.gml</script>
+      <script>scripts\closest_whole_multiply.gml</script>
     </scripts>
     <scripts name="Astar Scripts">
       <script>scripts\astar_path.gml</script>
