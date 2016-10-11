@@ -302,15 +302,32 @@ if(instance_exists(player))
         if(inventoryPosition+itemsDisplayed &lt; ds_list_size(inventory))
             draw_sprite_ext(arrow,0,bgX+29,bgY+76,1,1,0,c_white,1);
         
+        //setup draw for text;
+        draw_set_valign(fa_center);
+        draw_set_halign(fa_left);
+        draw_set_color(c_white);   
+            
         //draw strong numbers
-        draw_sprite(attackBase,0,bgX,bgY-14);
+        draw_sprite(attackBase,0,bgX,bgY-15);
+        for(var j = 0; j &lt; array_length_1d(PlayerManager.strongNumbers); j++)
+        {       
+            draw_text_transformed(bgX+10+(j*8),bgY-8,string_lpad(string(PlayerManager.strongNumbers[j]),2,"0"),0.3,0.3,0);
+        }        
+        draw_text_transformed(bgX+42,bgY-8,string_lpad(string(PlayerManager.cardMinValue),2,"0") + string(" . ") + string_lpad(string(PlayerManager.cardMaxValue),2,"0"),0.3,0.3,0);
             
         //draw defense 
-        draw_sprite(defenseBase,0,bgX+42,bgY-14);
+        draw_sprite(defenseBase,0,bgX+43,bgY+88);
+        draw_text_transformed(bgX+50,bgY+96,string_lpad(string(PlayerManager.defense),2,"0"),0.3,0.3,0);
         
         //draw chance
-        draw_sprite(chanceBase,0,bgX+6,bgY+87);
+        draw_sprite(chanceBase,0,bgX,bgY+88);
           
+        
+        //reset draw
+        draw_set_color(c_black);
+        draw_set_valign(fa_top);
+        draw_set_halign(fa_left);
+        
         //draw items
         for(i = 0; i &lt; itemsDisplayed; i++)
         {
