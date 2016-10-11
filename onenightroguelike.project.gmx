@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="4" name="datafiles">
+  <datafiles number="6" name="datafiles">
     <datafile>
       <name>GreenFlame.ttf</name>
       <exists>-1</exists>
@@ -55,7 +55,7 @@
       </ConfigOptions>
       <filename>Pixeled.ttf</filename>
     </datafile>
-    <datafiles number="4" name="dialogEngine">
+    <datafiles number="6" name="dialogEngine">
       <datafile>
         <name>dialog.txt</name>
         <exists>-1</exists>
@@ -72,6 +72,42 @@
           </Config>
         </ConfigOptions>
         <filename>dialog.txt</filename>
+      </datafile>
+    </datafiles>
+    <datafiles number="6" name="Fonts">
+      <datafile>
+        <name>8bitOperatorPlusSC-Bold.ttf</name>
+        <exists>-1</exists>
+        <size>19516</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>8bitOperatorPlusSC-Bold.ttf</filename>
+      </datafile>
+      <datafile>
+        <name>8bitOperatorPlusSC-Regular.ttf</name>
+        <exists>-1</exists>
+        <size>21772</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>8bitOperatorPlusSC-Regular.ttf</filename>
       </datafile>
     </datafiles>
   </datafiles>
@@ -139,6 +175,8 @@
       <sprites name="Wailer">
         <sprite>sprites\spr_wailer_idle</sprite>
         <sprite>sprites\spr_wailer_attack</sprite>
+        <sprite>sprites\spr_wailer_death</sprite>
+        <sprite>sprites\spr_wailer_reanimate</sprite>
       </sprites>
       <sprites name="Wallower">
         <sprite>sprites\spr_wallower_idle</sprite>
@@ -356,8 +394,9 @@
       <scripts name="Foe Unit Scripts">
         <script>scripts\unit_enemyAttackState.gml</script>
         <script>scripts\unit_enemyIdleState.gml</script>
-        <script>scripts\unit_reanimate.gml</script>
+        <script>scripts\unit_enemyReanimateState.gml</script>
         <script>scripts\unit_grow.gml</script>
+        <script>scripts\unit_enemyDeathState.gml</script>
       </scripts>
       <script>scripts\unit_set_initialAttDef.gml</script>
       <script>scripts\unit_destroy.gml</script>

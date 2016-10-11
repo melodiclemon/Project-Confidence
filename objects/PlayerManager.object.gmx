@@ -27,28 +27,27 @@
             <kind>1</kind>
             <string>/// Initialise
 
+//player object variables
+player = noone;
 playerState = 3;
 
-player = noone;
-
-
 //Card chance variables
+cardChanceArray[cardType.normalCard] = 35; // Normal Card
+cardChanceArray[cardType.negativeCard] = 25; // Negative Card
+cardChanceArray[cardType.powerCard] = 20; //Power Card
+cardChanceArray[cardType.reverseCard] = 10; // Reverse Card
+cardChanceArray[cardType.sigmaCard] = 10; //Sigma Card
 
-cardChanceArray[0] = 20; // Negative Card
-cardChanceArray[1] = 20; //Power Card
-cardChanceArray[2] = 20; // Reverse Card
-cardChanceArray[3] = 20; //Sigma Card
 
 //Card value variables
-
 strongNumbers[2] = -1;
 strongChances[2] = -1;
 
 cardMinValue = 0;
 vardMaxValue = 0;
 
-
-defense = 0;
+//combat-player stats
+defense = 8;
 attack = 0;
 
 //right click ability

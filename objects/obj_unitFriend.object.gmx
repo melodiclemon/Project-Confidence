@@ -29,7 +29,7 @@
 event_inherited();
 
 state = unit_friendIdleState;
-defense = 10;
+defense = PlayerManager.defense;
 attack = 0;
 unit_set_initialAttDef();
 
