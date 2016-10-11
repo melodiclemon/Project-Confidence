@@ -15,7 +15,14 @@
     sep = argument1;
     ind = argument2;
     len = string_length(sep)-1;
-    repeat (ind) str = string_delete(str,1,string_pos(sep,str)+len);
-    str = string_delete(str,string_pos(sep,str),string_length(str));
-    return str;
+    if (string_pos(sep,str) != 0)
+    {
+        repeat (ind) str = string_delete(str,1,string_pos(sep,str)+len);
+        str = string_delete(str,string_pos(sep,str),string_length(str));
+        return str;
+    }
+    else
+    {
+        return str;
+    }
 }

@@ -8,3 +8,7 @@ TEST7:::Well now.../e
 CLOSE1:::This dialog should close right away when it's finished drawing!/a
 CLOSE2:::This dialog should have a slight delay before closing automagically!/as
 CLOSE3:::This dialog should have a slightly longer delay before closing automagically/af
+ACLOSE1:::This set of dialogs should close automatically./af>>>ACLOSE2
+ACLOSE2:::And then it should open another dialog./as>>>ACLOSE3
+ACLOSE3:::AND ANOTHER ONE./a>>>ACLOSE4
+ACLOSE4:::AND ANOTHER ONE./a
