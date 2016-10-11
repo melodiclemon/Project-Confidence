@@ -43,7 +43,7 @@ enum cardType
     negativeCard,
     powerCard,
     reverseCard,
-    multiCard
+    sigmaCard
 }
 
 enum itemData

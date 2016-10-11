@@ -233,9 +233,11 @@
       <scripts name="Card Effect Scripts">
         <script>scripts\card_dragOnFriend.gml</script>
         <script>scripts\card_dragOnFoe.gml</script>
+        <script>scripts\card_sigmaEffect.gml</script>
       </scripts>
       <script>scripts\card_setValue_backup.gml</script>
       <script>scripts\card_setValue.gml</script>
+      <script>scripts\card_setType.gml</script>
       <script>scripts\card_immuneToCardType.gml</script>
     </scripts>
     <scripts name="Help Scripts">
@@ -397,7 +399,7 @@
         <object>objects\Card_Reverse</object>
         <object>objects\Card_Normal</object>
         <object>objects\Card_Negative</object>
-        <object>objects\Card_Multi</object>
+        <object>objects\Card_Sigma</object>
       </objects>
       <objects name="Units">
         <object>objects\obj_unitFriend</object>

@@ -33,7 +33,7 @@ reanimate = 0;
 growAttack = 0;
 growDefense = 0;
 
-for(var i = 0; i &lt; cardType.multiCard+1; i++)
+for(var i = 0; i &lt; cardType.sigmaCard+1; i++)
 {
     immuneToCardType[i] = 0;
 }

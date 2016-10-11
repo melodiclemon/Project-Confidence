@@ -1,3 +1,7 @@
+//Setting minimum and maximum values.
+cardMinValue = 1;
+cardMaxValue = 3;
+
 
 //Setting the strong numbers.
 a[0] = 3;
@@ -10,9 +14,9 @@ for(var i = 0; i < 3; i++)
 }
 
 //Setting chance for the strong numbers
-a[0] = .15;
-a[1] = 0.2 + a[0];
-a[2] = .4 + a[1];
+a[0] = 15;
+a[1] = 20;
+a[2] = 40; 
 
 for(var i = 0; i < 3; i++)
 {

@@ -29,17 +29,24 @@
 
 playerState = 3;
 
+player = noone;
+
+
 //Card chance variables
 
-cardChanceArray[0] = 1/5; // Negative Card
-cardChanceArray[1] = 1/20; //Power Card
-cardChanceArray[2] = 1/20; // Reverse Card
-cardChanceArray[3] = 1/20; //Multi Card
+cardChanceArray[0] = 20; // Negative Card
+cardChanceArray[1] = 20; //Power Card
+cardChanceArray[2] = 20; // Reverse Card
+cardChanceArray[3] = 20; //Sigma Card
 
 //Card value variables
 
-//strongNumbers[2] = -1;
-//strongChances[2] = -1;
+strongNumbers[2] = -1;
+strongChances[2] = -1;
+
+cardMinValue = 0;
+vardMaxValue = 0;
+
 
 defense = 0;
 attack = 0;
@@ -74,6 +81,34 @@ doggieTrick = noone;
             <kind>1</kind>
             <string>playerState = state_check(obj_player,playerState);
 playerState = state_check(obj_unitFriend,playerState);
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Determine which object that the player currently is.
+
+if(room == Combat_Room)
+    player = obj_player;
+else
+    player = obj_unitFriend;
 
 </string>
           </argument>
