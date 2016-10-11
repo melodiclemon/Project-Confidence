@@ -66,10 +66,30 @@ view_hview = DisplayManager.ideal_height/view_zoom;
 
 if(instance_exists(target))
 {
-//center on the player
-view_xview=target.x-view_xview/2-10;
-view_yview=target.y-view_yview/2-10;
+ 
+    //finding distance to middle point between character and mouse cursor
+    var len=ceil(point_distance(target.x,target.y,mouse_x,mouse_y)/3)
+    //finding direction from character to mouse cursor
+    var dir=point_direction(target.x,target.y,mouse_x,mouse_y)
+    //some simple math to find out position of middle point between character and mouse
+    var xx=target.x+lengthdir_x(len,dir)
+    var yy=target.y+lengthdir_y(len,dir)
+    //making sure view is not following character or anything else
+    //view_object[0]=noone
+    //moving view to the position, so middle point would be in the middle of the screen
+    view_xview=xx-ceil(view_wview/2)
+    view_yview=yy-ceil(view_hview/2)    
+    
+    
+    
+    
+        /*
+        //center on the mouse
+        view_xview = smooth_approach(view_xview,target.x-view_xview/2-10,0.2);
+        view_yview = smooth_approach(view_yview,target.y-view_yview/2-10,0.2);
+        */
 }
+
 //clamp to room
 view_xview=clamp(view_xview,0,room_width-view_wview);
 view_yview=clamp(view_yview,0,room_height-view_hview);

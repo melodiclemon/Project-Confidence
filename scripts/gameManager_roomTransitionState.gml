@@ -8,7 +8,14 @@ if(transitionReady)
     stateChangerId = noone;
     state = gameManager_idleState;
 }
-else if(!instance_exists(TransitionManager) && stateChangerId != noone)
+else if(!instance_exists(TransitionManager) && stateChangerId != noone && alarm[0] == -1)
 {
-    transition_create(stateChangerId.transition,stateChangerId);           
+    alarm[0] = transitionDelay;  
+    previousRoom = room;
+    //freeze the player
+    if(instance_exists(obj_player))
+        obj_player.state = player_overworld_freezeState;
+          
 }
+
+

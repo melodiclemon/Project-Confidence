@@ -26,15 +26,20 @@
           <argument>
             <kind>1</kind>
             <string>/// Initialise
+
 playerState = 3;
+
+//Card chance variables
 
 cardChanceArray[0] = 1/5; // Negative Card
 cardChanceArray[1] = 1/20; //Power Card
 cardChanceArray[2] = 1/20; // Reverse Card
 cardChanceArray[3] = 1/20; //Multi Card
 
-strongNumbers[2] = -1;
-strongChances[2] = -1;
+//Card value variables
+
+//strongNumbers[2] = -1;
+//strongChances[2] = -1;
 
 defense = 0;
 attack = 0;

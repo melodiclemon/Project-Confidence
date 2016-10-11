@@ -32,6 +32,11 @@ gotoY = undefined;
 gotoRoom = undefined;
 canGoto = false;
 
+//transition variables
+transition = transitionType.pixelate;
+upScaleTime = 1;
+downScaleTime = 1;
+maxPixelSize = 5;
 </string>
           </argument>
         </arguments>

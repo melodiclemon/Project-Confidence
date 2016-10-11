@@ -116,6 +116,8 @@ transitionToX = 128;
 transitionToY = 360;
 transitionToRoom = undefined;
 transitionReady = false;
+transitionDelay = 1*room_speed;
+previousRoom = undefined;
 
 // MANAGERS
 playerManager = undefined;
@@ -130,6 +132,32 @@ scr_LoadDialogFromFile();
 
 //DEBUG OVERLAY
 show_debug_overlay(1);
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Transition Delay Alarm
+
+transition_create(stateChangerId.transition,stateChangerId); 
 </string>
           </argument>
         </arguments>
@@ -211,7 +239,7 @@ if(room == Combat_Room)
     {
         if(mouse_check_button_pressed(mb_left))
         {
-            room_goto(room0);
+            room_goto(previousRoom);
         }
     }
 }
@@ -252,6 +280,29 @@ with(Doggie)
 {
     instance_destroy();
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Clear the battle list if we are not going to the combat room
+if(transitionToRoom != Combat_Room)
+    ds_list_clear(battleList);
 </string>
           </argument>
         </arguments>
@@ -359,8 +410,22 @@ instance_create(0,0,AstarGrid);
             <string>///Spawn the player
 if(room != Combat_Room &amp;&amp; room != rm_main_menu)
 {
-    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),obj_player);
-    instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),Doggie);
+    if(!instance_exists(obj_player))
+        instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),obj_player);
+    else
+    {
+        obj_player.x = astar_get_cell_room_x(transitionToX);
+        obj_player.y = astar_get_cell_room_y(transitionToY);
+    }
+    
+    if(!instance_exists(Doggie))
+        instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),Doggie);
+    else
+    {
+        Doggie.x = astar_get_cell_room_x(transitionToX);
+        Doggie.y = astar_get_cell_room_y(transitionToY);
+    }
+    
     silhouetteManager = instance_create(0,0,SilhouetteManager);
 }
 
@@ -390,7 +455,7 @@ if(room != Combat_Room &amp;&amp; room != rm_main_menu)
             <string>///DEBUG
 
 var str = script_get_name(state);
-draw_text_transformed(70,display_get_gui_height(),"state : "+ string(str),.2,.2,0);
+//draw_text_transformed(70,display_get_gui_height(),display_write_spec(display.gui));
 </string>
           </argument>
         </arguments>

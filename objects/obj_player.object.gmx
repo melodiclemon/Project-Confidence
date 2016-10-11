@@ -150,9 +150,13 @@ if ( global.silhouetteActive ) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///DEBUG
+            <string>///draw shadow
 
+
+draw_sprite(spr_player_shadow,image_index,x,y);
 draw_self();
+
+
 
 //draw_line_width(x+sprite_xoffset,y-sprite_yoffset,x+sprite_xoffset,y,1);
 

@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>/// Initialize
 
+type = -1;
 cardValue = -1;
 state = noone;
 index = -1;
@@ -107,10 +108,11 @@ script_execute(state);
 
 //draw the sprite
 draw_self();
+draw_sprite(spr_card,type,x-view_xview,y-view_yview);
 
 //draw the value on the card
 draw_set_alpha(0.5);
-draw_text(x-4,y-8, cardValue);
+draw_text((x-view_xview)-4,(y-view_yview)-8, cardValue);
 draw_set_alpha(1);
 
 
