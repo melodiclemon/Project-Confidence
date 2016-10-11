@@ -141,6 +141,7 @@ if(obj_combatManager.currentTurn == turn.draw)
             {
                 cardArray[i] = card.id;
                 card.index = i+1;
+                card.type = cardObject;
                 break;
             }
         }

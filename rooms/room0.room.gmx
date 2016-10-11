@@ -31,7 +31,7 @@
     <yoffset>0</yoffset>
   </makerSettings>
   <backgrounds>
-    <background visible="-1" foreground="0" name="bg_grassfield" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
+    <background visible="-1" foreground="0" name="" x="0" y="0" htiled="0" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
@@ -51,8 +51,8 @@
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="Overworld_unit" x="160" y="328" name="inst_69ADB343" locked="0" code="foeArray[0] = unit_lesserFear;&#xA;foeArray[1] = unit_lesserFear;&#xA;foeArray[2] = unit_lesserFear;&#xA;foeArray[3] = unit_lesserFear;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Overworld_unit" x="134" y="438" name="inst_1094E10A" locked="0" code="foeArray[0] = unit_wailer;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Enemy_Overworld" x="192" y="184" name="inst_69ADB343" locked="0" code="enemyObject = unit_wailer;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Enemy_Overworld" x="88" y="200" name="inst_1094E10A" locked="0" code="enemyObject = unit_lesserFear;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="280" y="0" name="inst_E720F615" locked="0" code="" scaleX="1.25" scaleY="9.75" colour="4294967295" rotation="0"/>
     <instance objName="Pillar_0" x="152" y="312" name="inst_73215DDA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Tree_0" x="221" y="632" name="inst_4B6B95DB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -85,8 +85,8 @@
     <instance objName="Block" x="288" y="320" name="inst_7F2748C4" locked="0" code="" scaleX="1" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Stick" x="144" y="544" name="inst_0FD0C6C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="312" y="312" name="inst_FB9033C3" locked="0" code="" scaleX="0.25" scaleY="0.25" colour="4294967295" rotation="0"/>
-    <instance objName="Overworld_unit" x="184" y="528" name="inst_C050CFB8" locked="0" code="foeArray[0] = unit_seedOfNightmares;&#xA;foeArray[1] = unit_lesserFear;&#xA;foeArray[2] = unit_seedOfNightmares;&#xA;foeArray[3] = unit_lesserFear;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Overworld_unit" x="104" y="608" name="inst_92419F5C" locked="0" code="foeArray[0] = unit_seedOfNightmares;&#xA;foeArray[1] = unit_seedOfNightmares;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Enemy_Overworld" x="216" y="536" name="inst_C050CFB8" locked="0" code="enemyObject = unit_seedOfNightmares;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Enemy_Overworld" x="96" y="536" name="inst_92419F5C" locked="0" code="enemyObject = unit_wailer;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="RoomTransitioner" x="64" y="0" name="inst_9C82A16B" locked="0" code="gotoY = 632;&#xA;gotoRoom = room4;" scaleX="27.4285717010498" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>

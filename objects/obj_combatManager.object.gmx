@@ -69,7 +69,7 @@ if(!ds_list_empty(battleList))
 
     var player = instance_create(0,0,obj_unitFriend);
     player.x = (room_width/4);
-    player.y = 128 + player.sprite_yoffset/2;
+    player.y = 143 + player.sprite_yoffset/2;
     
     
     instance_create(32,203,obj_deck);

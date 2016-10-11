@@ -1,4 +1,9 @@
 ///card_setValue()
+
+
+
+
+
 var mN = random(1);
 var highestStrongNumber = -1;
 var nN;
@@ -37,3 +42,4 @@ while(mN < 1)
     if(nN != 0)
         return nN;
 }
+

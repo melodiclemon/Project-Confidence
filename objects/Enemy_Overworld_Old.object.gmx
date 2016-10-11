@@ -40,8 +40,12 @@ transition = transitionType.pixelate;
 upScaleTime = 1;
 downScaleTime = 0.1;
 maxPixelSize = 10;
-
 destroyOnRoomEnd = false;
+
+//pathfinding
+path = path_add();
+targetX = -1;
+targetY = -1;
 </string>
           </argument>
         </arguments>
