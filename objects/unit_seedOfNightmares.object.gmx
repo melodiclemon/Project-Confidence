@@ -37,6 +37,7 @@ growAttack = 1;
 //animations
 ds_map_add(animations,"idle",spr_seedOfNightmares_idle);
 ds_map_add(animations,"attack",spr_seedOfNightmares_attack);
+ds_map_add(animations,"death",spr_seedOfNightmares_idle);
 </string>
           </argument>
         </arguments>
