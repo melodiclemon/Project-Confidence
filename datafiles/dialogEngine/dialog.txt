@@ -12,3 +12,4 @@ ACLOSE1:::This set of dialogs should close automatically./af>>>ACLOSE2
 ACLOSE2:::And then it should open another dialog./as>>>ACLOSE3
 ACLOSE3:::AND ANOTHER ONE./a>>>ACLOSE4
 ACLOSE4:::AND ANOTHER ONE./a
+SIMPLEINPUT:::Are you lost, little one?/i
