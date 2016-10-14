@@ -122,9 +122,6 @@
       <sprite>sprites\spr_card</sprite>
     </sprites>
     <sprite>sprites\spr_monsterPlaceholder</sprite>
-    <sprite>sprites\spr_roomTransitioner</sprite>
-    <sprite>sprites\spr_block</sprite>
-    <sprite>sprites\spr_positionStopper</sprite>
     <sprites name="Overworld">
       <sprites name="Player">
         <sprite>sprites\spr_player_openBag</sprite>
@@ -138,6 +135,9 @@
       </sprites>
       <sprite>sprites\spr_pillar_01</sprite>
       <sprite>sprites\spr_tree_01</sprite>
+      <sprite>sprites\spr_bush</sprite>
+      <sprite>sprites\spr_bush_shadow</sprite>
+      <sprite>sprites\spr_tree_shadow</sprite>
     </sprites>
     <sprites name="Doggie">
       <sprite>sprites\spr_doggie_idle</sprite>
@@ -192,6 +192,11 @@
       <sprite>sprites\spr_mainMenu_doggie</sprite>
     </sprites>
     <sprite>sprites\spr_collider_overworld</sprite>
+    <sprites name="Boundary Sprites">
+      <sprite>sprites\spr_block</sprite>
+      <sprite>sprites\spr_roomTransitioner</sprite>
+      <sprite>sprites\spr_block_small</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>
@@ -449,6 +454,7 @@
     <objects name="Overworld">
       <object>objects\Pillar_0</object>
       <object>objects\Tree_0</object>
+      <object>objects\obj_bush</object>
       <objects name="Enemies">
         <object>objects\Enemy_Overworld</object>
         <object>objects\Enemy_Overworld_Wailer</object>
@@ -487,6 +493,7 @@
     <objects name="Boundary Objects">
       <object>objects\RoomTransitioner</object>
       <object>objects\Block</object>
+      <object>objects\obj_blocker_small</object>
     </objects>
     <objects name="Main Menu">
       <object>objects\MainMenu_Doggie</object>
@@ -496,6 +503,7 @@
   <rooms name="rooms">
     <room>rooms\rm_display_init</room>
     <room>rooms\rm_main_menu</room>
+    <room>rooms\room12</room>
     <room>rooms\room8</room>
     <room>rooms\rm_forest_start</room>
     <room>rooms\room4</room>

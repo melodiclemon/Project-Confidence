@@ -64,9 +64,10 @@ maxPixelSize = 0.1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///enable the application_surface again
-application_surface_draw_enable(1);
+            <string>///enable the application_surface again [DECOMMENTED]
+//application_surface_draw_enable(1);
 
+//show_message("destroyed");
 </string>
           </argument>
         </arguments>
@@ -163,10 +164,12 @@ if(transitionActive)
             pixelSize += ((1/room_speed)/timerSeconds) * maxPixelSize;
         else if( alarm[1] != -1)
         {
-            pixelSize = max(0.1,pixelSize-((1/room_speed)/timerSeconds) * maxPixelSize);
+            pixelSize = max(0.01,pixelSize-((1/room_speed)/timerSeconds) * maxPixelSize);
         }                   
     }
 }
+
+
 </string>
           </argument>
         </arguments>
@@ -214,7 +217,7 @@ show_debug_message(surface_get_width(application_surface));
           <argument>
             <kind>1</kind>
             <string>/// Draw the transition.
-application_surface_draw_enable(0);
+//application_surface_draw_enable(0);
 
 switch(transition)
 {

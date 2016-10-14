@@ -6,7 +6,7 @@
   <vsnap>8</vsnap>
   <hsnap>8</hsnap>
   <isometric>0</isometric>
-  <speed>30</speed>
+  <speed>60</speed>
   <persistent>-1</persistent>
   <colour>5855021</colour>
   <showcolour>0</showcolour>
@@ -122,17 +122,23 @@
     <instance objName="Block" x="0" y="256" name="inst_A0FB7516" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="0" y="224" name="inst_2A2147C9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="32" y="288" name="inst_F484431C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="256" y="288" name="inst_7A0D73C0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="256" y="256" name="inst_67568F02" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="288" y="256" name="inst_D849DDB3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="320" y="256" name="inst_64A3629D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="32" y="160" name="inst_7A6A6E0D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="64" y="160" name="inst_CA672D57" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="32" y="224" name="inst_C3BEC999" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="64" y="224" name="inst_1F54D93D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="96" y="160" name="inst_7B04A7C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="96" y="224" name="inst_E34E8A52" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="112" y="200" name="inst_E81A02AE" locked="0" code="" scaleX="0.5" scaleY="0.75" colour="4294967295" rotation="0"/>
+    <instance objName="Block" x="0" y="160" name="inst_5C22D810" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Block" x="320" y="0" name="inst_E9E5201C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_bush" x="160" y="136" name="inst_CEB0B83F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_bush" x="280" y="272" name="inst_444221A9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_bush" x="440" y="112" name="inst_00EF512E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_bush" x="104" y="296" name="inst_36F54A25" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_bush" x="64" y="160" name="inst_08A38578" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="120" y="208" name="inst_82C6D083" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="208" y="280" name="inst_C6E8654D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="320" y="208" name="inst_18EA3B4E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="424" y="280" name="inst_18F8480A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="480" y="208" name="inst_1C6D7B5C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="432" y="104" name="inst_A71ED184" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="440" y="104" name="inst_BA4C735C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="424" y="104" name="inst_73D5F761" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="448" y="104" name="inst_DC79AECA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="RoomTransitioner" x="0" y="192" name="inst_6BDDC51C" locked="0" code="gotoX = 464;&#xA;gotoY = 160;&#xA;gotoRoom = room12;&#xA;" scaleX="1" scaleY="4" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="forest_tileset" x="128" y="128" w="32" h="32" xo="32" yo="160" id="10001240" name="inst_1D6453D2" depth="10000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

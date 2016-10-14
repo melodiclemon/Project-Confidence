@@ -1,9 +1,24 @@
-///card_sigmaEffect()
+///card_sigmaEffect(id[optional])
+
+var i, arg;
+for (i = 0; i < 1; i += 1;)
+{
+    if argument_count > i
+    {
+        arg[i] = argument[i]
+    }
+    else
+    {
+        arg[i] = -1;
+    }
+}
+
+
 
 // returns the value of the other cards in the hand. if the total value is odd
 // it returns the positive value, otherwise it return the negative value. if the
 // value is 0 it returns 0.
-
+var foe = arg[0];
 var sum = 0;
 
 for(var i = 0; i < array_length_1d(obj_deck.cardArray); i++)
@@ -21,7 +36,15 @@ if(sum == 0)
 
 else if(sum mod 2 == 0)
 {
-    return -sum;    
+    if(foe != -1)
+    {
+    if(foe.attack - sum <0)
+        return -foe.attack;
+    else
+        return -sum;  
+    }  
+    else
+        return -sum;
 }
 else
 {

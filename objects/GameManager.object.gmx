@@ -112,8 +112,8 @@ startBattle = false;
 battleList = ds_list_create();
 
 //Transition
-transitionToX = 8;
-transitionToY = 200;
+transitionToX = 64;
+transitionToY = 160;
 transitionToRoom = undefined;
 transitionReady = false;
 transitionDelay = 1*room_speed;

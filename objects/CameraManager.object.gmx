@@ -66,27 +66,33 @@ view_hview = DisplayManager.ideal_height/view_zoom;
 */
 
 
-
-
-if(instance_exists(target))
+if(room == Combat_Room)
 {
- 
-    //finding distance to middle point between character and mouse cursor
-    var len=ceil(point_distance(target.x,target.y,mouse_x,mouse_y)/3)
-    //finding direction from character to mouse cursor
-    var dir=point_direction(target.x,target.y,mouse_x,mouse_y)
-    //some simple math to find out position of middle point between character and mouse
-    var xx=target.x+lengthdir_x(len,dir);
-    var yy=target.y+lengthdir_y(len,dir);
-    //moving view to the position, so middle point would be in the middle of the screen
-    view_xview= round(smooth_approach(view_xview,xx-ceil(view_wview/2),0.1));
-    view_yview= round(smooth_approach(view_yview,yy-ceil(view_hview/2),0.1));
-        
+    view_xview = room_width/2 - view_wview/2;
+    view_yview = room_height - view_hview;
 }
-
-//clamp to room
-view_xview=clamp(view_xview,0,room_width-view_wview);
-view_yview=clamp(view_yview,0,room_height-view_hview);
+else
+{
+    if(instance_exists(target))
+    {
+     
+        //finding distance to middle point between character and mouse cursor
+        var len=ceil(point_distance(target.x,target.y,mouse_x,mouse_y)/3)
+        //finding direction from character to mouse cursor
+        var dir=point_direction(target.x,target.y,mouse_x,mouse_y)
+        //some simple math to find out position of middle point between character and mouse
+        var xx=target.x+lengthdir_x(len,dir);
+        var yy=target.y+lengthdir_y(len,dir);
+        //moving view to the position, so middle point would be in the middle of the screen
+        view_xview= round(smooth_approach(view_xview,xx-ceil(view_wview/2),0.1));
+        view_yview= round(smooth_approach(view_yview,yy-ceil(view_hview/2),0.1));
+            
+    }
+    
+    //clamp to room
+    view_xview=clamp(view_xview,0,room_width-view_wview);
+    view_yview=clamp(view_yview,0,room_height-view_hview);
+}
 </string>
           </argument>
         </arguments>

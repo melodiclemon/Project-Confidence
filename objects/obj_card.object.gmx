@@ -107,7 +107,7 @@ script_execute(state);
             <string>///Draw the card
 
 //draw the sprite
-draw_self();
+//draw_self();
 draw_sprite(spr_card,type,x-view_xview,y-view_yview);
 
 //draw the value on the card

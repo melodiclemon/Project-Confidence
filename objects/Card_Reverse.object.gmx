@@ -55,7 +55,7 @@ image_speed = 0;
           <argument>
             <kind>1</kind>
             <string>///draw the sprite
-draw_self();
+//draw_self();
 draw_sprite(spr_card,type,x-view_xview,y-view_yview);
 
 </string>

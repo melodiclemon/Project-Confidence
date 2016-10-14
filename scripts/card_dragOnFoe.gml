@@ -46,7 +46,7 @@ else if(type == cardType.reverseCard && !card_immuneToCardType(foe,type))
 }
 else if(type == cardType.sigmaCard && !card_immuneToCardType(foe,type))
 {
-    foe.attack += card_sigmaEffect();
+    foe.attack += card_sigmaEffect(foe);
     card_removeCardFromArray(id);
     obj_deck.draw++;
     instance_destroy();

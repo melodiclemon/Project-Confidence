@@ -31,7 +31,7 @@ animation_play(spr_mainMenu_doggie,0,270);
 //transition variables
 transition = transitionType.pixelate;
 upScaleTime = 3;
-downScaleTime = 1;
+downScaleTime = 0.5;
 maxPixelSize = 10;
 </string>
           </argument>

@@ -37,7 +37,7 @@ interactionDist = 32;
 
 silhouetteColour =  c_black;
 
-movementSpeed = 2;
+movementSpeed = 1;
 
 //pathfinding
 path = path_add();
@@ -182,7 +182,7 @@ draw_self();
             <kind>1</kind>
             <string>///DEBUG COLLISION MASK
 
-//draw_rectangle(bbox_right,bbox_top,bbox_left,bbox_bottom,false);
+draw_rectangle(bbox_right,bbox_top,bbox_left,bbox_bottom,false);
 </string>
           </argument>
         </arguments>
