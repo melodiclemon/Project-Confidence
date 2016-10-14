@@ -6,7 +6,7 @@
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
-  <maskName>&lt;undefined&gt;</maskName>
+  <maskName>spr_collider_overworld</maskName>
   <events>
     <event eventtype="0" enumb="0">
       <action>
@@ -50,6 +50,8 @@ destroyOnRoomEnd = false;
 path = path_add();
 targetX = -1;
 targetY = -1;
+mask_index = spr_collider_overworld;
+
 
 //animations
 animation_play(spr_wailer_idle,0,300);

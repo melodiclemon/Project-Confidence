@@ -66,6 +66,7 @@ maxPixelSize = 0.1;
             <kind>1</kind>
             <string>///enable the application_surface again
 application_surface_draw_enable(1);
+
 </string>
           </argument>
         </arguments>
@@ -162,7 +163,7 @@ if(transitionActive)
             pixelSize += ((1/room_speed)/timerSeconds) * maxPixelSize;
         else if( alarm[1] != -1)
         {
-          pixelSize = max(0.1,pixelSize-((1/room_speed)/timerSeconds) * maxPixelSize);
+            pixelSize = max(0.1,pixelSize-((1/room_speed)/timerSeconds) * maxPixelSize);
         }                   
     }
 }
