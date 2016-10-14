@@ -37,6 +37,7 @@ growAttack = 1;
 //animations
 ds_map_add(animations,"idle",spr_wallower_idle);
 ds_map_add(animations,"attack",spr_wallower_attack);
+ds_map_add(animations,"death",spr_wallower_idle);
 </string>
           </argument>
         </arguments>

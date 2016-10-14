@@ -54,6 +54,7 @@ if(display_get_height() mod ideal_height != 0)
 //check for odd numbers
 if(ideal_width &amp; 1)
     ideal_width++;
+    
 if(ideal_height &amp; 1)
     ideal_height++;
 

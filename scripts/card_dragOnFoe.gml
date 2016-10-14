@@ -44,9 +44,9 @@ else if(type == cardType.reverseCard && !card_immuneToCardType(foe,type))
     instance_destroy();
     exit;
 }
-else if(type == cardType.multiCard && !card_immuneToCardType(foe,type))
+else if(type == cardType.sigmaCard && !card_immuneToCardType(foe,type))
 {
-    foe.defense *= cardValue;
+    foe.attack += card_sigmaEffect(foe);
     card_removeCardFromArray(id);
     obj_deck.draw++;
     instance_destroy();

@@ -86,7 +86,7 @@
     <instance objName="Block" x="64" y="0" name="inst_25EEED28" locked="0" code="" scaleX="6.75" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="312" y="312" name="inst_FB9033C3" locked="0" code="" scaleX="0.25" scaleY="0.25" colour="4294967295" rotation="0"/>
     <instance objName="Enemy_Overworld" x="216" y="408" name="inst_92419F5C" locked="0" code="foeArray[0] = unit_seedOfNightmares;&#xA;foeArray[1] = unit_seedOfNightmares;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="RoomTransitioner" x="64" y="632" name="inst_647D1B4E" locked="0" code="gotoY = 16;&#xA;gotoRoom = room0;&#xA;" scaleX="27" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="RoomTransitioner" x="64" y="632" name="inst_647D1B4E" locked="0" code="gotoY = 16;&#xA;gotoRoom = room0;" scaleX="27" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
