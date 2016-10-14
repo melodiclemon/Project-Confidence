@@ -25,7 +25,7 @@ if(mouse_check_button_pressed(mb_left))
 else if(mouse_check_button(mb_left) && distance_to_point(mouse_x,mouse_y) > astar_get_cell_size() && !collision_line(x,y,x+lengthdir_x(astar_get_cell_size()*2,point_direction(x,y,mouse_x,mouse_y)),y+lengthdir_y(astar_get_cell_size(),point_direction(x,y,mouse_x,mouse_y)),Block,1,1))
 {   
 
-        astar_path_player(mouse_x,mouse_y,1);
+        astar_path_player(mouse_x,mouse_y,1,movementSpeed,0);
         animation_play(spr_player_walk,0,PLAYER_ANIMATION_WALK_SPEED);
         state = Player_Overworld_Move; 
 

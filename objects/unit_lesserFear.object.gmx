@@ -35,6 +35,7 @@ reanimate = 0;
 //animations
 ds_map_add(animations,"idle",spr_lesserFear_idle);
 ds_map_add(animations,"attack",spr_lesserFear_attack);
+ds_map_add(animations,"death",spr_lesserFear_idle);
 </string>
           </argument>
         </arguments>

@@ -3,7 +3,7 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="4" name="datafiles">
+  <datafiles number="6" name="datafiles">
     <datafile>
       <name>GreenFlame.ttf</name>
       <exists>-1</exists>
@@ -55,7 +55,7 @@
       </ConfigOptions>
       <filename>Pixeled.ttf</filename>
     </datafile>
-    <datafiles number="4" name="dialogEngine">
+    <datafiles number="6" name="dialogEngine">
       <datafile>
         <name>dialog.txt</name>
         <exists>-1</exists>
@@ -72,6 +72,25 @@
           </Config>
         </ConfigOptions>
         <filename>dialog.txt</filename>
+      </datafile>
+    </datafiles>
+    <datafiles number="6" name="Fonts">
+      <datafile>
+        <name>8bitOperatorPlusSC-Bold.ttf</name>
+        <exists>-1</exists>
+        <size>19516</size>
+        <exportAction>2</exportAction>
+        <exportDir></exportDir>
+        <overwrite>0</overwrite>
+        <freeData>-1</freeData>
+        <removeEnd>0</removeEnd>
+        <store>0</store>
+        <ConfigOptions>
+          <Config name="Default">
+            <CopyToMask>9223372036854775807</CopyToMask>
+          </Config>
+        </ConfigOptions>
+        <filename>8bitOperatorPlusSC-Bold.ttf</filename>
       </datafile>
     </datafiles>
   </datafiles>
@@ -103,9 +122,6 @@
       <sprite>sprites\spr_card</sprite>
     </sprites>
     <sprite>sprites\spr_monsterPlaceholder</sprite>
-    <sprite>sprites\spr_roomTransitioner</sprite>
-    <sprite>sprites\spr_block</sprite>
-    <sprite>sprites\spr_positionStopper</sprite>
     <sprites name="Overworld">
       <sprites name="Player">
         <sprite>sprites\spr_player_openBag</sprite>
@@ -119,6 +135,9 @@
       </sprites>
       <sprite>sprites\spr_pillar_01</sprite>
       <sprite>sprites\spr_tree_01</sprite>
+      <sprite>sprites\spr_bush</sprite>
+      <sprite>sprites\spr_bush_shadow</sprite>
+      <sprite>sprites\spr_tree_shadow</sprite>
     </sprites>
     <sprites name="Doggie">
       <sprite>sprites\spr_doggie_idle</sprite>
@@ -139,6 +158,8 @@
       <sprites name="Wailer">
         <sprite>sprites\spr_wailer_idle</sprite>
         <sprite>sprites\spr_wailer_attack</sprite>
+        <sprite>sprites\spr_wailer_death</sprite>
+        <sprite>sprites\spr_wailer_reanimate</sprite>
       </sprites>
       <sprites name="Wallower">
         <sprite>sprites\spr_wallower_idle</sprite>
@@ -170,6 +191,12 @@
       <sprite>sprites\spr_mainMenu_player</sprite>
       <sprite>sprites\spr_mainMenu_doggie</sprite>
     </sprites>
+    <sprite>sprites\spr_collider_overworld</sprite>
+    <sprites name="Boundary Sprites">
+      <sprite>sprites\spr_block</sprite>
+      <sprite>sprites\spr_roomTransitioner</sprite>
+      <sprite>sprites\spr_block_small</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>
@@ -182,6 +209,15 @@
     <backgrounds name="Forest">
       <background>background\tree_tileset</background>
       <background>background\forest_background</background>
+    </backgrounds>
+    <backgrounds name="test">
+      <background>background\forest_frame_topBottom</background>
+      <background>background\forest_frame_sides</background>
+      <background>background\forest_patch</background>
+      <background>background\forest_clutter</background>
+      <background>background\forest_tileset</background>
+      <background>background\forest_clutter_tileset</background>
+      <background>background\bg_test</background>
     </backgrounds>
   </backgrounds>
   <paths name="paths"/>
@@ -233,9 +269,11 @@
       <scripts name="Card Effect Scripts">
         <script>scripts\card_dragOnFriend.gml</script>
         <script>scripts\card_dragOnFoe.gml</script>
+        <script>scripts\card_sigmaEffect.gml</script>
       </scripts>
       <script>scripts\card_setValue_backup.gml</script>
       <script>scripts\card_setValue.gml</script>
+      <script>scripts\card_setType.gml</script>
       <script>scripts\card_immuneToCardType.gml</script>
     </scripts>
     <scripts name="Help Scripts">
@@ -356,8 +394,9 @@
       <scripts name="Foe Unit Scripts">
         <script>scripts\unit_enemyAttackState.gml</script>
         <script>scripts\unit_enemyIdleState.gml</script>
-        <script>scripts\unit_reanimate.gml</script>
+        <script>scripts\unit_enemyReanimateState.gml</script>
         <script>scripts\unit_grow.gml</script>
+        <script>scripts\unit_enemyDeathState.gml</script>
       </scripts>
       <script>scripts\unit_set_initialAttDef.gml</script>
       <script>scripts\unit_destroy.gml</script>
@@ -399,7 +438,7 @@
         <object>objects\Card_Reverse</object>
         <object>objects\Card_Normal</object>
         <object>objects\Card_Negative</object>
-        <object>objects\Card_Multi</object>
+        <object>objects\Card_Sigma</object>
       </objects>
       <objects name="Units">
         <object>objects\obj_unitFriend</object>
@@ -417,6 +456,7 @@
     <objects name="Overworld">
       <object>objects\Pillar_0</object>
       <object>objects\Tree_0</object>
+      <object>objects\obj_bush</object>
       <objects name="Enemies">
         <object>objects\Enemy_Overworld</object>
         <object>objects\Enemy_Overworld_Wailer</object>
@@ -455,6 +495,7 @@
     <objects name="Boundary Objects">
       <object>objects\RoomTransitioner</object>
       <object>objects\Block</object>
+      <object>objects\obj_blocker_small</object>
     </objects>
     <objects name="Main Menu">
       <object>objects\MainMenu_Doggie</object>
@@ -464,8 +505,9 @@
   <rooms name="rooms">
     <room>rooms\rm_display_init</room>
     <room>rooms\rm_main_menu</room>
+    <room>rooms\room12</room>
+    <room>rooms\room8</room>
     <room>rooms\rm_forest_start</room>
-    <room>rooms\room0</room>
     <room>rooms\room4</room>
     <room>rooms\Combat_Room</room>
     <room>rooms\backup</room>
@@ -477,7 +519,7 @@
     <rtf>help.rtf</rtf>
   </help>
   <TutorialState>
-    <IsTutorial>0</IsTutorial>
+    <IsTutorial>-1</IsTutorial>
     <TutorialName></TutorialName>
     <TutorialPage>0</TutorialPage>
   </TutorialState>

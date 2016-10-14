@@ -42,7 +42,7 @@ cardObjects[0] = Card_Normal;
 cardObjects[1] = Card_Negative;
 cardObjects[2] = Card_Power;
 cardObjects[3] = Card_Reverse;
-cardObjects[4] = Card_Multi;
+cardObjects[4] = Card_Sigma;
 </string>
           </argument>
         </arguments>
@@ -119,6 +119,8 @@ if(obj_combatManager.currentTurn == turn.draw)
 {
     if(cardTriggerDraw &gt; 0 &amp;&amp; alarm[0] == -1)
     {
+         cardObject = card_setType();
+        /*
         for(var j = 0; j &lt; array_length_1d(PlayerManager.cardChanceArray); j++)
         {
             if(random(1) &lt;= PlayerManager.cardChanceArray[j])
@@ -130,9 +132,12 @@ if(obj_combatManager.currentTurn == turn.draw)
                 cardObject = 0;
                 
         }
-        
+        */
         var card = instance_create(x,y,cardObjects[cardObject]);
-        card.cardValue = card_setValue();
+        if(cardObject != 3 &amp;&amp; cardObject != 4)
+            card.cardValue = card_setValue();
+        else
+            card.cardValue = 0;
         
         //set the index and put the card id in the array
         for(var i = 0; i &lt; array_length_1d(cardArray); i++)
@@ -156,6 +161,9 @@ if(obj_combatManager.currentTurn == turn.upkeep)
 {
     if(draw &gt; 0 &amp;&amp; alarm[0] == -1)
     {
+    cardObject = card_setType();
+    
+    /*
     for(var j = 0; j &lt; array_length_1d(PlayerManager.cardChanceArray); j++)
     {
         if(random(1) &lt;= PlayerManager.cardChanceArray[j])
@@ -165,12 +173,15 @@ if(obj_combatManager.currentTurn == turn.upkeep)
         }
         else
             cardObject = 0;
-            
+           
     }
-
+    */
 
     var card = instance_create(x,y,cardObjects[cardObject]);
-    card.cardValue = card_setValue();
+    if(cardObject != 3 &amp;&amp; cardObject != 4)
+        card.cardValue = card_setValue();
+    else
+        card.cardValue = 0;
     
     //set the index and put the card id in the array
     for(var i = 0; i &lt; array_length_1d(cardArray); i++)

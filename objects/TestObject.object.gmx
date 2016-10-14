@@ -70,7 +70,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>show_message(alarm[0])
+            <string>//show_message(alarm[0])
 </string>
           </argument>
         </arguments>
@@ -94,7 +94,7 @@
           <argument>
             <kind>1</kind>
             <string>//debugging
-//draw_self();
+draw_self();
 
 //draw_line_width(room_width/2,room_height,room_width/2,0,1);
 </string>

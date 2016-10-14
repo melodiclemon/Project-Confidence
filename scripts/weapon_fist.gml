@@ -1,3 +1,6 @@
+//Setting minimum and maximum values.
+cardMinValue = 1;
+cardMaxValue = 1;
 
 //Setting the strong numbers.
 a[0] = 1;

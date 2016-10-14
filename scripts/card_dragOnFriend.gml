@@ -45,9 +45,9 @@ else if(type == cardType.reverseCard)
     instance_destroy();
     exit;
 }
-else if(type == cardType.multiCard)
+else if(type == cardType.sigmaCard)
 {
-    obj_unitFriend.attack *= cardValue;
+    obj_unitFriend.attack += card_sigmaEffect();
     card_removeCardFromArray(id);
     obj_deck.draw++;
     instance_destroy();

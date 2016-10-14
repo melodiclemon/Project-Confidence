@@ -42,7 +42,7 @@ uiX = 0;
 uiY = 0;
 padding = 1.5;
 textPaddingX = 3;
-textPaddingY = 7;
+textPaddingY = 6;
 sprAtt = spr_attackBackground;
 sprDef = spr_defenseBackground;
 
@@ -151,13 +151,13 @@ if(state != noone)
 //draw attack info
 draw_sprite(sprAtt,0,(x-view_xview)-sprite_get_width(sprAtt)-padding,(y-view_yview)+padding);
 draw_set_color(c_white);
-draw_text_transformed(x-(sprite_get_width(sprAtt)/2)-textPaddingX,y+textPaddingY,string_lpad(string(attack),2,"0"),0.4,0.4,0);
+draw_text_transformed((x-view_xview)-(sprite_get_width(sprAtt)/2)-textPaddingX,(y-view_yview)+textPaddingY,string_lpad(string(attack),2,"0"),0.35,0.35,0);
 draw_set_color(c_black);
 
 //draw defense info
 draw_sprite(sprDef,0,(x-view_xview)+padding,(y-view_yview)+padding);
 draw_set_color(c_white);
-draw_text_transformed(x+1.5+textPaddingX,y+textPaddingY,string_lpad(string(defense),2,"0"),0.4,0.4,0);
+draw_text_transformed((x-view_xview)+1.5+textPaddingX,(y-view_yview)+textPaddingY,string_lpad(string(defense),2,"0"),0.35,0.35,0);
 draw_set_color(c_black);
 </string>
           </argument>
