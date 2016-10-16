@@ -70,7 +70,8 @@ sprDef = spr_defenseBackground;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>combatManager_removeEntityFromDictionary(id);
+            <string>///Destroy event
+combatManager_removeEntityFromDictionary(id);
 </string>
           </argument>
         </arguments>

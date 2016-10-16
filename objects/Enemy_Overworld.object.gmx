@@ -35,15 +35,11 @@ state = enemy_overworld_idleState;
 inBattle = false;
 
 //transition variables
-upScaleTime = 1;
-downScaleTime = 0.5;
-maxPixelSize = 10;
-
-//transition variables
 transition = transitionType.pixelate;
-upScaleTime = 1;
-downScaleTime = 0.1;
+upScaleTime = 2;
+downScaleTime = 1;
 maxPixelSize = 10;
+transitionDelay = room_speed;
 destroyOnRoomEnd = false;
 
 //pathfinding
@@ -117,6 +113,7 @@ if(gameManager_requestState(gameManager_roomTransitionState) &amp;&amp; !inBattl
     GameManager.transitionToX = other.x;
     GameManager.transitionToY = other.y;
     GameManager.transitionToRoom = Combat_Room;
+    GameManager.transitionDelay = transitionDelay;
     GameManager.state = gameManager_roomTransitionState;
     
     destroyOnRoomEnd = true;

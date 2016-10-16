@@ -1,18 +1,18 @@
 ///card_moveToBaseState
 
 var tx;
-var ty = 206;
+var ty = 238;
 
 switch(index)
  {
      case 1:
-         tx = 96;
+         tx = 176;
          break;
      case 2:
-         tx = 160;
+         tx = 240;
          break;
      case 3:
-         tx = 224;
+         tx = 304;
          break;
          
  }

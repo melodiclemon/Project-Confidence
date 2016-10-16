@@ -30,7 +30,7 @@
 defense = 15;
 attack = 3;
 unit_set_initialAttDef();
-reanimate = 3;
+reanimate = 0;
 growDefense = 1;
 growAttack = 1;
 

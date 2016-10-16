@@ -70,8 +70,11 @@ animReanimateSpeed = 300;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>event_inherited();
+            <string>///Destroy event
+
+event_inherited();
 obj_combatManager.attackTarget = noone;
+ds_map_destroy(animations);
 </string>
           </argument>
         </arguments>

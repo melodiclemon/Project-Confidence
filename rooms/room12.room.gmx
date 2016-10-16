@@ -52,10 +52,6 @@
   </views>
   <instances>
     <instance objName="Block" x="64" y="96" name="inst_648C057D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="32" y="96" name="inst_0242C839" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="0" y="128" name="inst_E46AAB3F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="0" y="160" name="inst_BB7191BC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Block" x="32" y="160" name="inst_1BB42D00" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="64" y="192" name="inst_FE4B7A2E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="96" y="192" name="inst_7048B4FE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="128" y="192" name="inst_5A66338E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -82,8 +78,17 @@
     <instance objName="Block" x="160" y="96" name="inst_52EC6BB9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="96" y="96" name="inst_F2017A23" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_bush" x="234" y="157" name="inst_F960EB48" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="RoomTransitioner" x="472" y="128" name="inst_175723BD" locked="0" code="gotoX = 8;&#xA;gotoY = 208;&#xA;gotoRoom = room8;&#xA;" scaleX="1" scaleY="8" colour="4294967295" rotation="0"/>
+    <instance objName="RoomTransitioner" x="472" y="128" name="inst_175723BD" locked="0" code="gotoX = 16;&#xA;gotoY = 160;&#xA;gotoRoom = room9;&#xA;&#xA;" scaleX="1" scaleY="8" colour="4294967295" rotation="0"/>
     <instance objName="Enemy_Overworld_LesserFear" x="352" y="168" name="inst_B0F8963F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="56" y="184" name="inst_1909519D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="48" y="176" name="inst_114A0955" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="40" y="168" name="inst_67A9F47A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="32" y="160" name="inst_46D51C2A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="56" y="120" name="inst_3A0C0C24" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="48" y="128" name="inst_607E038E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="40" y="136" name="inst_892DFB00" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="32" y="144" name="inst_BB7A1B42" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_blocker_small" x="24" y="152" name="inst_EB4CD640" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="forest_tileset" x="32" y="128" w="32" h="32" xo="0" yo="128" id="10001660" name="inst_C0A7FEEF" depth="10000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

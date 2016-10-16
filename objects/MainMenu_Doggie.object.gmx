@@ -29,9 +29,9 @@
 animation_play(spr_mainMenu_doggie,0,270);
 
 //transition variables
-transition = transitionType.pixelate;
-upScaleTime = 3;
-downScaleTime = 0.5;
+transition = transitionType.fade;
+upScaleTime = 2;
+downScaleTime = 1;
 maxPixelSize = 10;
 </string>
           </argument>
@@ -62,7 +62,6 @@ if(mouse_check_button_pressed(mb_left))
     
     if(gameManager_requestState(gameManager_roomTransitionState))
     {
-        
         GameManager.transitionToRoom = room_next(room);
         GameManager.state = gameManager_roomTransitionState;
     }

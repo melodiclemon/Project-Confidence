@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-148661862</depth>
   <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -28,8 +28,7 @@
             <string>///Initialize
 
 //disable the application surface since we are going to draw our own surface.
-
-
+application_surface_draw_enable(0);
 //General variables
 sur = noone // Surface
 transitionActive = false;
@@ -39,8 +38,12 @@ timerSeconds = 0;
    
 // pixelated transition variables
 pixelSize = 0.1; 
-maxPixelSize = 0.1;
+maxPixelSize = 10;
+minPixelSize = 0;
 
+// fade transition variables
+colourChange = 1;
+maxColourChange = 0.1;
 
 </string>
           </argument>
@@ -64,8 +67,14 @@ maxPixelSize = 0.1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///enable the application_surface again [DECOMMENTED]
-//application_surface_draw_enable(1);
+            <string>///enable the application_surface again
+application_surface_draw_enable(1);
+//make sure we free the surface from the memory when we are done using it.
+if(surface_exists(sur))
+{
+    surface_free(sur);
+}
+
 
 //show_message("destroyed");
 </string>
@@ -161,11 +170,25 @@ if(transitionActive)
     if(transition == transitionType.pixelate)
     {
         if(alarm[0] != -1)
+            pixelSize = lerp(maxPixelSize,minPixelSize,alarm[0]/(timerSeconds*room_speed));
+        else if( alarm[1] != -1)
+            pixelSize = lerp(minPixelSize,maxPixelSize,alarm[1]/(timerSeconds*room_speed)); 
+        /*
+        if(alarm[0] != -1)
             pixelSize += ((1/room_speed)/timerSeconds) * maxPixelSize;
         else if( alarm[1] != -1)
         {
             pixelSize = max(0.01,pixelSize-((1/room_speed)/timerSeconds) * maxPixelSize);
-        }                   
+        }
+        */                  
+    }
+    else if(transition == transitionType.fade)
+    {
+        if(alarm[0] != -1)
+            colourChange = lerp(0,1,alarm[0]/(timerSeconds*room_speed));
+        else if( alarm[1] != -1)
+            colourChange = lerp(1,0,alarm[1]/(timerSeconds*room_speed)); 
+          
     }
 }
 
@@ -217,7 +240,7 @@ show_debug_message(surface_get_width(application_surface));
           <argument>
             <kind>1</kind>
             <string>/// Draw the transition.
-//application_surface_draw_enable(0);
+
 
 switch(transition)
 {
@@ -226,7 +249,10 @@ switch(transition)
         break;
     case transitionType.pixelate:
         transition_pixelate();
-        break;        
+        break;     
+    case transitionType.fade:
+        transition_fade();
+        break;
 }
 
 
