@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_roomTransitioner</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -33,7 +33,7 @@ gotoRoom = undefined;
 canGoto = false;
 
 //transition variables
-transition = transitionType.pixelate;
+transition = transitionType.fade;
 upScaleTime = 1;
 downScaleTime = 1;
 maxPixelSize = 5;

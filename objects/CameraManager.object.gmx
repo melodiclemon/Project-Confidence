@@ -66,7 +66,7 @@ view_hview = DisplayManager.ideal_height/view_zoom;
 */
 
 
-if(room == Combat_Room)
+if(room == Combat_Room || room == rm_main_menu)
 {
     view_xview = room_width/2 - view_wview/2;
     view_yview = room_height - view_hview;

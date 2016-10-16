@@ -74,7 +74,8 @@ enum trickData
 enum transitionType
 {
     null,
-    pixelate
+    pixelate,
+    fade
 }
 </string>
           </argument>
@@ -108,7 +109,6 @@ stateChangerId = noone;
 
 
 //battle variables
-startBattle = false;
 battleList = ds_list_create();
 
 //Transition
@@ -116,7 +116,7 @@ transitionToX = 64;
 transitionToY = 160;
 transitionToRoom = undefined;
 transitionReady = false;
-transitionDelay = 1*room_speed;
+transitionDelay = room_speed;
 previousRoom = undefined;
 
 // MANAGERS
@@ -130,8 +130,7 @@ create_static_objects();
 //LOAD DIALOGUE
 scr_LoadDialogFromFile();
 
-//DEBUG OVERLAY
-show_debug_overlay(1);
+
 
 </string>
           </argument>
@@ -204,44 +203,11 @@ if(state != noone)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Go to Battle!
-/*
-if(startBattle == true)
+            <string>///ESCAPE THE GAME
+
+if(keyboard_check_pressed(vk_escape))
 {
-    room_goto(Combat_Room);
-    startBattle = false;
-}
-*/
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///exit battle
-if(room == Combat_Room)
-{
-    if(obj_combatManager.currentTurn == turn.finished)
-    {
-        if(mouse_check_button_pressed(mb_left))
-        {
-            room_goto(previousRoom);
-        }
-    }
+    game_end();
 }
 </string>
           </argument>
@@ -352,39 +318,7 @@ if(room == Combat_Room &amp;&amp; !instance_exists(obj_combatManager))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///GUI SCALE
-
-//display_set_gui_size(view_wview[view_current],view_hview[view_current]);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
             <string>///Create pathfinder &amp; Generate map
-/*
-if(room != Combat_Room)
-{
-    //Pathfinder
-    var cellSize = 8;
-    aStar_init(room_width/cellSize,room_height/cellSize,cellSize,true,true);
-    pathfinder_generateMap();
-}
-*/
 
 instance_create(0,0,AstarGrid);
 </string>
@@ -430,6 +364,29 @@ if(room != Combat_Room &amp;&amp; room != rm_main_menu)
 }
 
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Reset transitionDelay
+
+transitionDelay = 1;
 </string>
           </argument>
         </arguments>

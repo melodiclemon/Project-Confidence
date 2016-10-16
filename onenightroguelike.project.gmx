@@ -219,6 +219,7 @@
       <background>background\forest_clutter_tileset</background>
       <background>background\bg_test</background>
     </backgrounds>
+    <background>background\bg_endFeedback</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -367,6 +368,7 @@
       </scripts>
       <scripts name="Transition Create Scripts">
         <script>scripts\transition_create_pixelate.gml</script>
+        <script>scripts\transition_create_fade.gml</script>
         <script>scripts\transition_create.gml</script>
       </scripts>
       <script>scripts\resolution_set_fullscreen_.gml</script>
@@ -401,6 +403,7 @@
     </scripts>
     <scripts name="Transition Scripts">
       <script>scripts\transition_pixelate.gml</script>
+      <script>scripts\transition_fade.gml</script>
     </scripts>
     <scripts name="DisplayManager Scripts">
       <script>scripts\display_write_spec.gml</script>
@@ -414,7 +417,10 @@
       <shader type="GLSLES">shaders\shd_juju_mask.shader</shader>
       <shader type="GLSLES">shaders\shd_juju_silhouette.shader</shader>
     </shaders>
-    <shader type="GLSLES">shaders\shd_pixelate.shader</shader>
+    <shaders name="Transition Shaders">
+      <shader type="GLSLES">shaders\shd_pixelate.shader</shader>
+      <shader type="GLSLES">shaders\shd_fade.shader</shader>
+    </shaders>
   </shaders>
   <fonts name="fonts">
     <font>fonts\font_default</font>
@@ -489,21 +495,30 @@
       <object>objects\DoggieMenu</object>
       <object>objects\TransitionManager</object>
       <object>objects\DisplayManager</object>
+      <object>objects\Debugger</object>
     </objects>
     <objects name="Boundary Objects">
       <object>objects\RoomTransitioner</object>
-      <object>objects\Block</object>
-      <object>objects\obj_blocker_small</object>
+      <objects name="Blockers">
+        <object>objects\obj_blocker_small</object>
+        <object>objects\Block</object>
+      </objects>
     </objects>
     <objects name="Main Menu">
       <object>objects\MainMenu_Doggie</object>
       <object>objects\MainMenu_Player</object>
+    </objects>
+    <objects name="GM Friday Objects">
+      <object>objects\obj_end</object>
+      <object>objects\obj_dialogueCollider</object>
     </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_display_init</room>
     <room>rooms\rm_main_menu</room>
     <room>rooms\room12</room>
+    <room>rooms\room9</room>
+    <room>rooms\room11</room>
     <room>rooms\room8</room>
     <room>rooms\rm_forest_start</room>
     <room>rooms\room4</room>

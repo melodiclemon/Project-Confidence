@@ -1,5 +1,13 @@
 ///Player_Overworld_Idle()
 
+//make sure we face the mouse
+if(mouse_x > x )
+   image_xscale = 1;
+else
+   image_xscale = -1;
+
+
+
 var col;
 
 if(animation_end() && sprite_index != spr_player_idle)
@@ -64,8 +72,8 @@ if(mouse_check_button_pressed(mb_right) && sprite_index == spr_player_idle)
     //do our secondary action
     else if(PlayerManager.ability != noone)
     {
-        show_message(script_get_name(PlayerManager.ability));
-        state = PlayerManager.ability; 
+        //show_message(script_get_name(PlayerManager.ability));
+        //state = PlayerManager.ability; 
     }
     
 }

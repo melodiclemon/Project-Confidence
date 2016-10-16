@@ -112,7 +112,9 @@ draw_sprite(spr_card,type,x-view_xview,y-view_yview);
 
 //draw the value on the card
 draw_set_alpha(1);
+draw_set_color(c_white);
 draw_text((x-view_xview)+2,(y-view_yview)-20, cardValue);
+draw_set_color(c_black);
 draw_set_alpha(1);
 
 

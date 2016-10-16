@@ -34,6 +34,12 @@ randomize();
 
 battleList = ds_list_create();
 entityDictionary = ds_map_create();
+
+//transition variables
+transition = transitionType.pixelate;
+upScaleTime = 1;
+downScaleTime = 1;
+maxPixelSize = 5;
 </string>
           </argument>
         </arguments>
@@ -72,8 +78,8 @@ if(!ds_list_empty(battleList))
     player.y = 143 + player.sprite_yoffset/2;
     
     
-    instance_create(32,203,obj_deck);
-    instance_create(276,220,EndTurnButton);
+    instance_create(112,238,obj_deck);
+    instance_create(368,238,EndTurnButton);
     
     ds_list_destroy(battleList);
     
@@ -214,7 +220,17 @@ if(instance_number(obj_unitFoe) == 0)
     currentTurn = turn.finished;
 }
 
-
+if(currentTurn == turn.finished)
+{
+    if(mouse_check_button_pressed(mb_left))
+    {
+        if(gameManager_requestState(gameManager_roomTransitionState))
+        {
+            GameManager.transitionToRoom = GameManager.previousRoom;
+            GameManager.state = gameManager_roomTransitionState;
+        }
+    }
+}
 </string>
           </argument>
         </arguments>
