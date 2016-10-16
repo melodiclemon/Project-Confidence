@@ -32,11 +32,11 @@ player = noone;
 playerState = 3;
 
 //Card chance variables
-cardChanceArray[cardType.normalCard] = 35; // Normal Card
-cardChanceArray[cardType.negativeCard] = 25; // Negative Card
-cardChanceArray[cardType.powerCard] = 20; //Power Card
-cardChanceArray[cardType.reverseCard] = 10; // Reverse Card
-cardChanceArray[cardType.sigmaCard] = 10; //Sigma Card
+cardChanceArray[cardType.normalCard] = 100; // Normal Card
+cardChanceArray[cardType.negativeCard] = 0; // Negative Card
+cardChanceArray[cardType.powerCard] = 0; //Power Card
+cardChanceArray[cardType.reverseCard] = 0; // Reverse Card
+cardChanceArray[cardType.sigmaCard] = 0; //Sigma Card
 
 
 //Card value variables
@@ -47,7 +47,7 @@ cardMinValue = 0;
 vardMaxValue = 0;
 
 //combat-player stats
-defense = 8;
+defense = 3;
 attack = 0;
 
 //right click ability
@@ -108,6 +108,70 @@ if(room == Combat_Room)
     player = obj_player;
 else
     player = obj_unitFriend;
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///FOR FEEDBACK PURPOSE ONLY
+
+switch(room)
+{
+    case room12:
+    //Card chance variables
+    cardChanceArray[cardType.normalCard] = 100; // Normal Card
+    cardChanceArray[cardType.negativeCard] = 0; // Negative Card
+    cardChanceArray[cardType.powerCard] = 0; //Power Card
+    cardChanceArray[cardType.reverseCard] = 0; // Reverse Card
+    cardChanceArray[cardType.sigmaCard] = 0; //Sigma Card
+
+    break;
+    case room9:
+    //Card chance variables
+    cardChanceArray[cardType.normalCard] = 40; // Normal Card
+    cardChanceArray[cardType.negativeCard] = 50; // Negative Card
+    cardChanceArray[cardType.powerCard] = 10; //Power Card
+    cardChanceArray[cardType.reverseCard] = 0; // Reverse Card
+    cardChanceArray[cardType.sigmaCard] = 0; //Sigma Card
+
+
+    
+    break;
+    case room11:
+    //Card chance variables
+    cardChanceArray[cardType.normalCard] = 30; // Normal Card
+    cardChanceArray[cardType.negativeCard] = 30; // Negative Card
+    cardChanceArray[cardType.powerCard] = 10; //Power Card
+    cardChanceArray[cardType.reverseCard] = 30; // Reverse Card
+    cardChanceArray[cardType.sigmaCard] = 0; //Sigma Card
+    break;
+    case room8:
+    //Card chance variables
+    cardChanceArray[cardType.normalCard] = 40; // Normal Card
+    cardChanceArray[cardType.negativeCard] = 25; // Negative Card
+    cardChanceArray[cardType.powerCard] = 15; //Power Card
+    cardChanceArray[cardType.reverseCard] = 10; // Reverse Card
+    cardChanceArray[cardType.sigmaCard] = 10; //Sigma Card
+    break;
+}
 
 </string>
           </argument>

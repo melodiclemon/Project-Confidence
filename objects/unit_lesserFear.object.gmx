@@ -31,7 +31,8 @@ defense = 1;
 attack = 1;
 unit_set_initialAttDef();
 reanimate = 0;
-
+growDefense = 1;
+growAttack = 1;
 //animations
 ds_map_add(animations,"idle",spr_lesserFear_idle);
 ds_map_add(animations,"attack",spr_lesserFear_attack);

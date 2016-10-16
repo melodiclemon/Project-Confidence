@@ -27,17 +27,21 @@
             <kind>1</kind>
             <string>/// Create Grid
 
+//set the width and height of each cell
 global.astarCellWidth = 8;
 global.astarCellHeight = 8;
 
-
+//set the amount of cells vertically and horizontally.
 var hCells = room_width div global.astarCellWidth;
 var vCells = room_height div global.astarCellHeight;
 
+//create the grid
 global.astarGrid = mp_grid_create(0,0,hCells,vCells,global.astarCellWidth,global.astarCellHeight);
 
 //add the blocked parts
 mp_grid_add_instances(global.astarGrid,Block,0);
+
+
 </string>
           </argument>
         </arguments>

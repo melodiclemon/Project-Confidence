@@ -10,4 +10,6 @@ switch(argument0)
     case transitionType.pixelate:
         transition_create_pixelate(instId.upScaleTime,instId.downScaleTime,instId.maxPixelSize);
         break;
+    case transitionType.fade:
+        transition_create_fade(instId.upScaleTime,instId.downScaleTime);
 }
