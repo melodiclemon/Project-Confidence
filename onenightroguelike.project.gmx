@@ -431,6 +431,7 @@
     </fonts>
   </fonts>
   <objects name="objects">
+    <object>objects\obj_shader</object>
     <object>objects\obj_player</object>
     <objects name="Turn Combat">
       <object>objects\obj_combatManager</object>
@@ -511,6 +512,13 @@
     <objects name="GM Friday Objects">
       <object>objects\obj_end</object>
       <object>objects\obj_dialogueCollider</object>
+    </objects>
+    <objects name="Particle Effects">
+      <object>objects\obj_part_1</object>
+      <object>objects\obj_part_fairyDust</object>
+      <object>objects\obj_part_fire</object>
+      <object>objects\obj_part_rain</object>
+      <object>objects\obj_part_blood</object>
     </objects>
   </objects>
   <rooms name="rooms">
