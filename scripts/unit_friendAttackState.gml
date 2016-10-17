@@ -5,6 +5,7 @@ if(animation_hitFrame(4))
 {
     draw_dialogbubble_default_actor(id, "PATTACK", 0, false, false);
     target.defense -= attack;
+    //instance_create(bbox_right,y-24,obj_part_punch);
 }
 
 if(animation_end())
