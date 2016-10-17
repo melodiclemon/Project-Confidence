@@ -519,6 +519,7 @@
       <object>objects\obj_part_fire</object>
       <object>objects\obj_part_rain</object>
       <object>objects\obj_part_blood</object>
+      <object>objects\obj_part_punch</object>
     </objects>
   </objects>
   <rooms name="rooms">
