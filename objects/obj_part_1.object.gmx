@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,20 +25,35 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Properties
-view_zoom = 1;
-view_max_zoom = 10;
+            <string>/// 
 
-//shake variable
-shake = 0; 
+//Particle System
+part1_sys = part_system_create();
+part_system_depth(part1_sys,0);
 
-target = obj_player;
+//Particle
+part1 = part_type_create();
+part_type_shape(part1,pt_shape_disk);
+part_type_scale(part1,1,1);
+part_type_size(part1,0.5,0.7,-0.005,0);
+part_type_color2(part1,c_blue,c_white);
+part_type_alpha2(part1,1,0.75);
+part_type_speed(part1,0.1,0.5,0,0);
+part_type_direction(part1,0,359,0,0);
+part_type_gravity(part1,0.02,90);
+part_type_life(part1,room_speed*2,room_speed*4);
+part_type_blend(part1,1);
+
+//Particle Emitter
+part1_emit = part_emitter_create(part1_sys);
+part_emitter_region(part1_sys,part1_emit,x-40,x+40,y-40,y+40,ps_shape_ellipse,ps_distr_gaussian);
+part_emitter_stream(part1_sys,part1_emit,part1,1);
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="1" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -55,54 +70,32 @@ target = obj_player;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///View Following
-
-//Zoom view
-var zoom_speed = 0.1;
-view_zoom+=keyboard_check(vk_up)*zoom_speed;
-view_zoom-=keyboard_check(vk_down)*zoom_speed;
-
-view_zoom = clamp(view_zoom,1,view_max_zoom);
-
-view_wview = DisplayManager.ideal_width/view_zoom;
-view_hview = DisplayManager.ideal_height/view_zoom;
-
-
-
-if(room == Combat_Room || room == rm_main_menu)
-{
-    view_xview = room_width/2 - view_wview/2;
-    view_yview = room_height - view_hview;
-}
-else
-{
-    if(instance_exists(target))
-    {
-     
-        //finding distance to middle point between character and mouse cursor
-        var len=ceil(point_distance(target.x,target.y,mouse_x,mouse_y)/3)
-        //finding direction from character to mouse cursor
-        var dir=point_direction(target.x,target.y,mouse_x,mouse_y)
-        //some simple math to find out position of middle point between character and mouse
-        var xx=target.x+lengthdir_x(len,dir);
-        var yy=target.y+lengthdir_y(len,dir);
-        //moving view to the position, so middle point would be in the middle of the screen
-        view_xview= round(smooth_approach(view_xview,xx-ceil(view_wview/2),0.1));
-        view_yview= round(smooth_approach(view_yview,yy-ceil(view_hview/2),0.1));
-            
-    }
-  
-    
-    
-    
-    //clamp to room
-    view_xview=clamp(view_xview,0,room_width-view_wview);
-    view_yview=clamp(view_yview,0,room_height-view_hview);
-}
-
-    view_xview+= random_range(-shake,shake);
-    view_yview+= random_range(-shake,shake);
-    shake *= 0.9;
+            <string>part_system_destroy(part1_sys);
+part_emitter_destroy(part1_sys,part1_emit);
+part_type_destroy(part1);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>instance_destroy();
 </string>
           </argument>
         </arguments>

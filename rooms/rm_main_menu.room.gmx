@@ -55,7 +55,9 @@
     <instance objName="MainMenu_Player" x="120" y="151" name="inst_DF365671" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="GameManager" x="0" y="0" name="inst_5F84A06D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="CameraManager" x="152" y="48" name="inst_2BF41E13" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="Debugger" x="446" y="15" name="inst_C8CB5AFE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Debugger" x="377" y="223" name="inst_C8CB5AFE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_shader" x="229" y="218" name="inst_E270C94E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_part_rain" x="344" y="195" name="inst_01683885" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
