@@ -100,12 +100,7 @@
     <extension index="2">extensions\DialogEngine</extension>
     <extension index="3">extensions\Display Manager</extension>
   </NewExtensions>
-  <sounds name="sound">
-    <sounds name="dialogEngine">
-      <sound>sound\snd_coolskeleton</sound>
-      <sound>sound\snd_bonetrousle</sound>
-    </sounds>
-  </sounds>
+  <sounds name="sound"/>
   <sprites name="sprites">
     <sprites name="Turn Combat">
       <sprite>sprites\spr_card_old</sprite>
