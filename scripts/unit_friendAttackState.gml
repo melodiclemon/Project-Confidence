@@ -1,6 +1,7 @@
 ///unit_friendAttackState
 
 var target = obj_combatManager.attackTarget;
+
 if(animation_hitFrame(4))
 {
     draw_dialogbubble_default_actor(id, "PATTACK", 0, false, false);

@@ -1,5 +1,5 @@
 ///unit_idleState
-if(sprite_index != spr_player_idle)
+if(animation_end() && sprite_index != spr_player_idle)
     animation_play(spr_player_idle,0,PLAYER_ANIMATION_IDLE_SPEED);
 
 

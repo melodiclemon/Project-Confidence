@@ -197,6 +197,23 @@
       <sprite>sprites\spr_roomTransitioner</sprite>
       <sprite>sprites\spr_block_small</sprite>
     </sprites>
+    <sprites name="Particles">
+      <sprite>sprites\spr_part_pixel_</sprite>
+      <sprite>sprites\spr_part_pixel</sprite>
+      <sprite>sprites\spr_part_disk</sprite>
+      <sprite>sprites\spr_part_square</sprite>
+      <sprite>sprites\spr_part_line</sprite>
+      <sprite>sprites\spr_part_star</sprite>
+      <sprite>sprites\spr_part_circle</sprite>
+      <sprite>sprites\spr_part_ring</sprite>
+      <sprite>sprites\spr_part_sphere</sprite>
+      <sprite>sprites\spr_part_flare</sprite>
+      <sprite>sprites\spr_part_spark</sprite>
+      <sprite>sprites\spr_part_explosion</sprite>
+      <sprite>sprites\spr_part_cloud</sprite>
+      <sprite>sprites\spr_part_smoke</sprite>
+      <sprite>sprites\spr_part_snow</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>

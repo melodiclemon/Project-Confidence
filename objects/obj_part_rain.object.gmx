@@ -33,7 +33,8 @@ part_system_depth(partRain_sys,9998);
 
 //Rain Particle
 partRain = part_type_create();
-part_type_shape(partRain,pt_shape_line);
+//part_type_shape(partRain,pt_shape_line);
+part_type_sprite(partRain,spr_part_line,0,0,0);
 part_type_size(partRain,0.1,0.2,0,0);
 part_type_color2(partRain,c_teal,c_white);
 part_type_alpha2(partRain,0.5,0.1);
@@ -45,7 +46,8 @@ part_type_life(partRain,20,150); //20,150 for entire room. //73,150 for combat r
 
 //Puddle Particle
 partPuddle = part_type_create();
-part_type_shape(partPuddle,pt_shape_circle);
+//part_type_shape(partPuddle,pt_shape_circle);
+part_type_sprite(partPuddle,spr_part_circle,0,0,0);
 part_type_size(partPuddle,0.2,0.4,.01,0);
 part_type_scale(partPuddle,.5,.1);
 part_type_color1(partPuddle,c_silver);
