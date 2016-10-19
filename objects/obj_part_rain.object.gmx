@@ -63,7 +63,7 @@ part_type_death(partRain,1,partPuddle);
 //Particle Emitter
 partRain_emit = part_emitter_create(partRain_sys);
 part_emitter_region(partRain_sys,partRain_emit,view_xview-100,view_wview,view_yview-100,view_yview-100,ps_shape_line,ps_distr_linear);
-part_emitter_stream(partRain_sys,partRain_emit,partRain,10);
+part_emitter_stream(partRain_sys,partRain_emit,partRain,5);
 
 //Advance System
 repeat(room_speed * 3)

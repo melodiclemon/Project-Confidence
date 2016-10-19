@@ -213,6 +213,33 @@ if(keyboard_check_pressed(vk_escape))
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///RESTART
+
+if(room == rm_gameOver)
+{
+    if(mouse_check_button_pressed(mb_left))
+        game_restart();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="7" enumb="5">
       <action>
@@ -342,7 +369,7 @@ instance_create(0,0,AstarGrid);
           <argument>
             <kind>1</kind>
             <string>///Spawn the player
-if(room != Combat_Room &amp;&amp; room != rm_main_menu)
+if(room != Combat_Room &amp;&amp; room != rm_main_menu &amp;&amp; room != rm_gameOver)
 {
     if(!instance_exists(obj_player))
         instance_create(astar_get_cell_room_x(transitionToX),astar_get_cell_room_y(transitionToY),obj_player);
