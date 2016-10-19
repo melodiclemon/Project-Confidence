@@ -265,7 +265,7 @@ if(room == rm_gameOver)
         instance_destroy();
     }
 }
-with(silhouetteManager)
+with(SilhouetteManager)
 {
     instance_destroy();
 }

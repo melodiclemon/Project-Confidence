@@ -66,6 +66,9 @@ if(surface_exists(sur))
     surface_free(sur);
 }
 
+
+
+show_message("destroyed!");
 </string>
           </argument>
         </arguments>

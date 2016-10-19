@@ -77,9 +77,8 @@ if(mouse_check_button_pressed(mb_right))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*
+            <string>
 draw_set_color(c_white);
-draw_text(50,100,string(view_xview) + "," + string(view_yview));
 draw_set_color(c_black);
 </string>
           </argument>
