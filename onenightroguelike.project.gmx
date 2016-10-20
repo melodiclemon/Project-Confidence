@@ -100,12 +100,7 @@
     <extension index="2">extensions\DialogEngine</extension>
     <extension index="3">extensions\Display Manager</extension>
   </NewExtensions>
-  <sounds name="sound">
-    <sounds name="dialogEngine">
-      <sound>sound\snd_coolskeleton</sound>
-      <sound>sound\snd_bonetrousle</sound>
-    </sounds>
-  </sounds>
+  <sounds name="sound"/>
   <sprites name="sprites">
     <sprites name="Player">
       <sprite>sprites\spr_player_openBag</sprite>
@@ -256,6 +251,8 @@
       <scripts name="String Manipulation">
         <script>scripts\string_split.gml</script>
         <script>scripts\string_lpad.gml</script>
+        <script>scripts\string_extract.gml</script>
+        <script>scripts\string_rtrim.gml</script>
       </scripts>
       <scripts name="Approach Value">
         <script>scripts\approach.gml</script>
@@ -358,15 +355,18 @@
       <script>scripts\inventory_useItem.gml</script>
     </scripts>
     <scripts name="dialogEngine">
-      <script>scripts\string_extract.gml</script>
+      <scripts name="dialogScripts">
+        <script>scripts\SIMPLEINPUT.gml</script>
+      </scripts>
       <script>scripts\scr_LoadDialogFromFile.gml</script>
-      <script>scripts\string_rtrim.gml</script>
       <script>scripts\draw_dialogbubble.gml</script>
       <script>scripts\draw_dialogbubble_ext.gml</script>
       <script>scripts\draw_dialogbubble_ext_color.gml</script>
       <script>scripts\draw_dialogbubble_full.gml</script>
       <script>scripts\draw_dialogbubble_default.gml</script>
+      <script>scripts\draw_dialogbubble_default_input.gml</script>
       <script>scripts\draw_dialogbubble_default_actor.gml</script>
+      <script>scripts\draw_dialogbubble_default_actor_input.gml</script>
       <script>scripts\draw_dialogbubble_color.gml</script>
       <script>scripts\closest_whole_multiply.gml</script>
     </scripts>
@@ -519,6 +519,7 @@
       <object>objects\obj_dialogcontroller</object>
       <object>objects\obj_dialogboxarrow</object>
       <object>objects\obj_dialogbubble</object>
+      <object>objects\DialogManager</object>
     </objects>
     <objects name="Controllers">
       <object>objects\GameManager</object>
