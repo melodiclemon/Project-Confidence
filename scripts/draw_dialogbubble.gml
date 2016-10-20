@@ -6,9 +6,16 @@
 // font - a font to use
 
 var dialogBubble = instance_create(argument0, argument1, obj_dialogbubble);
-dialogBubble.dialogID = argument2;
-dialogBubble.type = argument3;
-dialogBubble.font = argument4;
-dialogBubble.write = true;
 
-return dialogBubble;
+with(dialogBubble)
+{
+    dialogID = argument2;
+    type = argument3;
+    font = argument4;
+    write = true;
+}
+
+with(DialogManager)
+{
+    ds_list_add(dialogList, dialogBubble);
+}
