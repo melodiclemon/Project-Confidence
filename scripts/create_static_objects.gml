@@ -7,3 +7,4 @@
 playerManager = instance_create(0,0,PlayerManager);
 inventory = instance_create(0,0,Inventory);
 doggieMenu = instance_create(0,0,DoggieMenu);
+dialogManager = instance_create(0,0,DialogManager);

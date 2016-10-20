@@ -124,12 +124,9 @@ playerManager = undefined;
 silhouetteManager = undefined;
 inventory = undefined;
 doggieMenu = undefined;
+dialogManager = undefined;
 
 create_static_objects();
-
-//LOAD DIALOGUE
-scr_LoadDialogFromFile();
-
 
 
 </string>

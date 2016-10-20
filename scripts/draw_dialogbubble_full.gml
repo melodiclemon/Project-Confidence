@@ -16,19 +16,26 @@
 // actor - is the bubble connected to an actor? -1 if not, else id
 
 var dialogBubble = instance_create(argument0, argument1, obj_dialogbubble);
-dialogBubble.dialogID = argument2;
-dialogBubble.type = argument3;
-dialogBubble.font = argument4;
-dialogBubble.fontScale = argument5;
-dialogBubble.color = argument6;
-dialogBubble.bubbleColor = argument7
-dialogBubble.textSpeed = argument8;
-dialogBubble.textSound = argument9;
-dialogBubble.typewriter = argument10;
-dialogBubble.closeable = argument11;
-dialogBubble.skipable = argument12;
-dialogBubble.characterDistance = argument13;
-dialogBubble.actor = argument14;
-dialogBubble.write = true;
 
-return dialogBubble;
+with(dialogBubble)
+{
+    dialogID = argument2;
+    type = argument3;
+    font = argument4;
+    fontScale = argument5;
+    color = argument6;
+    bubbleColor = argument7
+    textSpeed = argument8;
+    textSound = argument9;
+    typewriter = argument10;
+    closeable = argument11;
+    skipable = argument12;
+    characterDistance = argument13;
+    actor = argument14;
+    write = true;
+}
+
+with(DialogManager)
+{
+    ds_list_add(dialogList, dialogBubble);
+}

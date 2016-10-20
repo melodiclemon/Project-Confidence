@@ -20,14 +20,20 @@ if(argument_count == 7)
 }
 
 var dialogBubble = instance_create(argument[0], argument[1], obj_dialogbubble);
-dialogBubble.dialogID = argument[2];
-dialogBubble.type = argument[3];
-dialogBubble.choices = argument[4];
-dialogBubble.closeable = false;
-dialogBubble.skipable = false;
-dialogBubble.textSound = textSound;
-dialogBubble.textSpeed = textSpeed;
 
-dialogBubble.write = true;
+with(dialogBubble)
+{
+    dialogID = argument[2];
+    type = argument[3];
+    choices = argument[4];
+    closeable = false;
+    skipable = false;
+    textSound = textSound;
+    textSpeed = textSpeed;
+    write = true;
+}
 
-return dialogBubble;
+with(DialogManager)
+{
+    ds_list_add(dialogList, dialogBubble);
+}

@@ -7,27 +7,38 @@
 // textSound - sound to play. -1 if not sound
 // textSpeed - textspeed. default 1.5 (value should be between 0.1(instant) - 3(slow);
 
-var textSound = -1;
+var customTextSound = -1;
 if(argument_count >= 6)
 {
-    textSound = argument[5];
+    customTextSound = argument[5];
 }
 
-var textSpeed = 3;
+var customTextSpeed = -1;
 if(argument_count == 7)
 {
-    textSpeed = argument[6];
+    customTextSpeed = argument[6];
 }
 
 var dialogBubble = instance_create(0, 0, obj_dialogbubble);
-dialogBubble.actor = argument[0];
-dialogBubble.dialogID = argument[1];
-dialogBubble.type = argument[2];
-dialogBubble.closeable = argument[3];
-dialogBubble.skipable = argument[4];
-dialogBubble.textSound = textSound;
-dialogBubble.textSpeed = textSpeed;
 
-dialogBubble.write = true;
+with(dialogBubble)
+{
+    actor = argument[0];
+    dialogID = argument[1];
+    type = argument[2];
+    closeable = argument[3];
+    skipable = argument[4];
+    
+    if(customTextSound != -1)
+        textSound = customTextSound;
+    
+    if(customTextSpeed != -1)
+        textSpeed = customTextSpeed;
+    
+    write = true;
+}
 
-return dialogBubble;
+with(DialogManager)
+{
+    ds_list_add(dialogList, dialogBubble);
+}
