@@ -6,8 +6,7 @@ if(sprite_index != animations[? "reanimate"])
     attack = initialAttack;
     reanimate -= 1;
     canAttack = false;
-    animation_play(animations[? "reanimate"],0,animReanimateSpeed);
-   // alarm[0] = animation_set_frame_duration_ms(animReanimateSpeed);  
+    animation_play(animations[? "reanimate"],0,animReanimateSpeed); 
 }
 
 if(animation_end())

@@ -224,11 +224,24 @@ if(currentTurn == turn.finished)
 {
     if(mouse_check_button_pressed(mb_left))
     {
-        if(gameManager_requestState(gameManager_roomTransitionState))
+        if(obj_unitFriend.defense &lt;= 0)
         {
-            GameManager.transitionToRoom = GameManager.previousRoom;
-            GameManager.state = gameManager_roomTransitionState;
+            if(gameManager_requestState(gameManager_roomTransitionState))
+            {
+                GameManager.transitionToRoom = rm_gameOver;
+                GameManager.state = gameManager_roomTransitionState;
+            }
         }
+        else
+        {
+            if(gameManager_requestState(gameManager_roomTransitionState))
+            {
+                GameManager.transitionToRoom = GameManager.previousRoom;
+                GameManager.state = gameManager_roomTransitionState;
+            }
+        }
+    
+        
     }
 }
 </string>

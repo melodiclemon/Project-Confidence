@@ -11,9 +11,12 @@ if(type == cardType.normalCard)
     instance_destroy();
     exit;
 }
-else if(type == cardType.negativeCard)
+else if(type == cardType.negativeCard && obj_unitFriend.attack != 0 )
 {
-    obj_unitFriend.defense -= cardValue;
+    if(obj_unitFriend.attack - cardValue < 0)
+        obj_unitFriend.attack = 0;
+    else    
+        obj_unitFriend.attack -= cardValue;
     card_removeCardFromArray(id);
     obj_deck.draw++;
     instance_destroy();
@@ -47,7 +50,7 @@ else if(type == cardType.reverseCard)
 }
 else if(type == cardType.sigmaCard)
 {
-    obj_unitFriend.attack += card_sigmaEffect();
+    obj_unitFriend.attack += card_sigmaEffect(obj_unitFriend.attack);
     card_removeCardFromArray(id);
     obj_deck.draw++;
     instance_destroy();

@@ -13,6 +13,5 @@ if(animation_end())
     animation_play(animations[? "idle"],0,animIdleSpeed);
     state = unit_enemyIdleState;
     combatManager_turnCompleted(turn.foe);
-    obj_deck.canRedraw = true;
     canAttack = true;
 }

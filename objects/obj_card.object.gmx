@@ -56,7 +56,7 @@ image_speed = 0;
           <argument>
             <kind>1</kind>
             <string>///make sure the PlayerManager knows that we have played a card
-
+particles_create_card(x,y,type);
 obj_unitFriend.cardPlayed = true;
 </string>
           </argument>

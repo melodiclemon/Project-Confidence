@@ -66,6 +66,9 @@ if(surface_exists(sur))
     surface_free(sur);
 }
 
+
+
+show_message("destroyed!");
 </string>
           </argument>
         </arguments>
@@ -88,9 +91,9 @@ if(surface_exists(sur))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>application_surface_draw_enable(0);
-lposX = mouse_x;
-lposY = mouse_y;
+            <string>///DEBUG
+
+application_surface_draw_enable(0);
 
 if(keyboard_check_pressed(ord('Q')))
     color_red+=0.1;
@@ -127,9 +130,7 @@ else if(keyboard_check_pressed(ord('D')))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///test
-
-var pixelSize = 5;
+            <string>///Draw shader
 
 //if the surface doesn't exist we create it.
 if(!surface_exists(sur))
@@ -187,8 +188,10 @@ if(surface_exists(sur))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_color(c_white);
+            <string>///DEBUG
+draw_set_color(c_white);
 draw_text(50,50,"R:" +string(color_red) +",G:"+string(color_green)+",B:"+string(color_blue));
+draw_set_color(c_black);
 </string>
           </argument>
         </arguments>

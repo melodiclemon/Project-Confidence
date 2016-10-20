@@ -1,4 +1,4 @@
-///unit_enemyDeathState()
+///unit_enemyDyingState()
 
 if(sprite_index != animations[? "death"])
     animation_play(animations[? "death"],0,animDeathSpeed);
