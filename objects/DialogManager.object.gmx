@@ -100,16 +100,12 @@ ds_list_destroy(dialogList);
             <string>/// Check each dialog in the array
 for(dialogIndex = 0; dialogIndex &lt; ds_list_size(dialogList); dialogIndex++)
 {
-    show_debug_message(0);
     if(instance_exists(dialogList[| dialogIndex]))
     {
-        show_debug_message(1);
         with(dialogList[| dialogIndex])
         {
-            show_debug_message(2);
             if(id.object_index == obj_dialogbubble)
             {
-                show_debug_message(3);
                 if(finish)
                 {
                     var dialogScript = asset_get_index(dialogID);
