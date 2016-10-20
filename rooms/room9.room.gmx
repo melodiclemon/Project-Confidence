@@ -103,6 +103,7 @@
     <instance objName="obj_blocker_small" x="448" y="120" name="inst_14C660B5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="Block" x="224" y="192" name="inst_08193AEB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_dialogueCollider" x="104" y="128" name="inst_1F0931A5" locked="0" code="dlgId = &quot;PTRIGGER01&quot;;&#xA;" scaleX="1" scaleY="8" colour="4294967295" rotation="0"/>
+    <instance objName="obj_save" x="352" y="176" name="inst_2B16A12D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="forest_tileset" x="0" y="128" w="32" h="32" xo="32" yo="128" id="10001819" name="inst_F3F087E8" depth="10000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

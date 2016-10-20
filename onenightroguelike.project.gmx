@@ -217,6 +217,7 @@
       <sprite>sprites\spr_part_smoke</sprite>
       <sprite>sprites\spr_part_snow</sprite>
     </sprites>
+    <sprite>sprites\spr_save</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>
@@ -393,6 +394,10 @@
         <script>scripts\transition_create.gml</script>
       </scripts>
       <script>scripts\resolution_set_fullscreen_.gml</script>
+      <scripts name="SaveLoad">
+        <script>scripts\GameManager_save.gml</script>
+        <script>scripts\GameManager_load.gml</script>
+      </scripts>
     </scripts>
     <scripts name="Trick Scripts">
       <script>scripts\trick_bark.gml</script>
@@ -506,6 +511,7 @@
     <objects name="Interactable Objects">
       <object>objects\Stick</object>
       <object>objects\interactableObject</object>
+      <object>objects\obj_save</object>
     </objects>
     <object>objects\TestObject</object>
     <objects name="dialogEngine">
