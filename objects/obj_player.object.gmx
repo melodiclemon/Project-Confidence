@@ -182,11 +182,11 @@ draw_self();
 //draw_dialogbubble_default(x, y, "CLOSE1", 0, false, false);
 //draw_dialogbubble_default(x, y, "CLOSE2", 0, false, false);
 //draw_dialogbubble_default(x, y, "CLOSE3", 0, false, false);
-//draw_dialogbubble_default_actor(id, "TEST1", 0, true, true, snd_coolskeleton);
+//draw_dialogbubble_default_actor(id, "TEST1", 0, true, true);
 //draw_dialogbubble_default(x, y, "TEST6", 1, true, true);
 //draw_dialogbubble_ext(x, y, "TEST1", 0, font_default, 0.45, 3, -1, 2, true, true, id);
 //draw_dialogbubble_default_actor(id, "ACLOSE1", 0, false, false);
-draw_dialogbubble_default_actor(id, "SIMPLEINPUT", 0, false, false);
+draw_dialogbubble_default_actor(id, "SIMPLEINPUT", 1, false, false);
 </string>
           </argument>
         </arguments>

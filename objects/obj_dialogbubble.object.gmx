@@ -502,6 +502,55 @@ if (write == true)
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Player controls
+if (mouse_check_button_released(mb_left))
+{
+    if (write &amp;&amp; skipable)
+    {
+        charactersToDraw = previousCharactersDrawn + dialog;
+        charactersDrawn = dialogLength;
+        if (typewriter == 2)
+        {
+            splitDialogsToDraw = ds_list_size(splitDialog);
+        }
+    }
+    else if (newDialog &amp;&amp; endOfDialog &amp;&amp; !write &amp;&amp; closeable)
+    {
+        previousCharactersDrawn = "";
+        charactersToDraw = "";
+        endOfDialog = false;
+        write = true;
+        if (typewriter == 2)
+        {
+            ds_list_clear(splitDialog);
+            splitDialogsToDraw = 0;
+        }
+    }
+    else if (endOfDialog &amp;&amp; !write &amp;&amp; closeable)
+    {
+        finish = true;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -1410,54 +1459,6 @@ if(loadComplete) {
             choiceLength += string_width(choices[i]);
         }
     }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="90">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Advance dialog
-if (write &amp;&amp; skipable)
-{
-    charactersToDraw = previousCharactersDrawn + dialog;
-    charactersDrawn = dialogLength;
-    if (typewriter == 2)
-    {
-        splitDialogsToDraw = ds_list_size(splitDialog);
-    }
-}
-else if (newDialog &amp;&amp; endOfDialog &amp;&amp; !write &amp;&amp; closeable)
-{
-    previousCharactersDrawn = "";
-    charactersToDraw = "";
-    endOfDialog = false;
-    write = true;
-    if (typewriter == 2)
-    {
-        ds_list_clear(splitDialog);
-        splitDialogsToDraw = 0;
-    }
-}
-else if (endOfDialog &amp;&amp; !write &amp;&amp; closeable)
-{
-    finish = true;
 }
 </string>
           </argument>
