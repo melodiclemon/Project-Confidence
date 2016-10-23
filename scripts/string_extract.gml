@@ -8,16 +8,30 @@
 //      sep         element separator, string
 //      index       element to return, [0..N-1], real
 //
+//  edits made by Daniel "Jollepoker" Vedin, to remove unintended behaviour.
+//
 /// GMLscripts.com/license
 {
-    var str,sep,ind,len;
+    var str,sep,ind,len,curind;
     str = argument0;
     sep = argument1;
     ind = argument2;
     len = string_length(sep)-1;
+    curind = 0;
     if (string_pos(sep,str) != 0)
     {
-        repeat (ind) str = string_delete(str,1,string_pos(sep,str)+len);
+        repeat (ind)
+        { 
+            curind++;
+            str = string_delete(str,1,string_pos(sep,str)+len);
+            if (string_pos(sep,str) == 0)
+            {
+                if (curind != ind) 
+                {
+                    return "";
+                }
+            }
+        }
         str = string_delete(str,string_pos(sep,str),string_length(str));
         return str;
     }
