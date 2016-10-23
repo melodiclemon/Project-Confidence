@@ -350,7 +350,7 @@ if (startOfDialog == true &amp;&amp; write == true)
     }
     else
     {
-        bubbleHeight = dialogHeight + fontSize;
+        bubbleHeight = dialogHeight + (fontSize * 1.5);
     }
     
     // To make the values easier to use
@@ -937,7 +937,7 @@ if (type == 1)
         }
         
         // Left and Right
-        loopAmount = 5;
+        loopAmount = 3;
         halfSpikeLength = (bubbleHeight / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {
@@ -987,7 +987,7 @@ if (type == 1)
             draw_triangle
             (
                 xCord + bubbleWidth,
-                yCord + (halfSpikeLength * loopCount * 2) + yViewOffset + outlinePadding,
+                yCord + (halfSpikeLength * loopCount * 2) + yViewOffset,
                 xCord + bubbleWidth,
                 yCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2) + yViewOffset,
                 xCord + bubbleWidth + fontSize,
@@ -1003,7 +1003,7 @@ if (type == 1)
             xCord, 
             yCord + yViewOffset, 
             xCord + bubbleWidth, 
-            yCord + bubbleHeight + yViewOffset,
+            yCord + bubbleHeight + yViewOffset - 1,
             false
         );
     }
@@ -1045,311 +1045,107 @@ if (type == 2)
             }
         }
         
-        // cosmetic loop 
-        // Top left corner
-        // outline
-        draw_set_color(color);
-        draw_triangle
-        (
-            xCord,
-            yCord + fontSize  + yViewOffset + outlinePadding,
-            xCord,
-            yCord + yViewOffset,
-            xCord - fontSize - outlinePadding,
-            yCord - fontSize + yViewOffset - outlinePadding,
-            false
-        );
-        draw_triangle
-        (
-            xCord + (fontSize * 2) + outlinePadding,
-            yCord + yViewOffset,
-            xCord,
-            yCord + yViewOffset,
-            xCord - fontSize - outlinePadding,
-            yCord - fontSize + yViewOffset - outlinePadding,
-            false
-        );
-        
-        // fill
-        draw_set_color(bubbleColor);
-        draw_triangle
-        (
-            xCord,
-            yCord + fontSize  + yViewOffset,
-            xCord,
-            yCord + yViewOffset,
-            xCord - fontSize,
-            yCord - fontSize + yViewOffset,
-            false
-        );
-        draw_triangle
-        (
-            xCord + (fontSize * 2),
-            yCord + yViewOffset,
-            xCord,
-            yCord + yViewOffset,
-            xCord - fontSize,
-            yCord - fontSize + yViewOffset,
-            false
-        );
-        
-        // Top right corner
-        // outline
-        draw_set_color(color);
-        draw_triangle
-        (
-            xCord + bubbleWidth + 1,
-            yCord + fontSize + yViewOffset + outlinePadding,
-            xCord + bubbleWidth + 1,
-            yCord + yViewOffset,
-            xCord + bubbleWidth + fontSize + outlinePadding,
-            yCord - fontSize + yViewOffset - outlinePadding,
-            false
-        );
-        draw_triangle
-        (
-            xCord + bubbleWidth - (fontSize * 2) - outlinePadding,
-            yCord + yViewOffset,
-            xCord + bubbleWidth + 1,
-            yCord + yViewOffset,
-            xCord + bubbleWidth + fontSize + outlinePadding,
-            yCord - fontSize + yViewOffset - outlinePadding,
-            false
-        );
-        
-        // fill
-        draw_set_color(bubbleColor);
-        draw_triangle
-        (
-            xCord + bubbleWidth + 1,
-            yCord + fontSize + yViewOffset,
-            xCord + bubbleWidth + 1,
-            yCord + yViewOffset,
-            xCord + bubbleWidth + fontSize,
-            yCord - fontSize + yViewOffset,
-            false
-        );
-        draw_triangle
-        (
-            xCord + bubbleWidth - (fontSize * 2),
-            yCord + yViewOffset,
-            xCord + bubbleWidth + 1,
-            yCord + yViewOffset,
-            xCord + bubbleWidth + fontSize,
-            yCord - fontSize + yViewOffset,
-            false
-        );
-        
-        // Bottom right corner
-        // outline
-        draw_set_color(color);
-        draw_triangle
-        (
-            xCord + bubbleWidth + 1,
-            yCord + bubbleHeight - fontSize + yViewOffset - outlinePadding,
-            xCord + bubbleWidth + 1,
-            yCord + bubbleHeight + yViewOffset,
-            xCord + bubbleWidth + fontSize + outlinePadding,
-            yCord + bubbleHeight + fontSize + yViewOffset + outlinePadding,
-            false
-        );
-        draw_triangle
-        (
-            xCord + bubbleWidth - (fontSize * 2) - outlinePadding,
-            yCord + bubbleHeight + yViewOffset,
-            xCord + bubbleWidth + 1,
-            yCord + bubbleHeight + yViewOffset,
-            xCord + bubbleWidth + fontSize + outlinePadding,
-            yCord + bubbleHeight + fontSize + yViewOffset + outlinePadding,
-            false
-        );
-        
-        // fill
-        draw_set_color(bubbleColor);
-        draw_triangle
-        (
-            xCord + bubbleWidth + 1,
-            yCord + bubbleHeight - fontSize + yViewOffset,
-            xCord + bubbleWidth + 1,
-            yCord + bubbleHeight + yViewOffset,
-            xCord + bubbleWidth + fontSize,
-            yCord + bubbleHeight + fontSize + yViewOffset,
-            false
-        );
-        draw_triangle
-        (
-            xCord + bubbleWidth - (fontSize * 2),
-            yCord + bubbleHeight + yViewOffset,
-            xCord + bubbleWidth + 1,
-            yCord + bubbleHeight + yViewOffset,
-            xCord + bubbleWidth + fontSize,
-            yCord + bubbleHeight + fontSize + yViewOffset,
-            false
-        );
-        
-        // Bottom left corner
-        // outline
-        draw_set_color(color);
-        draw_triangle
-        (
-            xCord,
-            yCord + bubbleHeight - fontSize + yViewOffset - outlinePadding,
-            xCord,
-            yCord + bubbleHeight + yViewOffset,
-            xCord - fontSize - outlinePadding,
-            yCord + bubbleHeight + fontSize + yViewOffset + outlinePadding,
-            false
-        );
-        draw_triangle
-        (
-            xCord + (fontSize * 2) + outlinePadding,
-            yCord + bubbleHeight + yViewOffset,
-            xCord,
-            yCord + bubbleHeight + yViewOffset,
-            xCord - fontSize - outlinePadding,
-            yCord + bubbleHeight + fontSize + yViewOffset + outlinePadding,
-            false
-        );
-        
-        // fill
-        draw_set_color(bubbleColor);
-        draw_triangle
-        (
-            xCord,
-            yCord + bubbleHeight - fontSize + yViewOffset,
-            xCord,
-            yCord + bubbleHeight + yViewOffset,
-            xCord - fontSize,
-            yCord + bubbleHeight + fontSize + yViewOffset,
-            false
-        );
-        draw_triangle
-        (
-            xCord + (fontSize * 2),
-            yCord + bubbleHeight + yViewOffset,
-            xCord,
-            yCord + bubbleHeight + yViewOffset,
-            xCord - fontSize,
-            yCord + bubbleHeight + fontSize + yViewOffset,
-            false
-        );
-        
+        // cosmetic loop
         // Top and bottom
         var loopAmount = 10;
-        var halfSpikeLength = (floor(bubbleWidth) / loopAmount) / 2;
+        var halfEllipseLength = (floor(bubbleWidth) / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {    
             // Top
             // outline
             draw_set_color(color);
-            draw_triangle
+            draw_ellipse
             (
-                xCord + (halfSpikeLength * loopCount * 2) - outlinePadding,
-                yCord + yViewOffset,
-                xCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2) + outlinePadding,
-                yCord + yViewOffset,
-                xCord + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                xCord + (halfEllipseLength * loopCount * 2) - outlinePadding,
                 yCord - fontSize + yViewOffset - outlinePadding,
+                xCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2) + outlinePadding,
+                yCord + fontSize + yViewOffset + outlinePadding,
                 false
             );
             
             // fill
             draw_set_color(bubbleColor);
-            draw_triangle
+            draw_ellipse
             (
-                xCord + (halfSpikeLength * loopCount * 2),
-                yCord + yViewOffset,
-                xCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2),
-                yCord + yViewOffset,
-                xCord + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                xCord + (halfEllipseLength * loopCount * 2),
                 yCord - fontSize + yViewOffset,
+                xCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2),
+                yCord + fontSize + yViewOffset,
                 false
             );
             
             // Bottom
             // outline
             draw_set_color(color);
-            draw_triangle
+            draw_ellipse
             (
-                xCord + (halfSpikeLength * loopCount * 2) - outlinePadding,
-                yCord + bubbleHeight + yViewOffset,
-                xCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2) + outlinePadding,
-                yCord + bubbleHeight + yViewOffset,
-                xCord + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                xCord + (halfEllipseLength * loopCount * 2) - outlinePadding,
+                yCord + bubbleHeight - fontSize + yViewOffset - outlinePadding,
+                xCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2) + outlinePadding,
                 yCord + bubbleHeight + fontSize + yViewOffset + outlinePadding,
                 false
             );
             
             // fill
             draw_set_color(bubbleColor);
-            draw_triangle
+            draw_ellipse
             (
-                xCord + (halfSpikeLength * loopCount * 2),
-                yCord + bubbleHeight + yViewOffset,
-                xCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2),
-                yCord + bubbleHeight + yViewOffset,
-                xCord + halfSpikeLength + (halfSpikeLength * loopCount * 2),
+                xCord + (halfEllipseLength * loopCount * 2),
+                yCord + bubbleHeight - fontSize + yViewOffset,
+                xCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2),
                 yCord + bubbleHeight + fontSize + yViewOffset,
                 false
             );
         }
         
         // Left and Right
-        loopAmount = 5;
-        halfSpikeLength = (bubbleHeight / loopAmount) / 2;
+        loopAmount = 3;
+        halfEllipseLength = (bubbleHeight / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {
             // Left
             // outline
             draw_set_color(color);
-            draw_triangle
+            draw_ellipse
             (
-                xCord,
-                yCord + (halfSpikeLength * loopCount * 2) + yViewOffset - outlinePadding,
-                xCord,
-                yCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2) + yViewOffset + outlinePadding,
                 xCord - fontSize - outlinePadding,
-                yCord + halfSpikeLength + (halfSpikeLength * loopCount * 2) + yViewOffset,
+                yCord + (halfEllipseLength * loopCount * 2) + yViewOffset - outlinePadding,
+                xCord + fontSize + outlinePadding,
+                yCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2) + yViewOffset + outlinePadding,
                 false
             );
             
             // fill
             draw_set_color(bubbleColor);
-            draw_triangle
+            draw_ellipse
             (
-                xCord,
-                yCord + (halfSpikeLength * loopCount * 2) + yViewOffset,
-                xCord,
-                yCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2) + yViewOffset,
                 xCord - fontSize,
-                yCord + halfSpikeLength + (halfSpikeLength * loopCount * 2) + yViewOffset,
+                yCord + (halfEllipseLength * loopCount * 2) + yViewOffset,
+                xCord + fontSize,
+                yCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2) + yViewOffset,
                 false
             );
             
             // Right
             // outline
             draw_set_color(color);
-            draw_triangle
+            draw_ellipse
             (
-                xCord + bubbleWidth,
-                yCord + (halfSpikeLength * loopCount * 2) + yViewOffset - outlinePadding,
-                xCord + bubbleWidth,
-                yCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2) + yViewOffset + outlinePadding,
+                xCord + bubbleWidth - fontSize - outlinePadding,
+                yCord + (halfEllipseLength * loopCount * 2) + yViewOffset - outlinePadding,
                 xCord + bubbleWidth + fontSize + outlinePadding,
-                yCord + halfSpikeLength + (halfSpikeLength * loopCount * 2) + yViewOffset,
+                yCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2) + yViewOffset + outlinePadding,
                 false
             );
             
             // fill
             draw_set_color(bubbleColor);
-            draw_triangle
+            draw_ellipse
             (
-                xCord + bubbleWidth,
-                yCord + (halfSpikeLength * loopCount * 2) + yViewOffset + outlinePadding,
-                xCord + bubbleWidth,
-                yCord + (halfSpikeLength * 2) + (halfSpikeLength * loopCount * 2) + yViewOffset,
+                xCord + bubbleWidth - fontSize,
+                yCord + (halfEllipseLength * loopCount * 2) + yViewOffset,
                 xCord + bubbleWidth + fontSize,
-                yCord + halfSpikeLength + (halfSpikeLength * loopCount * 2) + yViewOffset,
+                yCord + (halfEllipseLength * 2) + (halfEllipseLength * loopCount * 2) + yViewOffset,
                 false
             );
         } 
@@ -1359,7 +1155,7 @@ if (type == 2)
         draw_rectangle
         (
             xCord, 
-            yCord + yViewOffset, 
+            yCord + yViewOffset + 1, 
             xCord + bubbleWidth, 
             yCord + bubbleHeight + yViewOffset,
             false
@@ -1429,7 +1225,7 @@ if(loadComplete)
 {
     if (actor != -1)
     {
-        if (type != 3)
+        if (type != 3 &amp;&amp; type != 2)
         {
             var triangleYOffset = 1;
             var trianglePointOffset = actor.sprite_yoffset + view_yview[0];
@@ -1474,6 +1270,54 @@ if(loadComplete)
                 yCord + bubbleHeight + triangleYOffset,
                 xCord + (bubbleWidth / 2),
                 actor.y - trianglePointOffset,
+                false
+            );
+        }
+        else if (type != 3)
+        {
+            var circlePointOffset = actor.sprite_yoffset + view_wview[0];
+            if (yViewOffset != 0)
+            {
+                circlePointOffset = (actor.sprite_yoffset / 2) + view_wview[0];
+            }
+            
+            // outline
+            draw_set_color(color);
+            // top
+            draw_circle
+            (
+                xCord + (bubbleWidth / 2),
+                yCord + bubbleHeight + fontSize + (characterDistance / 4),
+                (fontSize / 2) + outlinePadding,
+                false
+            );
+            
+            // bottom
+            draw_circle
+            (
+                xCord + (bubbleWidth / 2),
+                yCord + bubbleHeight + fontSize + ((characterDistance / 4) * 3),
+                (fontSize / 3) + outlinePadding,
+                false
+            );
+            
+            // fill
+            draw_set_color(bubbleColor);
+            // top
+            draw_circle
+            (
+                xCord + (bubbleWidth / 2),
+                yCord + bubbleHeight + fontSize + (characterDistance / 4),
+                (fontSize / 2),
+                false
+            );
+            
+            // bottom
+            draw_circle
+            (
+                xCord + (bubbleWidth / 2),
+                yCord + bubbleHeight + fontSize + ((characterDistance / 4) * 3),
+                (fontSize / 3),
                 false
             );
         }
