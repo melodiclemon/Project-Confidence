@@ -235,8 +235,17 @@ if (startOfDialog == true &amp;&amp; write == true)
     dialog = global.dialog[? dialogID];
     if (!is_undefined(dialog))
     {
-        nextDialogID = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 1));
-        dialog = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 0));
+        var seperator = "&gt;&gt;&gt;";
+        if (string_pos("/i", dialog) != 0)
+        {
+            seperator = "^^^";
+            nextDialogID = dialog;
+        } 
+        else 
+        {
+            nextDialogID = string_rtrim(string_extract(dialog, seperator, 1));
+        }
+        dialog = string_rtrim(string_extract(dialog, seperator, 0));
     }
     else
     {
@@ -289,6 +298,16 @@ if (startOfDialog == true &amp;&amp; write == true)
     {
         expectPlayerInput = true;
         dialog = string_replace(dialog, "/i", "");
+        var choice = 1;
+        while (true) 
+        {
+            choices[choice - 1] = string_rtrim(string_extract(nextDialogID, "^^^", choice));
+            if (choices[choice - 1] == "") 
+            {
+                break;
+            }
+            choice++;
+        }
     }
     
     if (typewriter == 2) 
@@ -1361,7 +1380,8 @@ if(loadComplete) {
         var choiceString = "";
         var choiceLength = (fontSize * 3);
         
-        for (i = 0; i &lt; array_length_1d(choices); i++)
+        // -1, since the last place in the array is always an empty string
+        for (i = 0; i &lt; array_length_1d(choices) - 1; i++)
         {
             draw_text_transformed
             (
