@@ -68,7 +68,7 @@ maxColourChange = 0.1;
           <argument>
             <kind>1</kind>
             <string>///enable the application_surface again
-application_surface_draw_enable(1);
+//application_surface_draw_enable(1);
 //make sure we free the surface from the memory when we are done using it.
 if(surface_exists(sur))
 {

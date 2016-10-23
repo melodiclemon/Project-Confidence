@@ -1,5 +1,16 @@
 ///unit_idleState
-if(sprite_index != spr_player_idle)
+
+//check for death
+if(defense <= 0)
+{
+    obj_combatManager.currentTurn = turn.finished;
+    animation_play(spr_player_defeat,0,200);
+    state = unit_friendDefeatState;
+}
+
+
+//play idle sprite
+if(animation_end() && sprite_index != spr_player_idle)
     animation_play(spr_player_idle,0,PLAYER_ANIMATION_IDLE_SPEED);
 
 

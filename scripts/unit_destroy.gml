@@ -4,7 +4,7 @@
 */
 if(object_index == obj_unitFriend)
 {
-    instance_destroy();
+    //state = unit_friendDefeatState;
 }
 else if(object_get_parent(object_index) == obj_unitFoe)
     instance_destroy();

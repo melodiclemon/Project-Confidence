@@ -208,8 +208,16 @@ if((cardTriggerDraw == 0 &amp;&amp; obj_combatManager.currentTurn == turn.draw))
 
 // make sure to let the CombatManager know that we are done with our turn
 if(draw == 0)
+{
     combatManager_turnCompleted(turn.upkeep);
+   
+}
     
+if(obj_combatManager.currentTurn == turn.upkeep)
+    obj_deck.canRedraw = true;
+
+
+
 combatManager_turnCompleted(turn.action,turn.foe,turn.friend);
 
 </string>

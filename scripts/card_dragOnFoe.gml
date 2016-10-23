@@ -12,12 +12,12 @@ if(type == cardType.normalCard && !card_immuneToCardType(foe,type))
     instance_destroy();
     exit;
 }
-else if(type == cardType.negativeCard && foe.attack != 0  && !card_immuneToCardType(foe,type))
+else if(type == cardType.negativeCard && !card_immuneToCardType(foe,type))
 {
-    if(foe.attack - cardValue < 0)
-        foe.attack = 0;
+    if(foe.defense - cardValue < 0)
+        foe.defense = 0;
     else
-        foe.attack -= cardValue;
+        foe.defense -= cardValue;
     card_removeCardFromArray(id);
     obj_deck.draw++;
     instance_destroy();
@@ -46,7 +46,7 @@ else if(type == cardType.reverseCard && !card_immuneToCardType(foe,type))
 }
 else if(type == cardType.sigmaCard && !card_immuneToCardType(foe,type))
 {
-    foe.attack += card_sigmaEffect(foe);
+    foe.defense += card_sigmaEffect(foe.defense);
     card_removeCardFromArray(id);
     obj_deck.draw++;
     instance_destroy();

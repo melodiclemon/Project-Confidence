@@ -96,8 +96,8 @@ else
     
     
     //clamp to room
-    view_xview=clamp(view_xview,0,room_width-view_wview);
-    view_yview=clamp(view_yview,0,room_height-view_hview);
+    view_xview=round(clamp(view_xview,0,room_width-view_wview));
+    view_yview=round(clamp(view_yview,0,room_height-view_hview));
 }
 
     view_xview+= random_range(-shake,shake);

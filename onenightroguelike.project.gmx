@@ -102,6 +102,19 @@
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites">
+    <sprites name="Player">
+      <sprite>sprites\spr_player_openBag</sprite>
+      <sprite>sprites\spr_player_attack</sprite>
+      <sprite>sprites\spr_player_idle</sprite>
+      <sprite>sprites\spr_player_closeBag</sprite>
+      <sprite>sprites\spr_player_bagIdle</sprite>
+      <sprite>sprites\spr_player_walk</sprite>
+      <sprite>sprites\spr_player_pet</sprite>
+      <sprite>sprites\spr_player_shadow</sprite>
+      <sprite>sprites\spr_player_defeat</sprite>
+      <sprite>sprites\spr_player_defeat_idle</sprite>
+      <sprite>sprites\spr_player_damaged</sprite>
+    </sprites>
     <sprites name="Turn Combat">
       <sprite>sprites\spr_card_old</sprite>
       <sprite>sprites\spr_endTurn</sprite>
@@ -118,16 +131,6 @@
     </sprites>
     <sprite>sprites\spr_monsterPlaceholder</sprite>
     <sprites name="Overworld">
-      <sprites name="Player">
-        <sprite>sprites\spr_player_openBag</sprite>
-        <sprite>sprites\spr_player_attack</sprite>
-        <sprite>sprites\spr_player_idle</sprite>
-        <sprite>sprites\spr_player_closeBag</sprite>
-        <sprite>sprites\spr_player_bagIdle</sprite>
-        <sprite>sprites\spr_player_walk</sprite>
-        <sprite>sprites\spr_player_pet</sprite>
-        <sprite>sprites\spr_player_shadow</sprite>
-      </sprites>
       <sprite>sprites\spr_pillar_01</sprite>
       <sprite>sprites\spr_tree_01</sprite>
       <sprite>sprites\spr_bush</sprite>
@@ -192,6 +195,24 @@
       <sprite>sprites\spr_roomTransitioner</sprite>
       <sprite>sprites\spr_block_small</sprite>
     </sprites>
+    <sprites name="Particles">
+      <sprite>sprites\spr_part_pixel_</sprite>
+      <sprite>sprites\spr_part_pixel</sprite>
+      <sprite>sprites\spr_part_disk</sprite>
+      <sprite>sprites\spr_part_square</sprite>
+      <sprite>sprites\spr_part_line</sprite>
+      <sprite>sprites\spr_part_star</sprite>
+      <sprite>sprites\spr_part_circle</sprite>
+      <sprite>sprites\spr_part_ring</sprite>
+      <sprite>sprites\spr_part_sphere</sprite>
+      <sprite>sprites\spr_part_flare</sprite>
+      <sprite>sprites\spr_part_spark</sprite>
+      <sprite>sprites\spr_part_explosion</sprite>
+      <sprite>sprites\spr_part_cloud</sprite>
+      <sprite>sprites\spr_part_smoke</sprite>
+      <sprite>sprites\spr_part_snow</sprite>
+    </sprites>
+    <sprite>sprites\spr_save</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>
@@ -215,6 +236,7 @@
       <background>background\bg_test</background>
     </backgrounds>
     <background>background\bg_endFeedback</background>
+    <background>background\bg_gameOver</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -370,6 +392,10 @@
         <script>scripts\transition_create.gml</script>
       </scripts>
       <script>scripts\resolution_set_fullscreen_.gml</script>
+      <scripts name="SaveLoad">
+        <script>scripts\GameManager_save.gml</script>
+        <script>scripts\GameManager_load.gml</script>
+      </scripts>
     </scripts>
     <scripts name="Trick Scripts">
       <script>scripts\trick_bark.gml</script>
@@ -388,13 +414,15 @@
         <script>scripts\unit_friendAttackState.gml</script>
         <script>scripts\unit_friendIdleState.gml</script>
         <script>scripts\unit_friendInventoryState.gml</script>
+        <script>scripts\unit_friendDefeatState.gml</script>
       </scripts>
       <scripts name="Foe Unit Scripts">
         <script>scripts\unit_enemyAttackState.gml</script>
         <script>scripts\unit_enemyIdleState.gml</script>
         <script>scripts\unit_enemyReanimateState.gml</script>
         <script>scripts\unit_grow.gml</script>
-        <script>scripts\unit_enemyDeathState.gml</script>
+        <script>scripts\unit_enemyDyingState.gml</script>
+        <script>scripts\unit_enemyDeadState.gml</script>
       </scripts>
       <script>scripts\unit_set_initialAttDef.gml</script>
       <script>scripts\unit_destroy.gml</script>
@@ -408,6 +436,10 @@
     </scripts>
     <script>scripts\enemy_overworld_idleState.gml</script>
     <script>scripts\enemy_overworld_chaseState.gml</script>
+    <scripts name="Particles">
+      <script>scripts\particles_create_death.gml</script>
+      <script>scripts\particles_create_card.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_green.shader</shader>
@@ -477,6 +509,7 @@
     <objects name="Interactable Objects">
       <object>objects\Stick</object>
       <object>objects\interactableObject</object>
+      <object>objects\obj_save</object>
     </objects>
     <object>objects\TestObject</object>
     <objects name="dialogEngine">
@@ -514,11 +547,12 @@
     </objects>
     <objects name="Particle Effects">
       <object>objects\obj_part_1</object>
+      <object>objects\obj_part_death</object>
+      <object>objects\obj_part_card</object>
       <object>objects\obj_part_fairyDust</object>
       <object>objects\obj_part_fire</object>
       <object>objects\obj_part_rain</object>
       <object>objects\obj_part_blood</object>
-      <object>objects\obj_part_punch</object>
     </objects>
   </objects>
   <rooms name="rooms">
@@ -531,6 +565,7 @@
     <room>rooms\rm_forest_start</room>
     <room>rooms\room4</room>
     <room>rooms\Combat_Room</room>
+    <room>rooms\rm_gameOver</room>
     <room>rooms\backup</room>
     <rooms name="dialogEngine">
       <room>rooms\rm_test</room>
