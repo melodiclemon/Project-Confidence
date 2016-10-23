@@ -31,6 +31,7 @@
 player = noone;
 playerState = 3;
 
+
 //Card chance variables
 cardChanceArray[cardType.normalCard] = 100; // Normal Card
 cardChanceArray[cardType.negativeCard] = 0; // Negative Card

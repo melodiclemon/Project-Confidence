@@ -213,6 +213,7 @@
       <sprite>sprites\spr_part_snow</sprite>
     </sprites>
     <sprite>sprites\spr_save</sprite>
+    <sprite>sprites\spr_enemy_spawner</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grassfield</background>
@@ -501,6 +502,7 @@
         <object>objects\Enemy_Overworld_Wallower</object>
         <object>objects\Enemy_Overworld_SeedofNightmares</object>
         <object>objects\Enemy_Overworld_Old</object>
+        <object>objects\obj_enemy_spawner</object>
       </objects>
     </objects>
     <object>objects\Doggie</object>
