@@ -13,6 +13,11 @@ ACLOSE2:::And then it should open another dialog./as>>>ACLOSE3
 ACLOSE3:::AND ANOTHER ONE./a>>>ACLOSE4
 ACLOSE4:::AND ANOTHER ONE./a
 SIMPLEINPUT:::Are you lost, little one?/i^^^Yes^^^No^^^Maybe
+SIMPLEINPUTYES:::Then you must create your own path./e
+SIMPLEINPUTNO:::Good./e
+SIMPLEINPUTMAYBE1:::Then I guess you should go get some help./c>>>SIMPLEINPUTMAYBE2
+SIMPLEINPUTMAYBE2:::Or not...?/c>>>SIMPLEINPUTMAYBE3
+SIMPLEINPUTMAYBE3:::I'm not your mother./e
 PATTACK:::Take that!/as
 PTRIGGER01:::We should try to be careful, right boy?/as
 PTRIGGER02:::That doesn't look very nice.../af
