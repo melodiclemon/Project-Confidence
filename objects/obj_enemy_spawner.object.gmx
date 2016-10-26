@@ -28,6 +28,37 @@
             <string>///Properties
 
 spawnMargin = 100;
+spawnAmountMax = 2;
+spawnAmount = 0;
+isSpawning = false;
+spawnTimer = room_speed;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Spawn monster
+
+instance_create(astar_get_cell_room_x(x),astar_get_cell_room_y(y),Enemy_Overworld_Wailer);
+spawnAmount++;
+
 </string>
           </argument>
         </arguments>
@@ -50,26 +81,72 @@ spawnMargin = 100;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>/// Check for spawning possibility
+
 //check if the correct player object exists
 if(instance_exists(obj_player))
 {
-    var px = obj_player.x;
-    var py = obj_player.y;
-    
-    var horizontalCheck = px + view_wview + (sign(x-px)*spawnMargin);
-    var verticalCheck = py + view_hview + (sign(y-py)*spawnMargin);
-    
-    
-    //check left and right
-    if(x &gt; view_wview &amp;&amp; x &lt; horizontalCheck)
+    if(spawnAmount &lt; spawnAmountMax)
     {
-    }
-    //check top and bottom
-    else if(y &gt; view_hview &amp;&amp; y &lt; verticalCheck)
-    {
+        var px = obj_player.x;
+        var py = obj_player.y;
+        
+        var horizontalCheck = px + (sign(x-px)* view_wview) + (sign(x-px)*spawnMargin);
+        var verticalCheck = py + (sign(y-py)* view_hview) + (sign(y-py)*spawnMargin);
+        
+        //check if we are spawning
+        if(!isSpawning)
+        {
+            //check left and right
+            if(x &gt; sign(x-px)*view_wview &amp;&amp; x &lt; horizontalCheck)
+            {
+                show_message("is left or right"); 
+                isSpawning = true;
+                alarm[0] = spawnTimer;
+            }
+            //check top and bottom
+            else if(y &gt; sign(y-py) * view_hview &amp;&amp; y &lt; verticalCheck)
+            {
+                show_message("is top or bottom");
+                isSpawning = true;
+                alarm[0] = spawnTimer;
+            }
+        }
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///debug
+draw_self();
+
+var px = obj_player.x;
+var py = obj_player.y;
+        
+
+
+draw_set_color(c_white);
+draw_line(px + (sign(x-px)* view_wview) + (sign(x-px)*spawnMargin),py + (sign(y-py)* view_hview) + (sign(y-py)*spawnMargin),sign(x-px)*view_wview,sign(y-py) * view_hview);
+draw_set_color(c_black);
 </string>
           </argument>
         </arguments>
