@@ -73,7 +73,6 @@ splitDialogsToDraw = 0; // number of split_string dialogs to draw
 useFontScale = 0; // actual fontScale to use, depending on bubbleType
 expectPlayerInput = false // should the player answer to this dialog?
 input = -1; // input the player has chosen
-currentInput = 2; // input the player is hovering over
 loadComplete = false; // if all values above have been set at least once
 finish = false; // if the dialog is all done, this should be true
 // below are used by the draw GUI event
@@ -81,7 +80,6 @@ xCord = x - view_xview[0];
 yCord = y - view_yview[0];
 yViewOffset = 0;
 outlinePadding = 1;
-time = current_time;
 </string>
           </argument>
         </arguments>
@@ -877,7 +875,7 @@ if (type == 1)
         );
         
         // Top and bottom
-        var loopAmount = 10;
+        var loopAmount = 6;
         var halfSpikeLength = (floor(bubbleWidth) / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {    
@@ -1047,7 +1045,7 @@ if (type == 2)
         
         // cosmetic loop
         // Top and bottom
-        var loopAmount = 10;
+        var loopAmount = 6;
         var halfEllipseLength = (floor(bubbleWidth) / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {    
@@ -1380,22 +1378,38 @@ if(loadComplete) {
                     useFontScale,
                     0,
                 )
+                    
+                var buttonArea = point_in_rectangle
+                (
+                    mouse_x - view_xview[0],
+                    mouse_y - view_yview[0],
+                    xCord + choiceLength - fontSize,
+                    yCord + fontSize + yViewOffset + dialogHeight,
+                    xCord + choiceLength + fontSize + (string_width(choices[i]) * fontScale),
+                    yCord + (fontSize * 3) + yViewOffset + dialogHeight + (string_height(choices[i]) * fontScale)
+                );
                 
-                if (i == currentInput)
+                if (buttonArea) 
                 {
                     draw_triangle
                     (
                         xCord + fontSize + choiceLength - (fontSize * 2.5), 
                         yCord + (fontSize * 2) + yViewOffset + dialogHeight, 
                         xCord + fontSize + choiceLength - (fontSize * 2.5),
-                        yCord + (fontSize * 3) + yViewOffset + dialogHeight,
+                        yCord + (fontSize * 4) + yViewOffset + dialogHeight,
                         xCord + (fontSize * 2) + choiceLength - (fontSize * 2.5),
-                        yCord + (fontSize * 2.5) + yViewOffset + dialogHeight,
+                        yCord + (fontSize * 3) + yViewOffset + dialogHeight,
                         false
                     );
+                    
+                    if (mouse_check_button_released(mb_left))
+                    {
+                        input = i;
+                        finish = true;
+                    }
                 }
                 
-                choiceLength += string_width(choices[i]);
+                choiceLength += (string_width(choices[i]) * fontScale) + fontSize * 3;
             }
         }
     }
