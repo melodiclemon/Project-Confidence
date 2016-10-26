@@ -112,15 +112,7 @@ for(dialogIndex = 0; dialogIndex &lt; ds_list_size(dialogList); dialogIndex++)
                     
                     if(dialogScript != -1) 
                     {
-                        if(expectPlayerInput)
-                        {
-                            script_execute(dialogScript); // change this to send arguments as well
-                        }
-                        else
-                        {
-                            script_execute(dialogScript); // change this to the same as above - dialogAnswer
-                        }
-                        
+                        script_execute(dialogScript, actor, input);
                     }
                     
                     instance_destroy();
