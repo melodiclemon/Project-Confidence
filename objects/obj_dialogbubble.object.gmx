@@ -34,8 +34,9 @@
 dialogID = "";
 textSpeed = 3; // value should be between 0.1(instant) - 6(slow)
 font = font_default; // font to use.
-color = c_white; // text &amp; border color
+textColor = c_white; // textColor
 bubbleColor = c_black; // bubbleColor
+borderColor = c_white; // borderColor
 textSound = -1; // sound to play for each character in the dialog.
                 // Won't be used if typewriter is set to false
 write = false; // set to true when all variables have been set
@@ -622,7 +623,7 @@ if (type == 0)
         }
         
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_roundrect_ext
         (
             xCord - outlinePadding, 
@@ -688,7 +689,7 @@ if (type == 1)
         // cosmetic loop 
         // Top left corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord,
@@ -735,7 +736,7 @@ if (type == 1)
         
         // Top right corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord + bubbleWidth + 1,
@@ -782,7 +783,7 @@ if (type == 1)
         
         // Bottom right corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord + bubbleWidth + 1,
@@ -829,7 +830,7 @@ if (type == 1)
         
         // Bottom left corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord,
@@ -881,7 +882,7 @@ if (type == 1)
         {    
             // Top
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + (halfSpikeLength * loopCount * 2) - outlinePadding,
@@ -908,7 +909,7 @@ if (type == 1)
             
             // Bottom
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + (halfSpikeLength * loopCount * 2) - outlinePadding,
@@ -941,7 +942,7 @@ if (type == 1)
         {
             // Left
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord,
@@ -968,7 +969,7 @@ if (type == 1)
             
             // Right
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + bubbleWidth,
@@ -1051,7 +1052,7 @@ if (type == 2)
         {    
             // Top
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord + (halfEllipseLength * loopCount * 2) - outlinePadding,
@@ -1074,7 +1075,7 @@ if (type == 2)
             
             // Bottom
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord + (halfEllipseLength * loopCount * 2) - outlinePadding,
@@ -1103,7 +1104,7 @@ if (type == 2)
         {
             // Left
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord - fontSize - outlinePadding,
@@ -1126,7 +1127,7 @@ if (type == 2)
             
             // Right
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord + bubbleWidth - fontSize - outlinePadding,
@@ -1238,7 +1239,7 @@ if(loadComplete)
             }
             
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + (bubbleWidth / 2) - (fontSize / 2) - outlinePadding, 
@@ -1280,7 +1281,7 @@ if(loadComplete)
             }
             
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             // top
             draw_circle
             (
@@ -1344,7 +1345,7 @@ if(loadComplete)
             <string>/// Draw text
 if(loadComplete) {
     draw_set_font(font);
-    draw_set_color(color);
+    draw_set_color(textColor);
     draw_set_valign(fa_top);
     draw_set_halign(fa_left);
     draw_text_ext_transformed

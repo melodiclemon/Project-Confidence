@@ -251,8 +251,6 @@
       <scripts name="String Manipulation">
         <script>scripts\string_split.gml</script>
         <script>scripts\string_lpad.gml</script>
-        <script>scripts\string_extract.gml</script>
-        <script>scripts\string_rtrim.gml</script>
       </scripts>
       <scripts name="Approach Value">
         <script>scripts\approach.gml</script>
@@ -367,6 +365,8 @@
       <script>scripts\draw_dialogbubble_default_actor.gml</script>
       <script>scripts\draw_dialogbubble_color.gml</script>
       <script>scripts\closest_whole_multiply.gml</script>
+      <script>scripts\string_extract.gml</script>
+      <script>scripts\string_rtrim.gml</script>
     </scripts>
     <scripts name="Astar Scripts">
       <script>scripts\astar_path.gml</script>
