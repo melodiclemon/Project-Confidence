@@ -81,6 +81,7 @@ xCord = x - view_xview[0];
 yCord = y - view_yview[0];
 yViewOffset = 0;
 outlinePadding = 1;
+drawInputGraphic = true;
 </string>
           </argument>
         </arguments>
@@ -108,6 +109,30 @@ if (typewriter == 2)
 {
     ds_list_destroy(splitDialog);
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// inputGraphic draw blink effect
+drawInputGraphic = !drawInputGraphic;
 </string>
           </argument>
         </arguments>
@@ -376,7 +401,7 @@ if (startOfDialog == true &amp;&amp; write == true)
     }
     
     // To make the values easier to use
-    if (type == 1) 
+    if (type == 1 || type == 2) 
     {
         bubbleWidth = closest_whole_multiply(bubbleWidth, 10);
         bubbleHeight = closest_whole_multiply(bubbleHeight, 10);
@@ -594,6 +619,8 @@ if (mouse_check_button_released(mb_left))
                         ds_list_clear(splitDialog);
                         splitDialogsToDraw = 0;
                     }
+                    drawInputGraphic = true;
+                    alarm[3] = -1;
                 }
             }
         }
@@ -902,8 +929,8 @@ if (type == 1)
         );
         
         // Top and bottom
-        var loopAmount = 6;
-        var halfSpikeLength = (floor(bubbleWidth) / loopAmount) / 2;
+        var loopAmount = round(bubbleWidth / 15);
+        var halfSpikeLength = (bubbleWidth / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {    
             // Top
@@ -962,7 +989,7 @@ if (type == 1)
         }
         
         // Left and Right
-        loopAmount = 3;
+        loopAmount = round(bubbleHeight / 15);
         halfSpikeLength = (bubbleHeight / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {
@@ -1027,7 +1054,7 @@ if (type == 1)
         (
             xCord, 
             yCord + yViewOffset, 
-            xCord + bubbleWidth, 
+            xCord + bubbleWidth - 1, 
             yCord + bubbleHeight + yViewOffset - 1,
             false
         );
@@ -1072,7 +1099,7 @@ if (type == 2)
         
         // cosmetic loop
         // Top and bottom
-        var loopAmount = 6;
+        var loopAmount = round(bubbleWidth / 15);
         var halfEllipseLength = (floor(bubbleWidth) / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {    
@@ -1124,7 +1151,7 @@ if (type == 2)
         }
         
         // Left and Right
-        loopAmount = 3;
+        loopAmount = round(bubbleHeight / 15);
         halfEllipseLength = (bubbleHeight / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {
@@ -1437,6 +1464,56 @@ if(loadComplete) {
                 }
                 
                 choiceLength += (string_width(choices[i]) * fontScale) + fontSize * 3;
+            }
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw inputGraphic
+
+if(loadComplete) 
+{
+    if(!write) 
+    {
+        if(closeable)
+        {
+            if(drawInputGraphic)
+            {
+                draw_set_color(textColor);
+                draw_triangle
+                (
+                    xCord + bubbleWidth - fontSize,
+                    yCord + bubbleHeight - fontSize,
+                    xCord + bubbleWidth,
+                    yCord + bubbleHeight - fontSize,
+                    xCord + bubbleWidth - (fontSize / 2),
+                    yCord + bubbleHeight,
+                    false
+                );
+            }
+                
+            if(alarm[3] == -1)
+            {
+                alarm[3] = room_speed / 2;
             }
         }
     }
