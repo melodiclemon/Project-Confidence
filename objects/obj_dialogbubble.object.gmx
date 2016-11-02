@@ -113,6 +113,29 @@ if (typewriter == 2)
         </arguments>
       </action>
     </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Dialog Delay
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="2" enumb="1">
       <action>
         <libid>1</libid>
@@ -234,7 +257,7 @@ if (startOfDialog == true &amp;&amp; write == true)
     //endOfDialog should be true
     endOfDialog = true;
     
-    dialog = global.dialog[? dialogID];
+    dialog = DialogManager.dialogMap[? dialogID];
     if (!is_undefined(dialog))
     {
         var seperator = "&gt;&gt;&gt;";
@@ -385,132 +408,135 @@ if (startOfDialog == true &amp;&amp; write == true)
             <string>/// Decide characters to draw
 if (write == true) 
 {
-    if (typewriter == 0 || typewriter == 1) 
+    if (alarm[2] == -1)
     {
-        // if typewriter is false, we want to display the whole message right away
-        if (typewriter == 0)
+        if (typewriter == 0 || typewriter == 1) 
         {
-            charactersToDrawCurrentDialog = dialog;
-            charactersToDraw = previousCharactersDrawn + dialog;
-            charactersDrawn = dialogLength + 1;
-        }
-        
-        // if there's still characters left to draw
-        if (floor(charactersDrawn) &lt;= dialogLength) 
-        {
-            // copy all characters that should be drawn this step
-            charactersToDrawCurrentDialog = string_copy(dialog, 
-                                                        0, 
-                                                        charactersDrawn);
-        
-            // if there is a text sound and if a new character will be written                                       
-            if (textSound != -1)
+            // if typewriter is false, we want to display the whole message right away
+            if (typewriter == 0)
             {
-                if (typewriter == 1)
+                charactersToDrawCurrentDialog = dialog;
+                charactersToDraw = previousCharactersDrawn + dialog;
+                charactersDrawn = dialogLength + 1;
+            }
+            
+            // if there's still characters left to draw
+            if (floor(charactersDrawn) &lt;= dialogLength) 
+            {
+                // copy all characters that should be drawn this step
+                charactersToDrawCurrentDialog = string_copy(dialog, 
+                                                            0, 
+                                                            charactersDrawn);
+            
+                // if there is a text sound and if a new character will be written                                       
+                if (textSound != -1)
                 {
-                    if (charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
+                    if (typewriter == 1)
                     {
-                        audio_play_sound(textSound, 10, false);
+                        if (charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
+                        {
+                            audio_play_sound(textSound, 10, false);
+                        }
                     }
                 }
+                                                            
+                charactersDrawn += 1 / textSpeed;
+                charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
             }
-                                                        
-            charactersDrawn += 1 / textSpeed;
-            charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
+            else
+            {
+                // if we are at the end of the dialog
+                if (newDialog)
+                {
+                    // fail-safe
+                    charactersToDraw = previousCharactersDrawn + dialog;
+                
+                    // update variables necessary for reading a new dialog
+                    dialogID = nextDialogID;
+                    previousCharactersDrawn += dialog;
+                    
+                    // reset variables necessary for reading a new dialog
+                    charactersToDrawCurrentDialog = "";
+                    startOfDialog = true;
+                    charactersDrawn = 0;
+                }
+                if (endOfDialog)
+                {
+                    write = false;
+                }
+            }
         }
         else
         {
-            // if we are at the end of the dialog
-            if (newDialog)
+            // typewriter == 2
+            // if there's still words to draw
+            if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
             {
-                // fail-safe
-                charactersToDraw = previousCharactersDrawn + dialog;
-            
-                // update variables necessary for reading a new dialog
-                dialogID = nextDialogID;
-                previousCharactersDrawn += dialog;
-                
-                // reset variables necessary for reading a new dialog
+                // copy all words that should be printed
                 charactersToDrawCurrentDialog = "";
-                startOfDialog = true;
-                charactersDrawn = 0;
-            }
-            if (endOfDialog)
-            {
-                write = false;
-            }
-        }
-    }
-    else
-    {
-        // typewriter == 2
-        // if there's still words to draw
-        if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
-        {
-            // copy all words that should be printed
-            charactersToDrawCurrentDialog = "";
-            for (var word = 0; word &lt; splitDialogsToDraw; word++)
-            {
-                charactersToDrawCurrentDialog += splitDialog[| word];
-                if (word != ds_list_size(splitDialog)) 
+                for (var word = 0; word &lt; splitDialogsToDraw; word++)
                 {
-                    charactersToDrawCurrentDialog += " ";
-                }
-            }
-            
-            if (alarm[1] == -1) 
-            {
-                if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
-                {
-                    alarm[1] = room_speed / textSpeed;
-                    
-                    if (textSound != -1)
+                    charactersToDrawCurrentDialog += splitDialog[| word];
+                    if (word != ds_list_size(splitDialog)) 
                     {
-                        audio_play_sound(textSound, 10, false);
+                        charactersToDrawCurrentDialog += " ";
                     }
+                }
+                
+                if (alarm[1] == -1) 
+                {
+                    if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
+                    {
+                        alarm[1] = room_speed / textSpeed;
+                        
+                        if (textSound != -1)
+                        {
+                            audio_play_sound(textSound, 10, false);
+                        }
+                        
+                        splitDialogsToDraw++;
+                    }
+                }
+                
+                charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
+            }
+            else
+            {
+                // if we are at the end of the dialog
+                if (newDialog)
+                {
+                    // fail-safe
+                    charactersToDraw = previousCharactersDrawn + dialog;
+                
+                    // update variables necessary for reading a new dialog
+                    dialogID = nextDialogID;
+                    previousCharactersDrawn += charactersToDrawCurrentDialog;
                     
-                    splitDialogsToDraw++;
+                    // reset variables necessary for reading a new dialog
+                    charactersToDrawCurrentDialog = "";
+                    startOfDialog = true;
+                    charactersDrawn = 0;
+                    splitDialog = 0;
+                    ds_list_clear(splitDialog);
+                }
+                if (endOfDialog)
+                {
+                    write = false;
                 }
             }
-            
-            charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
         }
-        else
+        
+        // if the bubble should close automagically
+        if (endOfDialog)
         {
-            // if we are at the end of the dialog
-            if (newDialog)
+            if (!write)
             {
-                // fail-safe
-                charactersToDraw = previousCharactersDrawn + dialog;
-            
-                // update variables necessary for reading a new dialog
-                dialogID = nextDialogID;
-                previousCharactersDrawn += charactersToDrawCurrentDialog;
-                
-                // reset variables necessary for reading a new dialog
-                charactersToDrawCurrentDialog = "";
-                startOfDialog = true;
-                charactersDrawn = 0;
-                splitDialog = 0;
-                ds_list_clear(splitDialog);
-            }
-            if (endOfDialog)
-            {
-                write = false;
-            }
-        }
-    }
-    
-    // if the bubble should close automagically
-    if (endOfDialog)
-    {
-        if (!write)
-        {
-            if (closeDelay != 0)
-            {
-                if (alarm[0] == -1) 
+                if (closeDelay != 0)
                 {
-                    alarm[0] = closeDelay;
+                    if (alarm[0] == -1) 
+                    {
+                        alarm[0] = closeDelay;
+                    }
                 }
             }
         }

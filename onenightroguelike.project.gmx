@@ -57,7 +57,7 @@
     </datafile>
     <datafiles number="6" name="dialogEngine">
       <datafile>
-        <name>dialog.txt</name>
+        <name>testDialogs.txt</name>
         <exists>-1</exists>
         <size>305</size>
         <exportAction>2</exportAction>
@@ -71,7 +71,7 @@
             <CopyToMask>9223372036854775807</CopyToMask>
           </Config>
         </ConfigOptions>
-        <filename>dialog.txt</filename>
+        <filename>testDialogs.txt</filename>
       </datafile>
     </datafiles>
     <datafiles number="6" name="Fonts">

@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>/// Variables
+dialogMap = ds_map_create(); // Map holding ALL dialogs
 dialogList = ds_list_create(); // List holding all current dialogs
 </string>
           </argument>
@@ -48,7 +49,30 @@ dialogList = ds_list_create(); // List holding all current dialogs
           <argument>
             <kind>1</kind>
             <string>///Load Dialogue
-scr_LoadDialogFromFile();
+
+// Expand the array with as many dialog files you want. Many dialog txt files are encouraged
+// to help better organize dialogs.
+// The dialog files must be in the "Included Files" folder.
+file[0] = "dialogEngine/testDialogs.txt";
+
+for(var i = 0; i &lt; array_length_1d(file); i++)
+{
+    // Get dialog from the text file
+    var dialogTextFile = file_text_open_read(file[i]);
+    
+    while(!file_text_eof(dialogTextFile))
+    {
+        var textLine = file_text_readln(dialogTextFile);
+        
+        // map the unique dialogID as the key, and the rest as value
+        ds_map_add(dialogMap, 
+                    string_extract(textLine, ":::", 0), 
+                    string_extract(textLine, ":::", 1));
+    
+    }
+    file_text_close(dialogTextFile);
+}
+
 </string>
           </argument>
         </arguments>
@@ -73,7 +97,7 @@ scr_LoadDialogFromFile();
             <kind>1</kind>
             <string>/// Destroy ds_lists
 
-ds_list_destroy(global.dialog);
+ds_list_destroy(dialogMap);
 ds_list_destroy(dialogList);
 </string>
           </argument>
