@@ -34,8 +34,9 @@
 dialogID = "";
 textSpeed = 3; // value should be between 0.1(instant) - 6(slow)
 font = font_default; // font to use.
-color = c_white; // text &amp; border color
+textColor = c_white; // textColor
 bubbleColor = c_black; // bubbleColor
+borderColor = c_white; // borderColor
 textSound = -1; // sound to play for each character in the dialog.
                 // Won't be used if typewriter is set to false
 write = false; // set to true when all variables have been set
@@ -80,6 +81,7 @@ xCord = x - view_xview[0];
 yCord = y - view_yview[0];
 yViewOffset = 0;
 outlinePadding = 1;
+drawInputGraphic = true;
 </string>
           </argument>
         </arguments>
@@ -107,6 +109,53 @@ if (typewriter == 2)
 {
     ds_list_destroy(splitDialog);
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// inputGraphic draw blink effect
+drawInputGraphic = !drawInputGraphic;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Dialog Delay
 </string>
           </argument>
         </arguments>
@@ -233,7 +282,7 @@ if (startOfDialog == true &amp;&amp; write == true)
     //endOfDialog should be true
     endOfDialog = true;
     
-    dialog = global.dialog[? dialogID];
+    dialog = DialogManager.dialogMap[? dialogID];
     if (!is_undefined(dialog))
     {
         var seperator = "&gt;&gt;&gt;";
@@ -352,7 +401,7 @@ if (startOfDialog == true &amp;&amp; write == true)
     }
     
     // To make the values easier to use
-    if (type == 1) 
+    if (type == 1 || type == 2) 
     {
         bubbleWidth = closest_whole_multiply(bubbleWidth, 10);
         bubbleHeight = closest_whole_multiply(bubbleHeight, 10);
@@ -384,132 +433,135 @@ if (startOfDialog == true &amp;&amp; write == true)
             <string>/// Decide characters to draw
 if (write == true) 
 {
-    if (typewriter == 0 || typewriter == 1) 
+    if (alarm[2] == -1)
     {
-        // if typewriter is false, we want to display the whole message right away
-        if (typewriter == 0)
+        if (typewriter == 0 || typewriter == 1) 
         {
-            charactersToDrawCurrentDialog = dialog;
-            charactersToDraw = previousCharactersDrawn + dialog;
-            charactersDrawn = dialogLength + 1;
-        }
-        
-        // if there's still characters left to draw
-        if (floor(charactersDrawn) &lt;= dialogLength) 
-        {
-            // copy all characters that should be drawn this step
-            charactersToDrawCurrentDialog = string_copy(dialog, 
-                                                        0, 
-                                                        charactersDrawn);
-        
-            // if there is a text sound and if a new character will be written                                       
-            if (textSound != -1)
+            // if typewriter is false, we want to display the whole message right away
+            if (typewriter == 0)
             {
-                if (typewriter == 1)
+                charactersToDrawCurrentDialog = dialog;
+                charactersToDraw = previousCharactersDrawn + dialog;
+                charactersDrawn = dialogLength + 1;
+            }
+            
+            // if there's still characters left to draw
+            if (floor(charactersDrawn) &lt;= dialogLength) 
+            {
+                // copy all characters that should be drawn this step
+                charactersToDrawCurrentDialog = string_copy(dialog, 
+                                                            0, 
+                                                            charactersDrawn);
+            
+                // if there is a text sound and if a new character will be written                                       
+                if (textSound != -1)
                 {
-                    if (charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
+                    if (typewriter == 1)
                     {
-                        audio_play_sound(textSound, 10, false);
+                        if (charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
+                        {
+                            audio_play_sound(textSound, 10, false);
+                        }
                     }
                 }
+                                                            
+                charactersDrawn += 1 / textSpeed;
+                charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
             }
-                                                        
-            charactersDrawn += 1 / textSpeed;
-            charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
+            else
+            {
+                // if we are at the end of the dialog
+                if (newDialog)
+                {
+                    // fail-safe
+                    charactersToDraw = previousCharactersDrawn + dialog;
+                
+                    // update variables necessary for reading a new dialog
+                    dialogID = nextDialogID;
+                    previousCharactersDrawn += dialog;
+                    
+                    // reset variables necessary for reading a new dialog
+                    charactersToDrawCurrentDialog = "";
+                    startOfDialog = true;
+                    charactersDrawn = 0;
+                }
+                if (endOfDialog)
+                {
+                    write = false;
+                }
+            }
         }
         else
         {
-            // if we are at the end of the dialog
-            if (newDialog)
+            // typewriter == 2
+            // if there's still words to draw
+            if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
             {
-                // fail-safe
-                charactersToDraw = previousCharactersDrawn + dialog;
-            
-                // update variables necessary for reading a new dialog
-                dialogID = nextDialogID;
-                previousCharactersDrawn += dialog;
-                
-                // reset variables necessary for reading a new dialog
+                // copy all words that should be printed
                 charactersToDrawCurrentDialog = "";
-                startOfDialog = true;
-                charactersDrawn = 0;
-            }
-            if (endOfDialog)
-            {
-                write = false;
-            }
-        }
-    }
-    else
-    {
-        // typewriter == 2
-        // if there's still words to draw
-        if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
-        {
-            // copy all words that should be printed
-            charactersToDrawCurrentDialog = "";
-            for (var word = 0; word &lt; splitDialogsToDraw; word++)
-            {
-                charactersToDrawCurrentDialog += splitDialog[| word];
-                if (word != ds_list_size(splitDialog)) 
+                for (var word = 0; word &lt; splitDialogsToDraw; word++)
                 {
-                    charactersToDrawCurrentDialog += " ";
-                }
-            }
-            
-            if (alarm[1] == -1) 
-            {
-                if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
-                {
-                    alarm[1] = room_speed / textSpeed;
-                    
-                    if (textSound != -1)
+                    charactersToDrawCurrentDialog += splitDialog[| word];
+                    if (word != ds_list_size(splitDialog)) 
                     {
-                        audio_play_sound(textSound, 10, false);
+                        charactersToDrawCurrentDialog += " ";
                     }
+                }
+                
+                if (alarm[1] == -1) 
+                {
+                    if (splitDialogsToDraw &lt;= ds_list_size(splitDialog))
+                    {
+                        alarm[1] = room_speed / textSpeed;
+                        
+                        if (textSound != -1)
+                        {
+                            audio_play_sound(textSound, 10, false);
+                        }
+                        
+                        splitDialogsToDraw++;
+                    }
+                }
+                
+                charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
+            }
+            else
+            {
+                // if we are at the end of the dialog
+                if (newDialog)
+                {
+                    // fail-safe
+                    charactersToDraw = previousCharactersDrawn + dialog;
+                
+                    // update variables necessary for reading a new dialog
+                    dialogID = nextDialogID;
+                    previousCharactersDrawn += charactersToDrawCurrentDialog;
                     
-                    splitDialogsToDraw++;
+                    // reset variables necessary for reading a new dialog
+                    charactersToDrawCurrentDialog = "";
+                    startOfDialog = true;
+                    charactersDrawn = 0;
+                    splitDialog = 0;
+                    ds_list_clear(splitDialog);
+                }
+                if (endOfDialog)
+                {
+                    write = false;
                 }
             }
-            
-            charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
         }
-        else
+        
+        // if the bubble should close automagically
+        if (endOfDialog)
         {
-            // if we are at the end of the dialog
-            if (newDialog)
+            if (!write)
             {
-                // fail-safe
-                charactersToDraw = previousCharactersDrawn + dialog;
-            
-                // update variables necessary for reading a new dialog
-                dialogID = nextDialogID;
-                previousCharactersDrawn += charactersToDrawCurrentDialog;
-                
-                // reset variables necessary for reading a new dialog
-                charactersToDrawCurrentDialog = "";
-                startOfDialog = true;
-                charactersDrawn = 0;
-                splitDialog = 0;
-                ds_list_clear(splitDialog);
-            }
-            if (endOfDialog)
-            {
-                write = false;
-            }
-        }
-    }
-    
-    // if the bubble should close automagically
-    if (endOfDialog)
-    {
-        if (!write)
-        {
-            if (closeDelay != 0)
-            {
-                if (alarm[0] == -1) 
+                if (closeDelay != 0)
                 {
-                    alarm[0] = closeDelay;
+                    if (alarm[0] == -1) 
+                    {
+                        alarm[0] = closeDelay;
+                    }
                 }
             }
         }
@@ -567,6 +619,8 @@ if (mouse_check_button_released(mb_left))
                         ds_list_clear(splitDialog);
                         splitDialogsToDraw = 0;
                     }
+                    drawInputGraphic = true;
+                    alarm[3] = -1;
                 }
             }
         }
@@ -622,7 +676,7 @@ if (type == 0)
         }
         
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_roundrect_ext
         (
             xCord - outlinePadding, 
@@ -688,7 +742,7 @@ if (type == 1)
         // cosmetic loop 
         // Top left corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord,
@@ -735,7 +789,7 @@ if (type == 1)
         
         // Top right corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord + bubbleWidth + 1,
@@ -782,7 +836,7 @@ if (type == 1)
         
         // Bottom right corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord + bubbleWidth + 1,
@@ -829,7 +883,7 @@ if (type == 1)
         
         // Bottom left corner
         // outline
-        draw_set_color(color);
+        draw_set_color(borderColor);
         draw_triangle
         (
             xCord,
@@ -875,13 +929,13 @@ if (type == 1)
         );
         
         // Top and bottom
-        var loopAmount = 6;
-        var halfSpikeLength = (floor(bubbleWidth) / loopAmount) / 2;
+        var loopAmount = round(bubbleWidth / 15);
+        var halfSpikeLength = (bubbleWidth / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {    
             // Top
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + (halfSpikeLength * loopCount * 2) - outlinePadding,
@@ -908,7 +962,7 @@ if (type == 1)
             
             // Bottom
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + (halfSpikeLength * loopCount * 2) - outlinePadding,
@@ -935,13 +989,13 @@ if (type == 1)
         }
         
         // Left and Right
-        loopAmount = 3;
+        loopAmount = round(bubbleHeight / 15);
         halfSpikeLength = (bubbleHeight / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {
             // Left
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord,
@@ -968,7 +1022,7 @@ if (type == 1)
             
             // Right
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + bubbleWidth,
@@ -1000,7 +1054,7 @@ if (type == 1)
         (
             xCord, 
             yCord + yViewOffset, 
-            xCord + bubbleWidth, 
+            xCord + bubbleWidth - 1, 
             yCord + bubbleHeight + yViewOffset - 1,
             false
         );
@@ -1045,13 +1099,13 @@ if (type == 2)
         
         // cosmetic loop
         // Top and bottom
-        var loopAmount = 6;
+        var loopAmount = round(bubbleWidth / 15);
         var halfEllipseLength = (floor(bubbleWidth) / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {    
             // Top
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord + (halfEllipseLength * loopCount * 2) - outlinePadding,
@@ -1074,7 +1128,7 @@ if (type == 2)
             
             // Bottom
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord + (halfEllipseLength * loopCount * 2) - outlinePadding,
@@ -1097,13 +1151,13 @@ if (type == 2)
         }
         
         // Left and Right
-        loopAmount = 3;
+        loopAmount = round(bubbleHeight / 15);
         halfEllipseLength = (bubbleHeight / loopAmount) / 2;
         for (var loopCount = 0; loopCount &lt; loopAmount; loopCount++)
         {
             // Left
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord - fontSize - outlinePadding,
@@ -1126,7 +1180,7 @@ if (type == 2)
             
             // Right
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_ellipse
             (
                 xCord + bubbleWidth - fontSize - outlinePadding,
@@ -1238,7 +1292,7 @@ if(loadComplete)
             }
             
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             draw_triangle
             (
                 xCord + (bubbleWidth / 2) - (fontSize / 2) - outlinePadding, 
@@ -1280,7 +1334,7 @@ if(loadComplete)
             }
             
             // outline
-            draw_set_color(color);
+            draw_set_color(borderColor);
             // top
             draw_circle
             (
@@ -1344,7 +1398,7 @@ if(loadComplete)
             <string>/// Draw text
 if(loadComplete) {
     draw_set_font(font);
-    draw_set_color(color);
+    draw_set_color(textColor);
     draw_set_valign(fa_top);
     draw_set_halign(fa_left);
     draw_text_ext_transformed
@@ -1410,6 +1464,56 @@ if(loadComplete) {
                 }
                 
                 choiceLength += (string_width(choices[i]) * fontScale) + fontSize * 3;
+            }
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw inputGraphic
+
+if(loadComplete) 
+{
+    if(!write) 
+    {
+        if(closeable)
+        {
+            if(drawInputGraphic)
+            {
+                draw_set_color(textColor);
+                draw_triangle
+                (
+                    xCord + bubbleWidth - fontSize,
+                    yCord + bubbleHeight - fontSize,
+                    xCord + bubbleWidth,
+                    yCord + bubbleHeight - fontSize,
+                    xCord + bubbleWidth - (fontSize / 2),
+                    yCord + bubbleHeight,
+                    false
+                );
+            }
+                
+            if(alarm[3] == -1)
+            {
+                alarm[3] = room_speed / 2;
             }
         }
     }

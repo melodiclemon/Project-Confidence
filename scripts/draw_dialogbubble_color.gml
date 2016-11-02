@@ -14,7 +14,7 @@ with(dialogBubble)
     dialogID = argument2;
     type = argument3;
     font = argument4;
-    color = argument5;
+    textColor = argument5;
     bubbleColor = argument6;
     write = true;
 }

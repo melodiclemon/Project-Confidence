@@ -22,7 +22,7 @@ with(dialogBubble)
     type = argument3;
     font = argument4;
     fontScale = argument5;
-    color = argument6;
+    textColor = argument6;
     bubbleColor = argument7
     textSpeed = argument8;
     textSound = argument9;

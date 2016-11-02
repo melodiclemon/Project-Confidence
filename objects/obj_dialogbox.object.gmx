@@ -78,7 +78,7 @@ if (startOfDialog == true &amp;&amp; write == true)
     //reset newDialog
     newDialog = false;
     
-    dialog = global.dialog[? dialogID];
+    dialog = DialogManager.dialogMap[? dialogID];
     
     nextDialogID = string_rtrim(string_extract(dialog, "&gt;&gt;&gt;", 1));
     dialog = string_extract(dialog, "&gt;&gt;&gt;", 0);

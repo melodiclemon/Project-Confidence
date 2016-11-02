@@ -57,7 +57,7 @@
     </datafile>
     <datafiles number="6" name="dialogEngine">
       <datafile>
-        <name>dialog.txt</name>
+        <name>testDialogs.txt</name>
         <exists>-1</exists>
         <size>305</size>
         <exportAction>2</exportAction>
@@ -71,7 +71,7 @@
             <CopyToMask>9223372036854775807</CopyToMask>
           </Config>
         </ConfigOptions>
-        <filename>dialog.txt</filename>
+        <filename>testDialogs.txt</filename>
       </datafile>
     </datafiles>
     <datafiles number="6" name="Fonts">
@@ -251,8 +251,6 @@
       <scripts name="String Manipulation">
         <script>scripts\string_split.gml</script>
         <script>scripts\string_lpad.gml</script>
-        <script>scripts\string_extract.gml</script>
-        <script>scripts\string_rtrim.gml</script>
       </scripts>
       <scripts name="Approach Value">
         <script>scripts\approach.gml</script>
@@ -358,15 +356,20 @@
       <scripts name="dialogScripts">
         <script>scripts\SIMPLEINPUT.gml</script>
       </scripts>
-      <script>scripts\scr_LoadDialogFromFile.gml</script>
-      <script>scripts\draw_dialogbubble.gml</script>
-      <script>scripts\draw_dialogbubble_ext.gml</script>
-      <script>scripts\draw_dialogbubble_ext_color.gml</script>
-      <script>scripts\draw_dialogbubble_full.gml</script>
-      <script>scripts\draw_dialogbubble_default.gml</script>
-      <script>scripts\draw_dialogbubble_default_actor.gml</script>
-      <script>scripts\draw_dialogbubble_color.gml</script>
-      <script>scripts\closest_whole_multiply.gml</script>
+      <scripts name="helpScripts">
+        <script>scripts\string_rtrim.gml</script>
+        <script>scripts\string_extract.gml</script>
+        <script>scripts\closest_whole_multiply.gml</script>
+      </scripts>
+      <scripts name="drawScripts">
+        <script>scripts\draw_dialogbubble_ext.gml</script>
+        <script>scripts\draw_dialogbubble.gml</script>
+        <script>scripts\draw_dialogbubble_ext_color.gml</script>
+        <script>scripts\draw_dialogbubble_full.gml</script>
+        <script>scripts\draw_dialogbubble_default.gml</script>
+        <script>scripts\draw_dialogbubble_default_actor.gml</script>
+        <script>scripts\draw_dialogbubble_color.gml</script>
+      </scripts>
     </scripts>
     <scripts name="Astar Scripts">
       <script>scripts\astar_path.gml</script>
@@ -514,7 +517,6 @@
     <object>objects\TestObject</object>
     <objects name="dialogEngine">
       <object>objects\obj_dialogbox</object>
-      <object>objects\obj_dialogcontroller</object>
       <object>objects\obj_dialogboxarrow</object>
       <object>objects\obj_dialogbubble</object>
       <object>objects\DialogManager</object>
@@ -567,9 +569,6 @@
     <room>rooms\Combat_Room</room>
     <room>rooms\rm_gameOver</room>
     <room>rooms\backup</room>
-    <rooms name="dialogEngine">
-      <room>rooms\rm_test</room>
-    </rooms>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
