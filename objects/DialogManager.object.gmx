@@ -28,6 +28,7 @@
             <string>/// Variables
 dialogMap = ds_map_create(); // Map holding ALL dialogs
 dialogList = ds_list_create(); // List holding all current dialogs
+playerInputDialog = false; // False if no current dialog accepts player input, true otherwise.
 </string>
           </argument>
         </arguments>
@@ -122,6 +123,7 @@ ds_list_destroy(dialogList);
           <argument>
             <kind>1</kind>
             <string>/// Check each dialog in the array
+
 for(dialogIndex = 0; dialogIndex &lt; ds_list_size(dialogList); dialogIndex++)
 {
     if(instance_exists(dialogList[| dialogIndex]))
@@ -130,8 +132,20 @@ for(dialogIndex = 0; dialogIndex &lt; ds_list_size(dialogList); dialogIndex++)
         {
             if(id.object_index == obj_dialogbubble)
             {
+                if(other.playerInputDialog == false) 
+                {
+                    if(skipable || closeable || expectPlayerInput)
+                    {
+                        other.playerInputDialog = true;
+                    }
+                }
                 if(finish)
                 {
+                    if(skipable || closeable || expectPlayerInput)
+                    {
+                        other.playerInputDialog = false;
+                    }
+                
                     var dialogScript = asset_get_index(dialogID);
                     
                     if(dialogScript != -1) 
