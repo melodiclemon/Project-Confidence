@@ -3,7 +3,7 @@ input = argument1;
 
 if (input == 0) 
 {
-    draw_dialogbubble_default_actor(actor, "SIMPLEINPUTYES", 3, true, true);
+    draw_dialogbubble_default_actor(actor, "DELAYTEST", 0, true, true);
 }
 else if (input == 1)
 {   
