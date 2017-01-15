@@ -57,7 +57,7 @@ nextDialogID = ""; // dialogID for the next dialog to be written
 dialogLength = 0; // length of current dialog
 charactersToDrawCurrentDialog = ""; // string of characters that should be drawn from the current dialog
 charactersToDraw = ""; // string of characters that should be drawn
-charactersDrawn = 0; // number of characters in the current dialog that should be drawn
+charactersDrawn = 1; // number of characters in the current dialog that should be drawn
 previousCharactersDrawn = ""; // characters from previous dialogs that still needs to be drawn
 startOfDialog = true; // is thie the start of the dialog row?
 newDialog = false; // is there more dialog after this?
@@ -365,6 +365,16 @@ if (startOfDialog == true &amp;&amp; write == true)
         splitDialog = string_split(dialog, " ");
     }
     
+    
+    // create a specific dialog for calculating by removing all dialog syntax
+    var calcDialog = dialog;
+    var delayN = 0;
+    repeat(10) 
+    {
+        calcDialog = string_replace_all(calcDialog, "@" + string(delayN), "");
+        delayN++;
+    }
+    
     // calculate dialog specific values
     useFontScale = fontScale;
     if (type == 1) 
@@ -373,18 +383,18 @@ if (startOfDialog == true &amp;&amp; write == true)
     }
     fontSize = font_get_size(font) * useFontScale;
     draw_set_font(font);
-    dialogLength = string_length(dialog);
+    dialogLength = string_length(dialog); // should not be based on calcDialog!
     
     dialogWidth = string_width_ext
     (
-        dialog,
+        calcDialog,
         fontSize + fontSize + (fontSize / 2),
         bubbleMaxLength
     ) * useFontScale;
     
     dialogHeight = string_height_ext
     (
-        dialog,
+        calcDialog,
         fontSize + fontSize + (fontSize / 2),
         bubbleMaxLength
     ) * useFontScale;
@@ -448,24 +458,33 @@ if (write == true)
             // if there's still characters left to draw
             if (floor(charactersDrawn) &lt;= dialogLength) 
             {
-                // copy all characters that should be drawn this step
-                charactersToDrawCurrentDialog = string_copy(dialog, 
-                                                            0, 
-                                                            charactersDrawn);
+                var newCharacterToDraw = string_copy(dialog,
+                                                     charactersDrawn,
+                                                     1);
+                                                 
+                if (newCharacterToDraw == "@") 
+                {
+                    charactersDrawn += 1;
+                    alarm[2] = real(string_copy(dialog, charactersDrawn, 1)) * 2 * textSpeed;
+                    newCharacterToDraw = "";
+                } 
+                else 
+                {
+                    alarm[2] = textSpeed;
+                }
+                
+                charactersToDrawCurrentDialog += newCharacterToDraw;
             
-                // if there is a text sound and if a new character will be written                                       
+                // if there is a text sound                                     
                 if (textSound != -1)
                 {
                     if (typewriter == 1)
                     {
-                        if (charactersDrawn &lt; floor(charactersDrawn + (1 / textSpeed)))
-                        {
-                            audio_play_sound(textSound, 10, false);
-                        }
+                        audio_play_sound(textSound, 10, false);
                     }
                 }
                                                             
-                charactersDrawn += 1 / textSpeed;
+                charactersDrawn += 1;
                 charactersToDraw = previousCharactersDrawn + charactersToDrawCurrentDialog;
             }
             else
@@ -483,7 +502,7 @@ if (write == true)
                     // reset variables necessary for reading a new dialog
                     charactersToDrawCurrentDialog = "";
                     startOfDialog = true;
-                    charactersDrawn = 0;
+                    charactersDrawn = 1;
                 }
                 if (endOfDialog)
                 {
@@ -540,7 +559,7 @@ if (write == true)
                     // reset variables necessary for reading a new dialog
                     charactersToDrawCurrentDialog = "";
                     startOfDialog = true;
-                    charactersDrawn = 0;
+                    charactersDrawn = 1;
                     splitDialog = 0;
                     ds_list_clear(splitDialog);
                 }

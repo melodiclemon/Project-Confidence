@@ -23,3 +23,4 @@ PTRIGGER01:::We should try to be careful, right boy?/as
 PTRIGGER02:::That doesn't look very nice.../af
 PTRIGGER03:::Oh look, a stick./as
 PTRIGGER04:::...Easy now, we will get through this somehow/as
+DELAYTEST:::Let's test delay. @11. @22. @33. @44. @55. @66. @77. @88. @99./e
